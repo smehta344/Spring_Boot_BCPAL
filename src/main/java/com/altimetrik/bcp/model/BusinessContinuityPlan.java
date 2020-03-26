@@ -2,10 +2,21 @@ package com.altimetrik.bcp.model;
 
 import java.util.Date;
 
-//@Entity
-//@Table
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
+@Table
 public class BusinessContinuityPlan {
-	//@Id
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int serialNo;
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private Date date;
 	private String location;
 	private String engineering_Leader;
@@ -17,6 +28,14 @@ public class BusinessContinuityPlan {
 	private String milestone;
 	private String challenge;
 	private String mitigation_Plan;
+
+	public int getSerialNo() {
+		return serialNo;
+	}
+
+	public void setSerialNo(int serialNo) {
+		this.serialNo = serialNo;
+	}
 
 	public Date getDate() {
 		return date;
@@ -108,10 +127,33 @@ public class BusinessContinuityPlan {
 
 	@Override
 	public String toString() {
-		return "BusinessContinuityPlan [date=" + date + ", location=" + location + ", engineering_Leader="
-				+ engineering_Leader + ", project=" + project + ", account=" + account + ", project_Status="
-				+ project_Status + ", team_Size=" + team_Size + ", team_Logged=" + team_Logged + ", milestone="
-				+ milestone + ", challenge=" + challenge + ", mitigation_Plan=" + mitigation_Plan + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("BusinessContinuityPlan [serialNo=");
+		builder.append(serialNo);
+		builder.append(", date=");
+		builder.append(date);
+		builder.append(", location=");
+		builder.append(location);
+		builder.append(", engineering_Leader=");
+		builder.append(engineering_Leader);
+		builder.append(", project=");
+		builder.append(project);
+		builder.append(", account=");
+		builder.append(account);
+		builder.append(", project_Status=");
+		builder.append(project_Status);
+		builder.append(", team_Size=");
+		builder.append(team_Size);
+		builder.append(", team_Logged=");
+		builder.append(team_Logged);
+		builder.append(", milestone=");
+		builder.append(milestone);
+		builder.append(", challenge=");
+		builder.append(challenge);
+		builder.append(", mitigation_Plan=");
+		builder.append(mitigation_Plan);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
