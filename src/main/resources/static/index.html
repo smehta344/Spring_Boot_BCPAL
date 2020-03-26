@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="utf-8" />
+<title>Atimetrik-BCP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+<META HTTP-EQUIV="Expires" CONTENT="-1" />
+
+<!-- <link rel="icon" type="image/png" href="pics/logo.png"/> -->
+<script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/header.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
+
+<script>
+$(document).ready(function(){
+    $("#loginSubmit").click(function(){   
+    	var username = $("#inputEmail").val();
+    	var password = $("#inputPassword").val();
+        var url = urlForServer+"/login";
+       
+		var datastr = '{"username":"'+username+'","password":"'+password+'"}';
+		$.ajax({
+			contentType: 'application/json; charset=utf-8',
+			type : 'POST',
+			url : url,
+			data : datastr,
+			success : function(responseText) {
+				alert("success");
+				window.location.href = "dashboard.html";
+			},error : function() {
+				alert("error");
+			}
+		});
+    });
+});
+
+
+</script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <div class="form-signin">
+              <div class="form-label-group">
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              </div></br>
+
+              <div class="form-label-group">
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              </div>
+				</br>
+              <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Remember password</label>
+              </div>
+              <button id="loginSubmit" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
