@@ -12,7 +12,7 @@ import com.altimetrik.bcp.dao.ProjectAssocRepo;
 import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 
-@RequestMapping("/location")
+@RequestMapping("/leader")
 public class LeaderController {
 
 	@Autowired

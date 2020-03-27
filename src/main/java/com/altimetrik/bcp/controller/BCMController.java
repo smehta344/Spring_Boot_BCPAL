@@ -3,6 +3,7 @@ package com.altimetrik.bcp.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
+import com.altimetrik.bcp.model.PlanDetailFormData;
+import com.altimetrik.bcp.service.BCMService;
 
 /**
  * 
@@ -21,15 +24,17 @@ import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
  */
 @RestController
 public class BCMController {
+	
+	@Autowired
+	BCMService bcmService;
 
 	/*
 	 * createProjectLocationAssociate
 	 */
-	@PostMapping(value = "/addbcpplan")
-	public ProjLocLeaderAssoc createProjectLocationAssociate(@RequestBody ProjLocLeaderAssoc projLocLeaderAssoc) {
-
-		ProjLocLeaderAssoc projLocLeaderAssocdata = null;
-		return projLocLeaderAssocdata;
+	@PostMapping(value = "/addDilyStatus")
+	public void createDailyStatus(@RequestBody PlanDetailFormData formData) {
+		bcmService.createDilyStatus(formData);
+		
 	}
 
 	/*

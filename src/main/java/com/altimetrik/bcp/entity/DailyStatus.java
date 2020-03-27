@@ -38,7 +38,6 @@ public class DailyStatus {
 	@Column(name = "updated_time")
 	private Date updatedTime;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")	
 	private Project project;
