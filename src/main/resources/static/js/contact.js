@@ -66,7 +66,6 @@ $(document).ready(function(){
     });
 	
     $('select#account').on('change', function() {
-    	
     	var location = $("#location").children("option:selected").val();
     	var accountId = $(this).children("option:selected").val();
     	
@@ -297,7 +296,7 @@ $(document).ready(function(){
 			success : function(responseText) {
 				$("#currentDate").val("");
 				$('#location').val("empty");
-				$("#engg_leader").val("Engineering Leader");
+				$('#engg_leader').attr('value', "Engineering Leader");
 				$("#milestone").val("");
 				$('#project').empty();
 				$('#project').append("<option value='empty' selected disabled hidden>Select Project</option>");
