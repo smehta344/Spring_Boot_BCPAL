@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="utf-8" />
+<title>Atimetrik-BCP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+<META HTTP-EQUIV="Expires" CONTENT="-1" />
+
+<!-- <link rel="icon" type="image/png" href="pics/logo.png"/> -->
+<script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="js/header.js"></script>
+<script src="js/common.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/contact.css" rel="stylesheet" />
+<!-- <link href="css/bootstrap-glypicons.css" rel="stylesheet" /> -->
+<link href="css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+	<div class="container">
+		<a class="navbar-brand" href="#"> <img
+			src="img/Altimetrik-Logo.svg" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarResponsive" aria-controls="navbarResponsive"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard
+
+				</a></li>
+				<li class="nav-item active"><a class="nav-link" href="#">Add
+						Contact <span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Services</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="#">Services</a>
+				</li>
+				 <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          <img src="img/profile_icon.png" width="50" height="50" class="rounded-circle">
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			          <a class="dropdown-item" href="#">View Profile</a>
+			          <a class="dropdown-item" onClick="logout(); return false;" id="logout" href="">Log Out</a>
+			        </div>
+			      </li> 
+			</ul>
+		</div>
+	</div>
+	</nav>
+
+	<!-- Page Content -->
+	
+	<div class="container">
+		</br>
+		<form>
+		<div class="row">
+			<div class='col-sm-5'>
+				<div class="form-group date" data-provide="datepicker">
+					<div class="input-group-prepend">
+
+						<input class="form-control" type="text" id="currentDate"
+							placeholder="Select Date " required> <span class="input-group-text">
+							<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+				<div id="currentDateMsg"></div>
+				<select class="form-control" name="Location" id="location">
+					<option value="empty" selected disabled hidden>Select
+						Location</option>
+					<option value="chennai">Chennai</option>
+					<option value="bangalore">Bangalore</option>
+					<option value="pune">Pune</option>
+					<option value="hyderabad">Hyderabad</option>
+					<option value="usa">USA</option>
+					<option value="ugy">UGY</option>
+					<option value="singapore">Singapore</option>
+				</select> 
+				<div id="locationMsg"></div>
+				<br> 
+				<select class="form-control" name="account" id="account">
+					<option value="Location" selected disabled hidden>Select
+						Account</option>
+					<option value="fis">FIS</option>
+					<option value="bynm">BYNM</option>
+					<option value="ford">FORD</option>
+					<option value="citi">CITI</option>
+				</select>
+				<div id="accountMsg"></div>
+				</br>
+				<input class="form-control" id="engg_leader" type="text"
+					disabled="disabled" placeholder="Engineering Leader"> 
+				</br> 
+				<select class="form-control" name="project" id="project">
+					<option value="project" selected disabled hidden>Select
+						Project</option>
+					<option value="proj_fis">project-fis</option>
+					<option value="proj_citi">project-citi</option>
+					<option value="proj_ford">project-ford</option>
+					<option value="other">Others</option>
+					
+				</select> 
+				<div id="projectMsg"></div>
+				<div id="specific_proj" style="display:none;"><br><input class='form-control' id='customProjectName' maxlength="20" type='text' placeholder='Project name'></div>
+				<div id="specific_projMsg"></div>
+				</br> 
+				
+				<select class="form-control" name="proj_status" id="proj_status">
+					<option value="proj_status" selected disabled hidden>
+						Select Project Status</option>
+					<option value="red">RED</option>
+					<option value="amber">AMBER</option>
+					<option value="green">GREEN</option>
+				</select> 
+				<div id="proj_statusMsg"></div>
+				</br>
+				<input class="form-control" id="teamSize" type="number" min="0"
+					oninput="validity.valid||(value='');" placeholder="Team Size">
+					<div id="teamSizeMsg"></div>
+				</br>
+				 <input class="form-control" id="teamLogged" type="number" min="0"
+					oninput="validity.valid||(value='');" placeholder="Team Logged">
+					<div id="teamLoggedMsg"></div>
+				</br> 
+				<select class="form-control" name="deliverOnTrack"
+					id="deliverOnTrack">
+					<option value="Delivery On Track" selected disabled hidden>
+						Delivery On Track</option>
+					<option value="yes">YES</option>
+					<option value="no">NO</option>
+				</select>
+				<div id="deliverOnTrackMsg"></div>
+				</br>
+				
+				<div class="input-group mb-3">
+				  <input class="form-control" id="target" type="number" min="0" max="100"
+					oninput="validity.valid||(value='');" placeholder="Targeted % of Completion on Sprint / Release">
+				  <div class="input-group-prepend">
+				    <div class="input-group-text">
+				      %
+				    </div>
+				  </div>
+				</div>
+				<div id="targetMsg"></div>
+				<div class="input-group mb-3">
+				  <input class="form-control" id="actual" type="number" min="0" max="100"
+					oninput="validity.valid||(value='');" placeholder="Actual % of Completion on Sprint / Release">
+				  <div class="input-group-prepend">
+				    <div class="input-group-text">
+				      %
+				    </div>
+				  </div>
+				</div>
+				<div id="actualMsg"></div>
+			</div>
+			<div class='col-sm-1'></div>
+			<div class='col-sm-6'>
+				<div class="form-group">
+					<label for="comment">Milestone:</label>
+					<textarea class="form-control" rows="2" id="milestone"></textarea>
+				</div>
+				<div id="milestoneMsg"></div>
+				<div class="form-group">
+					<label for="Challenges">Delivery Challenges:</label>
+					<textarea class="form-control" rows="2" id="challenges"></textarea>
+				</div>
+				<div id="challengesMsg"></div>
+				<div class="form-group">
+					<label for="comment">Delivery Mitigation Plan:</label>
+					<textarea class="form-control" rows="2" id="mitigation"></textarea>
+				</div>
+				<div id="mitigationMsg"></div>
+				<div class="form-group">
+					<label for="comment">WFH Challenges:</label>
+					<textarea class="form-control" rows="2" id="wfh_challenges"></textarea>
+				</div>
+				<div id="wfh_challengesMsg"></div>
+				<div class="form-group">
+					<label for="comment">WFH Mitigation Plan:</label>
+					<textarea class="form-control" rows="2" id="wfh_mitigation"></textarea>
+				</div>
+				<div id="wfh_mitigationMsg"></div>
+				<div class="form-group">
+					<label for="comment">Key deliverables of the day:</label>
+					<textarea class="form-control" rows="2" id="key_deliverables"></textarea>
+				</div>
+				<div id="key_deliverablesMsg"></div>
+			</div>
+		</div>
+
+		</br>
+		<center>
+			<button id="contactSubmit"
+				class="btn btn-lg btn-primary text-uppercase" type="submit">Submit</button>
+		</center>
+		</br> </br>
+		</form>
+	</div>
+
+
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<p id="modalBody">
+						
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>

@@ -1,19 +1,20 @@
 package com.altimetrik.bcp.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.altimetrik.bcp.model.LoginService;
 
 @RestController
 public class LoginController {
-	@PostMapping(value = "/login/{userName}/{password}")
-	public String loginUser(@PathVariable("userName") String userName, @PathVariable("password") String password) {
-		if (userName.equals("Sanvjeev") && (password.equals("1234567"))) {
-			return "Login";
-
-		}
-		return "invalid Credential";
-
+	@PostMapping
+	@RequestMapping(value = "/login")
+	public ResponseEntity<?> getLogin(@RequestBody LoginService ser){
+		System.out.println("--------------------------->"+ser.getUsername());
+		return ResponseEntity.ok("suss"+ ser.getUsername());
 	}
 
 }
