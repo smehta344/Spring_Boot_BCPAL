@@ -2,16 +2,11 @@ package com.altimetrik.bcp.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,31 +16,53 @@ public class DailyStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column(name = "date")
 	private Date date;
+	
 	@Column(name = "team_size")
 	private int teamSize;
+	
 	@Column(name = "updates")
 	private String updates;
+	
+	@Column(name = "project_id")
+	private int projectId;	
+
+	@Column(name = "location_id")
+	private int locationId;
+	
 	@Column(name = "challenges")
 	private String challenges;
+	
 	@Column(name = "created_by")
 	private String createdBy;
+	
 	@Column(name = "created_time")
 	private Date createdTime;
+	
 	@Column(name = "updated_by")
 	private String updatedBy;
+	
 	@Column(name = "updated_time")
 	private Date updatedTime;
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public int getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
+	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "project_id", referencedColumnName = "id")	
-	private Project project;
-
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "location_id", referencedColumnName = "id")
-	private Location location;
-
 	public int getId() {
 		return id;
 	}
@@ -118,22 +135,6 @@ public class DailyStatus {
 		this.updatedTime = updatedTime;
 	}
 
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -156,10 +157,6 @@ public class DailyStatus {
 		builder.append(", updatedTime=");
 		builder.append(updatedTime);
 		builder.append(", project=");
-		builder.append(project);
-		builder.append(", location=");
-		builder.append(location);
-		builder.append("]");
 		return builder.toString();
 	}
 

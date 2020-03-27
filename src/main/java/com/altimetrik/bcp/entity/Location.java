@@ -15,12 +15,10 @@ public class Location {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column(name = "name")
 	private String name;
-	@OneToOne(mappedBy = "location")
-	private ProjLocLeaderAssoc projLocLeaderAssoc;
-	@OneToOne(mappedBy = "location")
-	private DailyStatus dailyStatus;
+	
 	public int getId() {
 		return id;
 	}
@@ -33,18 +31,7 @@ public class Location {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ProjLocLeaderAssoc getProjLocLeaderAssoc() {
-		return projLocLeaderAssoc;
-	}
-	public void setProjLocLeaderAssoc(ProjLocLeaderAssoc projLocLeaderAssoc) {
-		this.projLocLeaderAssoc = projLocLeaderAssoc;
-	}
-	public DailyStatus getDailyStatus() {
-		return dailyStatus;
-	}
-	public void setDailyStatus(DailyStatus dailyStatus) {
-		this.dailyStatus = dailyStatus;
-	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -53,9 +40,7 @@ public class Location {
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", projLocLeaderAssoc=");
-		builder.append(projLocLeaderAssoc);
 		builder.append(", dailyStatus=");
-		builder.append(dailyStatus);
 		builder.append("]");
 		return builder.toString();
 	}

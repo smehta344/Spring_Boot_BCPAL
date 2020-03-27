@@ -1,23 +1,20 @@
 package com.altimetrik.bcp.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private String name;
-	@OneToOne(mappedBy = "project")
-	private ProjLocLeaderAssoc projLocLeaderAssoc;
 	
-	@OneToOne(mappedBy = "project")
-	private DailyStatus dailyStatus;
-
+	@Column(name = "name")
+	private String name;
+	
 	public int getId() {
 		return id;
 	}
@@ -34,21 +31,6 @@ public class Project {
 		this.name = name;
 	}
 
-	public ProjLocLeaderAssoc getProjLocLeaderAssoc() {
-		return projLocLeaderAssoc;
-	}
-
-	public void setProjLocLeaderAssoc(ProjLocLeaderAssoc projLocLeaderAssoc) {
-		this.projLocLeaderAssoc = projLocLeaderAssoc;
-	}
-
-	public DailyStatus getDailyStatus() {
-		return dailyStatus;
-	}
-
-	public void setDailyStatus(DailyStatus dailyStatus) {
-		this.dailyStatus = dailyStatus;
-	}
 
 	@Override
 	public String toString() {
@@ -58,9 +40,7 @@ public class Project {
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", projLocLeaderAssoc=");
-		builder.append(projLocLeaderAssoc);
 		builder.append(", dailyStatus=");
-		builder.append(dailyStatus);
 		builder.append("]");
 		return builder.toString();
 	}

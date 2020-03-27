@@ -11,14 +11,16 @@ public class PlanDetailFormData {
 	String status;
 	int teamSize;
 	int loogedCount;
-	String DeliveryOnTrack;
+	String deliveryOnTrack;
 	int targetPercentage;
 	int actualPercentage;
 	String milestone;
 	String deliveryChallenge;
-	String mitigationPlan;
+	String wfhMitigationPlan;
+	String deliveryMitigationPlan;
 	String wfhChallenge;
 	String keyDeliverable;
+	
 	public int getAccountId() {
 		return accountId;
 	}
@@ -68,10 +70,10 @@ public class PlanDetailFormData {
 		this.loogedCount = loogedCount;
 	}
 	public String getDeliveryOnTrack() {
-		return DeliveryOnTrack;
+		return deliveryOnTrack;
 	}
 	public void setDeliveryOnTrack(String deliveryOnTrack) {
-		DeliveryOnTrack = deliveryOnTrack;
+		this.deliveryOnTrack = deliveryOnTrack;
 	}
 	public int getTargetPercentage() {
 		return targetPercentage;
@@ -98,10 +100,10 @@ public class PlanDetailFormData {
 		this.deliveryChallenge = deliveryChallenge;
 	}
 	public String getMitigationPlan() {
-		return mitigationPlan;
+		return wfhMitigationPlan;
 	}
 	public void setMitigationPlan(String mitigationPlan) {
-		this.mitigationPlan = mitigationPlan;
+		this.wfhMitigationPlan = mitigationPlan;
 	}
 	public String getWfhChallenge() {
 		return wfhChallenge;
