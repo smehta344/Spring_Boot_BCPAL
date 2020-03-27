@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "leader")
 public class Leader {
@@ -18,6 +20,7 @@ public class Leader {
 	@Column(name = "name")
 	private String name;
 	@OneToOne(mappedBy = "leader")
+	@JsonIgnore
 	private ProjLocLeaderAssoc projLocLeaderAssoc;
 	public int getId() {
 		return id;

@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.altimetrik.bcp.dao.DailyStatusRepo;
-import com.altimetrik.bcp.dao.LeaderRepo;
 import com.altimetrik.bcp.dao.LocationRepo;
 import com.altimetrik.bcp.dao.ProjectRepo;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.model.PlanDetailFormData;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class BCMService {
@@ -31,8 +28,11 @@ public class BCMService {
 	public DailyStatus createStatusObj(PlanDetailFormData formData){
 		DailyStatus statusObject = new DailyStatus();
 		statusObject.setDate(formData.getDate());
-		statusObject.setLocation(locationRepo.findById(formData.getLocationId()).get());
-		statusObject.setProject(projectRepo.findById(formData.getProjectId()).get());
+		statusObject.setLocation(locationRepo.findById(formData.getLocationId()).orElse(null));
+		statusObject.setChallenges(formData.getWfhChallenge());
+		statusObject.setTeamSize(formData.getTeamSize());
+		statusObject.setUpdates(formData.getStatus());
+		statusObject.setProject(projectRepo.findById(formData.getProjectId()).orElse(null));
 		return statusObject;
 	}
 }

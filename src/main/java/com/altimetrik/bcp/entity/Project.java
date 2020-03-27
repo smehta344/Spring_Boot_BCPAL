@@ -1,10 +1,13 @@
 package com.altimetrik.bcp.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project {
@@ -12,10 +15,13 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
+	@Column(name = "account_id")
+	private int accountId;
 	@OneToOne(mappedBy = "project")
+	@JsonIgnore
 	private ProjLocLeaderAssoc projLocLeaderAssoc;
-	
 	@OneToOne(mappedBy = "project")
+	@JsonIgnore
 	private DailyStatus dailyStatus;
 
 	public int getId() {
@@ -32,6 +38,14 @@ public class Project {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	public ProjLocLeaderAssoc getProjLocLeaderAssoc() {
@@ -57,6 +71,8 @@ public class Project {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", accountId=");
+		builder.append(accountId);
 		builder.append(", projLocLeaderAssoc=");
 		builder.append(projLocLeaderAssoc);
 		builder.append(", dailyStatus=");
@@ -64,7 +80,5 @@ public class Project {
 		builder.append("]");
 		return builder.toString();
 	}
-
-	
 
 }

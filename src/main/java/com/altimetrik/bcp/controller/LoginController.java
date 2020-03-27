@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.altimetrik.bcp.model.LoginService;
 
+/**
+
+@author smehta
+*
+*/
+
 @RestController
 public class LoginController {
 	@PostMapping
 	@RequestMapping(value = "/login")
 	public ResponseEntity<?> getLogin(@RequestBody LoginService ser){
-		System.out.println("--------------------------->"+ser.getUsername());
 		return ResponseEntity.ok("suss"+ ser.getUsername());
 	}
-
 }

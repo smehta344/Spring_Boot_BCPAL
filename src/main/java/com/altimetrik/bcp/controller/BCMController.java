@@ -2,15 +2,12 @@ package com.altimetrik.bcp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,33 +59,38 @@ public class BCMController {
 	ProjectAssocRepo projecAssocRepo;
 
 	/*
-	 * createProjectLocationAssociate
+	 * addDilyStatus
 	 */
 	@PostMapping(value = "/addDilyStatus")
 	public void createDailyStatus(@RequestBody PlanDetailFormData formData) {
 		bcmService.createDilyStatus(formData);
 		
 	}
+	/*
+	 * getAllAccounts
+	 */
 	
 	@GetMapping(value = "/getAllAccounts")
-	public ResponseEntity<List<Account>> getAllLocation(){
+	public ResponseEntity<List<Account>> getAllAccount(){
 		List<Account> accountList = accountRepo.findAll();
 		return ResponseEntity.ok().body(accountList);
 	}
-	
+	/*
+	 * getLeader
+	 */
 	@GetMapping(value = "/getLeader/{accountId}")
 	public Leader getLeaderById(@PathVariable("accountId") int accountId){
 		List<ProjLocLeaderAssoc> assocList = asscoRepo.findAll();
-		
 		for(ProjLocLeaderAssoc leaderAssoc:assocList){
-			if(leaderAssoc.getAccount().getId() == accountId){
+			if(leaderAssoc.getLeader().getId() == accountId){
 				return leaderAssoc.getLeader();
 			}
 		}
 		return null;
-		
 	}
-	
+	/*
+	 * getProject
+	 */
 	@GetMapping(value = "/getProject/{accountId}")
 	public ResponseEntity<List<Project>> getProject(@PathVariable("accountId") int accountId){
 		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
@@ -100,5 +102,22 @@ public class BCMController {
 		}
 		return ResponseEntity.ok().body(projList);
 	}
+	/*
+	 * getAllLocation
+	 */
+	@GetMapping(value = "/getAllLocation")
+	public ResponseEntity<List<Location>>getAllLocation(){
+		List<Location> locatonList=locationRepo.findAll();
+		return ResponseEntity.ok().body(locatonList);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

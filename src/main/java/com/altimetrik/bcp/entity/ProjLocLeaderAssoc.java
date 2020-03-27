@@ -28,7 +28,6 @@ public class ProjLocLeaderAssoc {
 	private Account account;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
-
 	private Project project;
 
 	public int getId() {

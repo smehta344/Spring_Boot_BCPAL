@@ -115,5 +115,43 @@ public class PlanDetailFormData {
 	public void setKeyDeliverable(String keyDeliverable) {
 		this.keyDeliverable = keyDeliverable;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PlanDetailFormData [date=");
+		builder.append(date);
+		builder.append(", locationId=");
+		builder.append(locationId);
+		builder.append(", accountId=");
+		builder.append(accountId);
+		builder.append(", leaderId=");
+		builder.append(leaderId);
+		builder.append(", projectId=");
+		builder.append(projectId);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", teamSize=");
+		builder.append(teamSize);
+		builder.append(", loogedCount=");
+		builder.append(loogedCount);
+		builder.append(", DeliveryOnTrack=");
+		builder.append(DeliveryOnTrack);
+		builder.append(", targetPercentage=");
+		builder.append(targetPercentage);
+		builder.append(", actualPercentage=");
+		builder.append(actualPercentage);
+		builder.append(", milestone=");
+		builder.append(milestone);
+		builder.append(", deliveryChallenge=");
+		builder.append(deliveryChallenge);
+		builder.append(", mitigationPlan=");
+		builder.append(mitigationPlan);
+		builder.append(", wfhChallenge=");
+		builder.append(wfhChallenge);
+		builder.append(", keyDeliverable=");
+		builder.append(keyDeliverable);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }
