@@ -1,7 +1,9 @@
 package com.altimetrik.bcp.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,6 @@ import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.model.PlanDetailFormData;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class BCMService {
@@ -35,8 +35,16 @@ public class BCMService {
 	public DailyStatus createStatusObj(PlanDetailFormData formData){
 		DailyStatus statusObject = new DailyStatus();
 		statusObject.setDate(formData.getDate());
+		statusObject.setChallenges(formData.getDeliveryChallenge());
 		statusObject.setLocationId(formData.getLocationId());
 		statusObject.setProjectId(formData.getProjectId());
+		
+		//TODO Need to add below attributes with correct format
+		statusObject.setCreatedBy("Test");
+		statusObject.setCreatedTime(new Date());
+		statusObject.setUpdatedBy("TEST");
+		statusObject.setUpdatedTime(new Date());
+		statusObject.setUpdates("test");
 		return statusObject;
 	}
 	

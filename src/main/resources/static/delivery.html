@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
-    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
@@ -18,7 +17,7 @@
 <script src="js/header.js"></script>
 <script src="js/common.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
-<link href="css/contact.css" rel="stylesheet" />
+<link href="css/common.css" rel="stylesheet" />
 <!-- <link href="css/bootstrap-glypicons.css" rel="stylesheet" /> -->
 <link href="css/bootstrap-datepicker.min.css" rel="stylesheet" />
 
@@ -35,10 +34,17 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="dashboard.html">Dashboard
+			<ul class="navbar-nav ml-auto" style="margin-bottom:-20px;">
+				<li class="nav-item dropdown ">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard
 					<span class="sr-only">(current)</span>
-				</a></li>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			          <a class="dropdown-item active"  href="#">Delivery summary</a>
+			          <a class="dropdown-item" href="attendance.html">Attendance</a>
+			        </div>
+				
+				</li>
 				<li class="nav-item "><a class="nav-link" href="contact.html">Add
 						Contact 
 				</a></li>
@@ -46,7 +52,7 @@
 				</li>
 				<li class="nav-item"><a class="nav-link" href="#">Services</a>
 				</li>
-				 <li class="nav-item dropdown">
+				 <li class="nav-item dropdown" style="margin-top:-5px;">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          <img src="img/profile_icon.png" width="50" height="50" class="rounded-circle">
 			        </a>
@@ -62,8 +68,73 @@
 
 <!-- Page Content -->
 <div class="container">
+</br>
+<form>
+<br>
+	<div class="row">
+			<div class='col-sm-4'>
+				<div class="form-group date" data-provide="datepicker">
+					<div class="input-group-prepend">
 
+						<input class="form-control" type="text" id="startDate"
+							placeholder="Start Date " > <span class="input-group-text">
+							<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+			</div>
+				<div class='col-sm-1'></div>
+				<div class='col-sm-4'>
+				<div class="form-group date" data-provide="datepicker">
+					<div class="input-group-prepend">
 
-
+						<input class="form-control" type="text" id="endDate"
+							placeholder="End Date "> <span class="input-group-text">
+							<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+				</div>
+				<div class='col-sm-1'></div>
+				<div class='col-sm-2'>
+				<button id="deliverySubmit" class="btn btn-md btn-primary text-uppercase" type="submit">Submit</button>
+				</div>
+		</div>
+				<br><br>
+				<div class="row">
+				<div class="col-md-12">
+				<table class="table table-bordered">
+  <caption>List of users</caption>
+  <thead>
+    <tr class="bg-primary">
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</form>
  </div>
  </body>

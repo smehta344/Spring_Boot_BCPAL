@@ -2,7 +2,10 @@ package com.altimetrik.bcp.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PlanDetailFormData {
+	@JsonFormat(pattern="MM/dd/yyyy")
 	Date date;
 	int locationId;
 	int accountId;

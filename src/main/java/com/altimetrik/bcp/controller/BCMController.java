@@ -1,16 +1,13 @@
 package com.altimetrik.bcp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +28,7 @@ import com.altimetrik.bcp.service.BCMService;
  */
 @RestController
 @RequestMapping("/bcm")
+@CrossOrigin
 public class BCMController {
 	
 	@Autowired
@@ -50,9 +48,9 @@ public class BCMController {
 	 * createProjectLocationAssociate
 	 */
 	@PostMapping(value = "/addDilyStatus")
-	public void createDailyStatus(@RequestBody PlanDetailFormData formData) {
+	public ResponseEntity<String> createDailyStatus(@RequestBody PlanDetailFormData formData) {
 		bcmService.createDilyStatus(formData);
-		
+		return ResponseEntity.ok().body("success");
 	}
 	
 	@GetMapping(value = "/getAllLocations")
@@ -68,8 +66,8 @@ public class BCMController {
 	}
 	
 	@GetMapping(value = "/getLeader/{locationId}/{accountId}")
-	public ResponseEntity<Leader> getLeaderById(@PathVariable("locationId") int accountId, 
-			@PathVariable("accountId") int locationId){
+	public ResponseEntity<Leader> getLeaderById(@PathVariable("locationId") int locationId, 
+			@PathVariable("accountId") int accountId){
 		Leader leaderData = bcmService.getLeader(locationId, accountId);
 		return ResponseEntity.ok().body(leaderData);
 		
