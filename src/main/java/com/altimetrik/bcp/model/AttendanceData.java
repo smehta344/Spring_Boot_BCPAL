@@ -10,6 +10,13 @@ public class AttendanceData {
 	int leave_percent;
 	int accountId;
 	String accountName;
+	String locationName;
+	public String getLocationName() {
+		return locationName;
+	}
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
 	public String getAccountName() {
 		if(accountName != null)
 			return accountName.toUpperCase();

@@ -30,7 +30,23 @@ import com.altimetrik.bcp.util.MysqlQueryConstants;
 	            }
 	    )
 	)
+@SqlResultSetMapping(
+	    name = "locationMapping",
+	    classes = @ConstructorResult(
+	            targetClass = AttendanceByLocation.class,
+	            columns = {
+	            		@ColumnResult(name = "client_location",type=String.class),
+	                    @ColumnResult(name = "total",type=Integer.class),
+	                    @ColumnResult(name = "marked",type=Integer.class),
+	                    @ColumnResult(name = "unMarked",type=Integer.class),
+	                    @ColumnResult(name = "leave_count",type=Integer.class),
+	                    @ColumnResult(name = "leave_app_pend",type=Integer.class)
+	                    
+	            }
+	    )
+	)
 @NamedNativeQuery(name = "findAllDataMapping", resultSetMapping ="AttendanceMapping",resultClass = Attendance.class, query=MysqlQueryConstants.ATTENDANCE_COUNT_QUERY)
+@NamedNativeQuery(name = "dataByLocationMapping", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.ATTENDANCE_LOCATION_QUERY)
 public class AttendanceStatus {
 	
 	@Id

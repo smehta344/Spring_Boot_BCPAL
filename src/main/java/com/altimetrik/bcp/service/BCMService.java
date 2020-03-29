@@ -14,11 +14,14 @@ import com.altimetrik.bcp.dao.DailyStatusRepo;
 import com.altimetrik.bcp.dao.LeaderRepo;
 import com.altimetrik.bcp.dao.ProjectAssocRepo;
 import com.altimetrik.bcp.entity.Attendance;
+import com.altimetrik.bcp.entity.AttendanceByLocation;
+import com.altimetrik.bcp.entity.AttendanceCommon;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.model.AttendanceData;
+import com.altimetrik.bcp.model.AttendanceType;
 import com.altimetrik.bcp.model.PlanDetailFormData;
 
 @Service
@@ -81,16 +84,12 @@ public class BCMService {
 		return projList;
 	}
 	
-	public Map<String, AttendanceData> getAttendeceData(String type, Date fromDate){
+	public Map<String, AttendanceData> getAttendeceData(Date fromDate){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
 		
 		List<Attendance> attendanceList = attendenceRepo.getAttendByAccount(dateString);
-		System.out.println("attendanceList="+attendanceList);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
-		System.out.println(attnPercentageData.toString());
-		//Map<String, AttendanceData> accountGroupMap = attnPercentageData.stream().collect(Collectors.toMap(AttendanceData::getAccountName, c->c));
-		
 		Map<String,AttendanceData> finalMap = new TreeMap<>();
 		for(AttendanceData data : attnPercentageData){
 			if(data.getAccountName() != null)
@@ -99,7 +98,24 @@ public class BCMService {
 		return finalMap;
 	}
 	
-	public List<AttendanceData> calculatePercentage(List<Attendance> attendenceLst){
+	public Map<String, AttendanceData> getAttendeceByLocation(Date fromDate){
+		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = sdf.format(fromDate);
+		
+		List<AttendanceByLocation> attendanceList = attendenceRepo.getAttendByLocation(dateString);
+		System.out.println("attendanceList="+attendanceList);
+		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
+		System.out.println(attnPercentageData.toString());
+		
+		Map<String,AttendanceData> finalMap = new TreeMap<>();
+		for(AttendanceData data : attnPercentageData){
+			if(data.getLocationName() != null)
+				finalMap.put(data.getLocationName(), data);
+		}
+		return finalMap;
+	}
+	
+	public List<AttendanceData> calculatePercentage(List<? extends AttendanceCommon> attendenceLst){
 		int total;
 		int marked;
 		int unmarked;
@@ -109,13 +125,12 @@ public class BCMService {
 		int unmarkedPercentage;
 		int leavePercentage;
 		List<AttendanceData> attendanceDataList = new ArrayList<AttendanceData>();
-		for(Attendance attendance : attendenceLst){
-			
-				total = attendance.getTotal();
-				marked = attendance.getMarked();
-				unmarked = attendance.getUnMarked();
-				leaveCount = attendance.getLeaveCount();
-				leaveApprovalPending = attendance.getLeaveAppPend();
+		for(int i=0; i<attendenceLst.size(); i++ ){
+				total = attendenceLst.get(i).getTotal();
+				marked = attendenceLst.get(i).getMarked();
+				unmarked = attendenceLst.get(i).getUnmarked();
+				leaveCount = attendenceLst.get(i).getLeave_count();
+				leaveApprovalPending = attendenceLst.get(i).getLeave_app_pend();
 				markedPercentage = (marked * 100 / total);
 				unmarkedPercentage = (unmarked * 100 / total);
 				leavePercentage = (leaveCount * 100 / total);
@@ -128,7 +143,14 @@ public class BCMService {
 				attendanceData.setUnmarked(unmarked);
 				attendanceData.setUnmarked_percent(unmarkedPercentage);
 				attendanceData.setLeave_percent(leavePercentage);
-				attendanceData.setAccountName(attendance.getAccountName());
+				if(attendenceLst.get(i) instanceof Attendance){
+					Attendance atn = (Attendance) attendenceLst.get(i);
+					attendanceData.setAccountName(atn.getAccountName());
+				}
+				else{
+					AttendanceByLocation atn = (AttendanceByLocation) attendenceLst.get(i);
+					attendanceData.setLocationName(atn.getClient_location());
+				}
 				attendanceDataList.add(attendanceData);
 		}
 		
