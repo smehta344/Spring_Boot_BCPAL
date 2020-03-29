@@ -1,3 +1,9 @@
 .dropdown-menu {
     margin-top: -15px !important;
 }
+canvas{
+
+  width:1000px !important;
+  height:600px !important;
+
+}
