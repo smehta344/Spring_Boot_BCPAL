@@ -87,6 +87,7 @@ public class BCMService {
 		
 		List<Attendance> attendanceList = attendenceRepo.getAttendByAccount(dateString);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
+		System.out.println(attnPercentageData.toString());
 		//Map<String, AttendanceData> accountGroupMap = attnPercentageData.stream().collect(Collectors.toMap(AttendanceData::getAccountName, c->c));
 		
 		Map<String,AttendanceData> finalMap = new HashMap<>();
@@ -125,7 +126,7 @@ public class BCMService {
 				attendanceData.setMarked_percent(markedPercentage);
 				attendanceData.setUnmarked(unmarked);
 				attendanceData.setUnmarked_percent(unmarkedPercentage);
-				attendanceData.setLeave(leavePercentage);
+				attendanceData.setLeave_percent(leavePercentage);
 				attendanceData.setAccountName(attendance.getAccountName());
 				attendanceDataList.add(attendanceData);
 		}
