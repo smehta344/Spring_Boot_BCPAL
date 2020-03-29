@@ -9,12 +9,11 @@
 <meta name="author" content="" />
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
 <META HTTP-EQUIV="Expires" CONTENT="-1" />
-
-<!-- <link rel="icon" type="image/png" href="pics/logo.png"/> -->
+<link rel="icon" href="img/altimetrik_favicon.ico" type="image/x-icon" >
 <script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-<script src="js/jquery.canvasjs.min.js"></script>
+<script src="js/Chart.js"></script>
 <script src="js/header.js"></script>
 <script src="js/common.js"></script>
 <script src="js/attendance.js"></script>
@@ -81,17 +80,19 @@
 					<option value="accountWise">Accountwise</option>
 					<option value="locationWise">Locationwise</option>
 				</select> 
+				<div id="typeOfAccountMsg"></div>
 			</div>
 				<div class='col-sm-1'></div>
 				<div class='col-sm-4'>
-				<div class="form-group date" data-provide="datepicker">
+				<div class="form-group date" data-date-format="yyyy/mm/dd" data-provide="datepicker">
 					<div class="input-group-prepend">
 
-						<input class="form-control" type="text" id="attandanceDate"
+						<input autocomplete="off" class="form-control" type="text" id="attandanceDate"
 							placeholder="Select Date "> <span class="input-group-text">
 							<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
+				<div id="attendanceDateMsg"></div>
 				</div>
 				<div class='col-sm-1'></div>
 				<div class='col-sm-2'>
@@ -102,7 +103,10 @@
 				<div class="row">
 				<div class="col-md-12">
 	
-	<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+	<div class="chart-container">
+    <canvas id="bar-chartcanvas"></canvas>
+    </br></br>
+  </div>
 	</div></div>
 	</div>
 

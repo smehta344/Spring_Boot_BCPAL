@@ -29,16 +29,11 @@ public class Account {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Account [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		return builder.toString();
+		return "Account [id=" + id + ", name=" + name + "]";
 	}
+	
 
 	
 }

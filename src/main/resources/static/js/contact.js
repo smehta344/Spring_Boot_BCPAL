@@ -58,7 +58,7 @@ $(document).ready(function(){
 	
 	$("select#project").change(function(){
         var projName = $(this).children("option:selected").val();
-        if(projName == 'other'){
+        if(projName == '0'){
         	$('#specific_proj').attr('style','display: block;');
         } else {
         	$('#specific_proj').attr('style','display: none;');
@@ -97,6 +97,7 @@ $(document).ready(function(){
 					$.each(JSON.parse(data), function(idx, item) {
 						$('#project').append("<option value="+item.id+">"+item.name+"</option>");
 					});
+					$('#project').append("<option value='0'>Others</option>");
 				},error : function() {
 					alert("Server error while fetching project name");
 				}

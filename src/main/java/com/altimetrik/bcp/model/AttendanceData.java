@@ -11,7 +11,10 @@ public class AttendanceData {
 	int accountId;
 	String accountName;
 	public String getAccountName() {
-		return accountName;
+		if(accountName != null)
+			return accountName.toUpperCase();
+		else
+			return accountName;
 	}
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;

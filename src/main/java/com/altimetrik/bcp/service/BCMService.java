@@ -1,15 +1,10 @@
 package com.altimetrik.bcp.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import javax.security.auth.x500.X500Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,10 +84,17 @@ public class BCMService {
 	public Map<String, AttendanceData> getAttendeceData(String type, Date fromDate){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
-		List<Attendance> attenList = createAttendList(attendenceRepo.getAttendByAccount(dateString));
-		List<AttendanceData> attnPercentageData = calculatePercentage(attenList);
-		Map<String, AttendanceData> accountGroupMap = attnPercentageData.stream().collect(Collectors.toMap(AttendanceData::getAccountName, c->c));
-		return accountGroupMap;
+		
+		List<Attendance> attendanceList = attendenceRepo.getAttendByAccount(dateString);
+		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
+		//Map<String, AttendanceData> accountGroupMap = attnPercentageData.stream().collect(Collectors.toMap(AttendanceData::getAccountName, c->c));
+		
+		Map<String,AttendanceData> finalMap = new HashMap<>();
+		for(AttendanceData data : attnPercentageData){
+			if(data.getAccountName() != null)
+				finalMap.put(data.getAccountName(), data);
+		}
+		return finalMap;
 	}
 	
 	public List<AttendanceData> calculatePercentage(List<Attendance> attendenceLst){
@@ -130,27 +132,6 @@ public class BCMService {
 		
 		return attendanceDataList;
 		
-	}
-	
-	public List<Attendance> createAttendList(List<Object> objList){
-		List<Attendance> attenList = new ArrayList<Attendance>();
-		Attendance attend = new Attendance();
-		Attendance attend1 = new Attendance();
-		attend.setAccountName("fis");
-		attend.setLeaveAppPend(10);
-		attend.setTotal(100);
-		attend.setMarked(50);
-		attend.setUnMarked(40);
-		attenList.add(attend);
-
-		attend1.setAccountName("vissa");
-		attend1.setLeaveAppPend(10);
-		attend1.setTotal(200);
-		attend1.setMarked(50);
-		attend1.setUnMarked(40);
-		attenList.add(attend1);
-		
-		return attenList;
 	}
 	
 }

@@ -2,5 +2,8 @@ function logout(){
     window.location.href="index.html";
 }
 $(function () {
-    $('#datetimepicker1').datetimepicker({autoclose: true});
+    $('#currentDate').datetimepicker({
+    	format: 'yyyy-mm-dd'
+    	});
+    $('#attandanceDate').datetimepicker();
 });
