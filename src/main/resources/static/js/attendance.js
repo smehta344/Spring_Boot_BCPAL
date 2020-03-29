@@ -3,11 +3,6 @@ $(function(){
 	$("#attendanceSubmit").click(function(){ 
 		$('#typeOfAccountMsg').empty();
     	$('#attendanceDateMsg').empty();
-	var total = [];
-	var marked = [];
-	var unmarked = [];
-	var leave = [];
-	var labelsArr =[];
 	var date = $("#attandanceDate").val();
 	var typeOfAccount = $("#attendanceType").val();
 	
@@ -32,8 +27,18 @@ $(function(){
 	
 	
 	var urlForAttendance = urlForServer+"dashboard/getAttendence/";
-	alert(urlForAttendance);
-	
+	//alert(urlForAttendance);
+	var total = [];
+	var marked = [];
+	var markedBgColor = [];
+	var markedBdColor = [];
+	var unmarked = [];
+	var unMarkedBgColor = [];
+	var unMarkedBdColor = [];
+	var leave = [];
+	var leaveBgColor = [];
+	var leaveBdColor = [];
+	var labelsArr =[];
 	$.ajax({
 		type : 'GET',
 		url : urlForAttendance,
@@ -42,21 +47,45 @@ $(function(){
 			fromDate:date
 		},
 		success : function(response) {
-			alert(response);
-			var data = JSON.stringify(response)
+			var data = JSON.stringify(response);
+			//alert("data="+data);
+			total = [];
+			marked = [];
+			markedBgColor = [];
+			markedBdColor = [];
+			unmarked = [];
+			unMarkedBgColor = [];
+			unMarkedBdColor = [];
+			leave = [];
+			leaveBgColor = [];
+			leaveBdColor = [];
+			labelsArr =[];
 			$.each(JSON.parse(data), function(idx, item) {
+				
 				labelsArr.push(idx);
 				total.push(item.total);
+				
 				marked.push(item.marked);
+				markedBgColor.push("rgba(0,255,0,0.6)");
+				markedBdColor.push("rgba(0,255,0,1)");
+				
 				unmarked.push(item.unmarked);
+				unMarkedBgColor.push("rgba(255, 0, 0, 0.8)");
+				unMarkedBdColor.push("rgba(255, 0, 0, 1)");
+				
+				
 				leave.push(item.leave);
+				leaveBgColor.push("rgba(255,0,255,0.6)");
+				leaveBdColor.push("rgba(255,0,255,1)");
+				
 				
 			});
 			
-			alert("labelsArr="+labelsArr);
+		/*	alert("labelsArr="+labelsArr);
 			alert("marked="+marked);
 			alert("unmarked="+unmarked);
 			alert("total="+total);
+			alert("leave="+leave);*/
 			
 			  //get the bar chart canvas
 			  var ctx = $("#bar-chartcanvas");
@@ -69,90 +98,26 @@ $(function(){
 			      {
 			        label: "Attendance Marked",
 			        data: marked,
-			        backgroundColor: [
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)",
-			          "rgba(0,255,0,0.6)"
-			        ],
-			        borderColor: [
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			          "rgba(0,255,0,1)",
-			        ],
+			        backgroundColor: markedBgColor,
+			        borderColor: markedBdColor,
+			        //hoverBackgroundColor: 'rgba(230, 236, 235, 0.75)',
+			       // hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
 			        borderWidth: 1
 			      },
 			      {
 			          label: "Attendance Unmarked",
 			          data: unmarked,
-			          backgroundColor: [
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)",
-			            "rgba(255, 0, 0, 0.8)"
-			            
-			          ],
-			          borderColor: [
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)",
-			            "rgba(255, 0, 0, 1)"
-			          ],
+			          backgroundColor: unMarkedBgColor,
+			          borderColor: unMarkedBdColor,
+			          //hoverBackgroundColor: 'rgba(230, 236, 235, 0.75)',
+			         // hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
 			          borderWidth: 1
 			        },
 			        {
 			            label: "Leave",
 			            data: leave,
-			            backgroundColor: [
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)",
-			              "rgba(255,0,255,0.6)"
-			              
-			            ],
-			            borderColor: [
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)",
-			              "rgba(255,0,255,1)"
-			            ],
+			            backgroundColor: leaveBgColor,
+			            borderColor: leaveBdColor,
 			            borderWidth: 1
 			          }
 			    ]
@@ -166,28 +131,32 @@ $(function(){
 			      position: "top",
 			      text: "Overall Attendance",
 			      fontSize: 18,
-			      fontColor: "#111"
+			      fontColor: "#0000ff"
 			    },
 			    legend: {
 			      display: true,
 			      position: "bottom",
 			      labels: {
-			        fontColor: "#333",
+			        fontColor: "#000000",
 			        fontSize: 16
 			      }
 			    },
 			    scales: {
 			    	xAxes: [{
+			    		offset: true,
 			            stacked: true,
+			            //barPercentage: 1.4,
 			            scaleLabel: {
 			                display: true,
 			                labelString: ''
 			              }
 			        }],
 			        yAxes: [{
+			        	offset: true,
 			            stacked: true,
 			            ticks: {
-			                min: 0
+			                beginAtZero:true,
+			                maxTicksLimit: 50
 			              },
 			              scaleLabel: {
 			                  display: true,

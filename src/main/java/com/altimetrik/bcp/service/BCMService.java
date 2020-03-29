@@ -2,9 +2,9 @@ package com.altimetrik.bcp.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,11 +86,12 @@ public class BCMService {
 		String dateString = sdf.format(fromDate);
 		
 		List<Attendance> attendanceList = attendenceRepo.getAttendByAccount(dateString);
+		System.out.println("attendanceList="+attendanceList);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
 		System.out.println(attnPercentageData.toString());
 		//Map<String, AttendanceData> accountGroupMap = attnPercentageData.stream().collect(Collectors.toMap(AttendanceData::getAccountName, c->c));
 		
-		Map<String,AttendanceData> finalMap = new HashMap<>();
+		Map<String,AttendanceData> finalMap = new TreeMap<>();
 		for(AttendanceData data : attnPercentageData){
 			if(data.getAccountName() != null)
 				finalMap.put(data.getAccountName(), data);
