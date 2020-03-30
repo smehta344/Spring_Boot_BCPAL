@@ -78,8 +78,7 @@ public class AttendanceData {
 	public String toString() {
 		return "AttendanceData [total=" + total + ", marked=" + marked + ", unmarked=" + unmarked + ", leave=" + leave
 				+ ", marked_percent=" + marked_percent + ", unmarked_percent=" + unmarked_percent + ", leave_percent="
-				+ leave_percent + ", accountName=" + accountName + "]";
+				+ leave_percent + ", accountId=" + accountId + ", accountName=" + accountName + ", locationName="
+				+ locationName + "]";
 	}
-
-	
 }

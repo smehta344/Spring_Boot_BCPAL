@@ -59,7 +59,7 @@ $(function(){
 				total.push(item.total);
 				
 				marked.push(item.marked);
-				markedBgColor.push("rgba(0,255,0,0.6)");
+				markedBgColor.push("rgba(0,255,0,1)");
 				markedBdColor.push("rgba(0,255,0,1)");
 				
 				unmarked.push(item.unmarked);
@@ -68,8 +68,8 @@ $(function(){
 				
 				
 				leave.push(item.leave);
-				leaveBgColor.push("rgba(255,0,255,0.6)");
-				leaveBdColor.push("rgba(255,0,255,1)");
+				leaveBgColor.push("rgba(255,255,0,1");
+				leaveBdColor.push("rgba(255,255,0,1");
 				
 				
 			});
@@ -130,7 +130,7 @@ $(function(){
 			      display: true,
 			      position: "bottom",
 			      labels: {
-			        fontColor: "#000000",
+			        fontColor: "#111",
 			        fontSize: 16
 			      }
 			    },

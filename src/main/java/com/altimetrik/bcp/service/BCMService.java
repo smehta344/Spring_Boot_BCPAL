@@ -2,6 +2,7 @@ package com.altimetrik.bcp.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -102,13 +103,14 @@ public class BCMService {
 		
 		List<AttendanceByLocation> attendanceList = attendenceRepo.getAttendByLocation(dateString);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
-		Map<String,AttendanceData> finalMap = new TreeMap<>();
+		Map<String,AttendanceData> finalMap = new HashMap<>();
 		for(AttendanceData data : attnPercentageData){
 			if(data.getLocationName() != null)
 				finalMap.put(data.getLocationName(), data);
 		}
 		return finalMap;
 	}
+	
 	
 	public List<AttendanceData> calculatePercentage(List<? extends AttendanceCommon> attendenceLst){
 		int total;
@@ -119,6 +121,11 @@ public class BCMService {
 		int markedPercentage;
 		int unmarkedPercentage;
 		int leavePercentage;
+		
+		int overAllTotal = 0;
+		int overAllMarked = 0;
+		int overAllUnMarked = 0;
+		int overAllLeave = 0;
 		List<AttendanceData> attendanceDataList = new ArrayList<AttendanceData>();
 		for(int i=0; i<attendenceLst.size(); i++ ){
 				total = attendenceLst.get(i).getTotal();
@@ -129,6 +136,12 @@ public class BCMService {
 				markedPercentage = (marked * 100 / total);
 				unmarkedPercentage = (unmarked * 100 / total);
 				leavePercentage = (leaveCount * 100 / total);
+				
+				
+				overAllTotal = overAllTotal+total;
+				overAllMarked = overAllMarked+marked;
+				overAllUnMarked = overAllUnMarked+unmarked;
+				overAllLeave = overAllLeave+leaveCount;
 				
 				AttendanceData attendanceData = new AttendanceData();
 				attendanceData.setTotal(total);
@@ -149,6 +162,16 @@ public class BCMService {
 				attendanceDataList.add(attendanceData);
 		}
 		
+		if(attendenceLst.get(1) instanceof AttendanceByLocation){
+			AttendanceData attendanceData = new AttendanceData();
+			attendanceData.setTotal(overAllTotal);
+			attendanceData.setMarked(overAllMarked);
+			attendanceData.setUnmarked(overAllUnMarked);
+			attendanceData.setLeave(overAllLeave);
+			attendanceData.setLocationName("ORGANISATION WIDE");
+			attendanceDataList.add(0,attendanceData);
+		}
+		System.out.println("attendanceDataList="+attendanceDataList);
 		return attendanceDataList;
 		
 	}
