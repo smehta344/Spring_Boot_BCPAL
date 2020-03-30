@@ -1,5 +1,9 @@
 package com.altimetrik.bcp.model;
 
+import java.util.List;
+
+import com.altimetrik.bcp.entity.AttendanceStatus;
+
 public class AttendanceData {
 	int total;
 	int marked;
@@ -11,6 +15,7 @@ public class AttendanceData {
 	int accountId;
 	String accountName;
 	String locationName;
+	List<AttendanceStatus> employeeDetails;
 	public String getLocationName() {
 		return locationName;
 	}
@@ -74,11 +79,21 @@ public class AttendanceData {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
+	
+	
+	public List<AttendanceStatus> getEmployeeDetails() {
+		return employeeDetails;
+	}
+	public void setEmployeeDetails(List<AttendanceStatus> employeeDetails) {
+		this.employeeDetails = employeeDetails;
+	}
 	@Override
 	public String toString() {
 		return "AttendanceData [total=" + total + ", marked=" + marked + ", unmarked=" + unmarked + ", leave=" + leave
 				+ ", marked_percent=" + marked_percent + ", unmarked_percent=" + unmarked_percent + ", leave_percent="
 				+ leave_percent + ", accountId=" + accountId + ", accountName=" + accountName + ", locationName="
-				+ locationName + "]";
+				+ locationName + ", employeeDetails=" + employeeDetails + "]";
 	}
+	
+	
 }

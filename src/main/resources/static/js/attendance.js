@@ -1,17 +1,49 @@
 $(function(){
 	var chart = null;
+	
+	$("select#attendanceWiseType").change(function(){
+		var attendanceWiseType = $(this).children("option:selected").val();
+		$('#attendanceTypeValueDiv').attr('style','display: block;');
+        if(attendanceWiseType != 'empty' && attendanceWiseType =='ACCOUNT'){
+        	var urlForProject = urlForServer+"dashboard/getAccountNames";
+        	$('#attendanceTypeValue').empty();
+			$('#attendanceTypeValue').append("<option value='empty' selected disabled hidden>Select Account</option>");
+        } else {
+        	var urlForProject = urlForServer+"dashboard/getClientLocations";
+        	$('#attendanceTypeValue').empty();
+			$('#attendanceTypeValue').append("<option value='empty' selected disabled hidden>Select Location</option>");
+        }
+		$.ajax({
+			type : 'GET',
+			url : urlForProject,
+			success : function(response) {
+				var data = JSON.stringify(response);
+				$('#attendanceTypeValue').append("<option value='all'>ALL</option>");
+				$.each(JSON.parse(data), function(idx, item) {
+					$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
+				});
+			},error : function() {
+				alert("Server error while fetching account");
+			}
+		});
+        });
+	
+	
 	$("#attendanceSubmit").click(function(){ 
-		$('#typeOfAccountMsg').empty();
+		$("#attendanceTable").empty();
+		$('#attendanceWiseTypeMsg').empty();
     	$('#attendanceDateMsg').empty();
 	var date = $("#attandanceDate").val();
-	var typeOfAccount = $("#attendanceType").val();
+	var attendanceWiseType = $("#attendanceWiseType").val();
+	var attdTypeValue = $("#attendanceTypeValue").val();
+	var attdType = $("#attendanceType").val();
 	$("#bar-chartcanvas").empty();
-	if(typeOfAccount == null || typeOfAccount == 'empty' ){
-		$("#typeOfAccountMsg").append("<font color='red'>Please select attendance type</font>");
+	if(attendanceWiseType == null || attendanceWiseType == 'empty' ){
+		$("#attendanceWiseTypeMsg").append("<font color='red'>Please select attendance type</font>");
 		return false;
 	} else {
-		$('#typeOfAccountMsg').attr('style','display: none;');
-		$('#typeOfAccountMsg').empty();
+		$('#attendanceWiseTypeMsg').attr('style','display: none;');
+		$('#attendanceWiseTypeMsg').empty();
 	}
 	
 	
@@ -39,22 +71,30 @@ $(function(){
 	var leaveBgColor = [];
 	var leaveBdColor = [];
 	var labelsArr =[];
+	var empDetails = [];
 	$.ajax({
 		type : 'GET',
 		url : urlForAttendance,
 		data : {
-			type:typeOfAccount,
+			attendanceWise:attendanceWiseType,
+			attdTypeValue:attdTypeValue,
+			attdType:attdType,
 			fromDate:date
 		},
 		success : function(response) {
 			var data = JSON.stringify(response);
+			//alert(data);
 			$("#bar-chartcanvas").empty();
 			//alert("data="+data);
 			if(chart != null){
 				chart.destroy();
 			}
-			$.each(JSON.parse(data), function(idx, item) {
-				
+			  $.each(JSON.parse(data), function(idx, item) {
+				  if(item.employeeDetails != null){
+					  for(var i in item.employeeDetails){
+						  empDetails.push(item.employeeDetails[i]);
+					  }
+				  }
 				labelsArr.push(idx);
 				total.push(item.total);
 				
@@ -71,8 +111,26 @@ $(function(){
 				leaveBgColor.push("rgba(255,255,0,1");
 				leaveBdColor.push("rgba(255,255,0,1");
 				
-				
+				//sno=(sno+1);
 			});
+			  if(empDetails.length > 0){
+				  $("#attendanceTable").empty();
+				  $("#attendanceTable").append("<thead><tr> <th scope='sNo'>S. No</th><th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th>" +
+				  		"<th scope='col'>ACCOUNT</th><th scope='col'>PROJECT</th><th scope='col'>LOCATION</th>" +
+				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
+				  var sno = 1;
+			  
+				  for(var i in empDetails){
+					  $("#attendanceTable").append("<tr><td>"+ sno +"</td><td>"+empDetails[i].empId+"</td>" +
+					  		"<td>"+empDetails[i].empployeeName+"</td><td>"+empDetails[i].accountName+"</td>" +
+					  				"<td>"+empDetails[i].project+"</td><td>"+empDetails[i].clientLocation+"</td>" +
+					  						"<td>"+empDetails[i].reportManager+"</td><td>"+empDetails[i].attendanceStatus+"</td>" +
+					  								"<td>"+empDetails[i].attendanceDate+"</td></tr>");
+					  sno=(sno+1);
+				  }
+				  $("#attendanceTable").append("</tbody>");
+			  }
+			
 			
 		/*	alert("labelsArr="+labelsArr);
 			alert("marked="+marked);
@@ -139,6 +197,7 @@ $(function(){
 			    		offset: true,
 			            stacked: true,
 			            //barPercentage: 1.4,
+			            maxBarThickness : 50,
 			            scaleLabel: {
 			                display: true,
 			                labelString: ''
@@ -165,6 +224,8 @@ $(function(){
 			    data: data,
 			    options: options
 			  });
+			  
+			 
 		},error : function() {
 			$("#modalBody").empty();
 			$("#myModal").modal("show");

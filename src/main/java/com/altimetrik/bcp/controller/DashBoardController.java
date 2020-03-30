@@ -1,6 +1,7 @@
 package com.altimetrik.bcp.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,16 +25,28 @@ public class DashBoardController {
 	BCMService bcmService;
 	
 	@GetMapping(value = "/getAttendence")
-	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(@RequestParam("type") String type, 
+	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(@RequestParam("attendanceWise") String wiseType, 
+			@RequestParam("attdTypeValue") String typeValue,
+			@RequestParam("attdType") String type,
 			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
 		Map<String, AttendanceData> attendenceMap = new TreeMap<>(); 
-		if(AttendanceType.ACCOUNT == AttendanceType.valueOf(type)){
-			attendenceMap = bcmService.getAttendeceData(fromDate);
+		if(AttendanceType.ACCOUNT == AttendanceType.valueOf(wiseType)){
+			attendenceMap = bcmService.getAttendanceByAccount(typeValue, type, fromDate);
 		}
 		else{
-			attendenceMap = bcmService.getAttendeceByLocation(fromDate);
+			attendenceMap = bcmService.getAttendanceByLocation(typeValue, type, fromDate);
 		}
 		return ResponseEntity.ok().body(attendenceMap);
+	}
+	
+	@GetMapping(value = "/getAccountNames")
+	public ResponseEntity<List<String>> getAccountNames(){
+		return ResponseEntity.ok().body(bcmService.getAccountNames());
+	}
+	
+	@GetMapping(value = "/getClientLocations")
+	public ResponseEntity<List<String>> getClientLocations(){
+		return ResponseEntity.ok().body(bcmService.getClientLocations());
 	}
 
 }

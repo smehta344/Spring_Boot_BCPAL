@@ -73,17 +73,36 @@
 	</br>
 	</br>
 	<div class="row">
-			<div class='col-sm-4'>
-				<select class="form-control" name="attendanceType" id="attendanceType">
+			<div class='col-sm-2'>
+				<select class="form-control" name="attendanceWiseType" id="attendanceWiseType">
 					<option value="empty" selected disabled hidden>
 						Select Attendance</option>
 					<option value="ACCOUNT">Accountwise</option>
 					<option value="LOCATION">Locationwise</option>
 				</select> 
-				<div id="typeOfAccountMsg"></div>
+				<div id="attendanceWiseTypeMsg"></div>
 			</div>
-				<div class='col-sm-1'></div>
-				<div class='col-sm-4'>
+			
+				<div class='col-sm-2' id="attendanceTypeValueDiv" style="display:none;">
+				<select class="form-control" name="attendanceTypeValues" id="attendanceTypeValue">
+				</select> 
+				<div id="typeOfAccountMsg"></div>
+				</div>
+				
+				<div class='col-sm-2'>
+				<select class="form-control" name="attendanceType" id="attendanceType">
+					<option value="empty" selected disabled hidden>
+						Select Attendance Type</option>
+					<option value="all">ALL</option>
+					<option value="Marked">MARKED</option>
+					<option value="Not Marked">UNMARKED</option>
+					<option value="Leave">LEAVE</option>
+					<option value="Leave - Approval Pending">LEAVE - APPROVAL PENDING</option>
+				</select> 
+				<div id="typeOfAccountMsg"></div>
+				</div>
+				
+				<div class='col-sm-2'>
 				<div class="form-group date" data-date-format="yyyy/mm/dd" data-provide="datepicker">
 					<div class="input-group-prepend">
 
@@ -109,6 +128,15 @@
   						</div>
 					<!-- </div> -->
 				</div>
+				
+				</br></br>
+				
+				<div class="row">
+				<table class="table table-bordered" id="attendanceTable">
+				  
+				  <tbody>
+				  </tbody>
+				  </table>
 	</div>
 
 </body>
