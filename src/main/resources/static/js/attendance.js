@@ -1,12 +1,12 @@
 $(function(){
-	
+	var chart = null;
 	$("#attendanceSubmit").click(function(){ 
 		$('#typeOfAccountMsg').empty();
     	$('#attendanceDateMsg').empty();
 	var date = $("#attandanceDate").val();
 	var typeOfAccount = $("#attendanceType").val();
-	
-	if(typeOfAccount == null){
+	$("#bar-chartcanvas").empty();
+	if(typeOfAccount == null || typeOfAccount == 'empty' ){
 		$("#typeOfAccountMsg").append("<font color='red'>Please select attendance type</font>");
 		return false;
 	} else {
@@ -48,18 +48,11 @@ $(function(){
 		},
 		success : function(response) {
 			var data = JSON.stringify(response);
+			$("#bar-chartcanvas").empty();
 			//alert("data="+data);
-			total = [];
-			marked = [];
-			markedBgColor = [];
-			markedBdColor = [];
-			unmarked = [];
-			unMarkedBgColor = [];
-			unMarkedBdColor = [];
-			leave = [];
-			leaveBgColor = [];
-			leaveBdColor = [];
-			labelsArr =[];
+			if(chart != null){
+				chart.destroy();
+			}
 			$.each(JSON.parse(data), function(idx, item) {
 				
 				labelsArr.push(idx);
@@ -167,8 +160,8 @@ $(function(){
 			  };
 
 			  //create Chart class object
-			  var chart = new Chart(ctx, {
-			    type: "bar",
+			  chart = new Chart(ctx, {
+			    type: "bar",   //pie,doughnut,polarArea
 			    data: data,
 			    options: options
 			  });

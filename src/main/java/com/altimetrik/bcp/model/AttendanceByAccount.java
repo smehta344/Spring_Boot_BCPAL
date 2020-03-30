@@ -1,4 +1,4 @@
-package com.altimetrik.bcp.entity;
+package com.altimetrik.bcp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Attendance extends AttendanceCommon{
+public class AttendanceByAccount extends AttendanceCommon{
 
 	String account_name;	
 	
-	public Attendance( String accountName, int total, int marked, int unMarked, int leaveCount, int leaveAppPend) {
+	public AttendanceByAccount( String accountName, int total, int marked, int unMarked, int leaveCount, int leaveAppPend) {
 		this.total = total;
 		this.marked = marked;
 		this.unmarked = unMarked;

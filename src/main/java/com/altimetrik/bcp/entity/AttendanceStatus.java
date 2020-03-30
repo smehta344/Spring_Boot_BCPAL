@@ -12,13 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 
+import com.altimetrik.bcp.model.AttendanceByAccount;
+import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.util.MysqlQueryConstants;
 
 @Entity
 @SqlResultSetMapping(
 	    name = "AttendanceMapping",
 	    classes = @ConstructorResult(
-	            targetClass = Attendance.class,
+	            targetClass = AttendanceByAccount.class,
 	            columns = {
 	            		@ColumnResult(name = "account_name",type=String.class),
 	                    @ColumnResult(name = "total",type=Integer.class),
@@ -45,7 +47,7 @@ import com.altimetrik.bcp.util.MysqlQueryConstants;
 	            }
 	    )
 	)
-@NamedNativeQuery(name = "findAllDataMapping", resultSetMapping ="AttendanceMapping",resultClass = Attendance.class, query=MysqlQueryConstants.ATTENDANCE_COUNT_QUERY)
+@NamedNativeQuery(name = "findAllDataMapping", resultSetMapping ="AttendanceMapping",resultClass = AttendanceByAccount.class, query=MysqlQueryConstants.ATTENDANCE_COUNT_QUERY)
 @NamedNativeQuery(name = "dataByLocationMapping", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.ATTENDANCE_LOCATION_QUERY)
 public class AttendanceStatus {
 	

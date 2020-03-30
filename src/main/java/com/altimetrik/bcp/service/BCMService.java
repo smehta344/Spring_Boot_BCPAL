@@ -13,15 +13,14 @@ import com.altimetrik.bcp.dao.AttendanceRepo;
 import com.altimetrik.bcp.dao.DailyStatusRepo;
 import com.altimetrik.bcp.dao.LeaderRepo;
 import com.altimetrik.bcp.dao.ProjectAssocRepo;
-import com.altimetrik.bcp.entity.Attendance;
-import com.altimetrik.bcp.entity.AttendanceByLocation;
-import com.altimetrik.bcp.entity.AttendanceCommon;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Project;
+import com.altimetrik.bcp.model.AttendanceByAccount;
+import com.altimetrik.bcp.model.AttendanceByLocation;
+import com.altimetrik.bcp.model.AttendanceCommon;
 import com.altimetrik.bcp.model.AttendanceData;
-import com.altimetrik.bcp.model.AttendanceType;
 import com.altimetrik.bcp.model.PlanDetailFormData;
 
 @Service
@@ -73,7 +72,6 @@ public class BCMService {
 	}
 	
 	public List<Project> getProjectById(int accountId){
-		Object obj = new Object();
 		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
 		List<Project> projList = new ArrayList<Project>();
 		for(ProjLocLeaderAssoc projAssoc:assocList){
@@ -88,7 +86,7 @@ public class BCMService {
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
 		
-		List<Attendance> attendanceList = attendenceRepo.getAttendByAccount(dateString);
+		List<AttendanceByAccount> attendanceList = attendenceRepo.getAttendByAccount(dateString);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
 		Map<String,AttendanceData> finalMap = new TreeMap<>();
 		for(AttendanceData data : attnPercentageData){
@@ -103,10 +101,7 @@ public class BCMService {
 		String dateString = sdf.format(fromDate);
 		
 		List<AttendanceByLocation> attendanceList = attendenceRepo.getAttendByLocation(dateString);
-		System.out.println("attendanceList="+attendanceList);
 		List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
-		System.out.println(attnPercentageData.toString());
-		
 		Map<String,AttendanceData> finalMap = new TreeMap<>();
 		for(AttendanceData data : attnPercentageData){
 			if(data.getLocationName() != null)
@@ -143,8 +138,8 @@ public class BCMService {
 				attendanceData.setUnmarked(unmarked);
 				attendanceData.setUnmarked_percent(unmarkedPercentage);
 				attendanceData.setLeave_percent(leavePercentage);
-				if(attendenceLst.get(i) instanceof Attendance){
-					Attendance atn = (Attendance) attendenceLst.get(i);
+				if(attendenceLst.get(i) instanceof AttendanceByAccount){
+					AttendanceByAccount atn = (AttendanceByAccount) attendenceLst.get(i);
 					attendanceData.setAccountName(atn.getAccountName());
 				}
 				else{

@@ -1,4 +1,4 @@
-package com.altimetrik.bcp.entity;
+package com.altimetrik.bcp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,7 +31,7 @@ public class AttendanceByLocation extends AttendanceCommon{
 	@Override
 	public String toString() {
 		return "Attendance [total=" + total + ", marked=" + marked + ", unmarked=" + unmarked + ", leave_count="
-				+ leave_count + ", leave_app_pend=" + leave_app_pend + ", account_name=" + client_location + "]";
+				+ leave_count + ", leave_app_pend=" + leave_app_pend + ", client_location=" + client_location + "]";
 	}
 
 }

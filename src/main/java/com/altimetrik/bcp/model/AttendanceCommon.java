@@ -1,4 +1,4 @@
-package com.altimetrik.bcp.entity;
+package com.altimetrik.bcp.model;
 
 public class AttendanceCommon {
 	

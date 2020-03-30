@@ -1,6 +1,8 @@
 package com.altimetrik.bcp.util;
 
 public class MysqlQueryConstants {
+	
+	private MysqlQueryConstants(){}
 
 	public static final String ATTENDANCE_COUNT_QUERY="select account_name,count(*) total,"+
 			"count(case when attendance_status='Marked' then 1 end) marked,"+ 
