@@ -19,21 +19,19 @@ import com.altimetrik.bcp.service.BCMService;
 @RestController
 @RequestMapping("/dashboard")
 public class DashBoardController {
-	
+
 	@Autowired
 	BCMService bcmService;
-	
+
 	@GetMapping(value = "/getAttendence")
-	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(@RequestParam("type") String type, 
-			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
-		Map<String, AttendanceData> attendenceMap = new TreeMap<>(); 
-		if(AttendanceType.ACCOUNT == AttendanceType.valueOf(type)){
+	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(@RequestParam("type") String type,
+			@RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy/MM/dd") Date fromDate) {
+		Map<String, AttendanceData> attendenceMap = new TreeMap<>();
+		if (AttendanceType.ACCOUNT == AttendanceType.valueOf(type)) {
 			attendenceMap = bcmService.getAttendeceData(fromDate);
-		}
-		else{
+		} else {
 			attendenceMap = bcmService.getAttendeceByLocation(fromDate);
 		}
 		return ResponseEntity.ok().body(attendenceMap);
 	}
-
 }

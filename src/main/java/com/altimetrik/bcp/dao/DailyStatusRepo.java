@@ -8,6 +8,4 @@ import com.altimetrik.bcp.entity.DailyStatus;
 @Repository
 public interface DailyStatusRepo extends JpaRepository<DailyStatus, Integer> {
 
-//@Query(value = "UPDATE BusinessContinuityPlan bc SET ")	
-
 }

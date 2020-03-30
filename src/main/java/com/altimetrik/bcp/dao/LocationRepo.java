@@ -8,6 +8,4 @@ import com.altimetrik.bcp.entity.Location;
 @Repository
 public interface LocationRepo extends JpaRepository<Location, Integer> {
 
-//@Query(value = "UPDATE BusinessContinuityPlan bc SET ")	
-
 }
