@@ -62,3 +62,4 @@ public class MysqlQueryConstants {
 			"attendance_date= :startDate" +" "+
 			"group by client_location;";
 }
+

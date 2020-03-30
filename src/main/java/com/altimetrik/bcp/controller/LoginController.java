@@ -12,9 +12,7 @@ import com.altimetrik.bcp.model.LoginService;
 public class LoginController {
 	@PostMapping
 	@RequestMapping(value = "/login")
-	public ResponseEntity<?> getLogin(@RequestBody LoginService ser){
-		System.out.println("--------------------------->"+ser.getUsername());
-		return ResponseEntity.ok("suss"+ ser.getUsername());
+	public ResponseEntity<?> getLogin(@RequestBody LoginService ser) {
+		return ResponseEntity.ok("suss" + ser.getUsername());
 	}
-
 }

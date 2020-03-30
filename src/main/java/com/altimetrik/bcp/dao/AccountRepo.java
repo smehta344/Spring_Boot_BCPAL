@@ -8,6 +8,4 @@ import com.altimetrik.bcp.entity.Account;
 @Repository
 public interface AccountRepo extends JpaRepository<Account, Integer> {
 
-//@Query(value = "UPDATE BusinessContinuityPlan bc SET ")	
-
 }

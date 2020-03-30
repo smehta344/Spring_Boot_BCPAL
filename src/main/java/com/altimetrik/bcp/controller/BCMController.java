@@ -27,22 +27,21 @@ import com.altimetrik.bcp.service.BCMService;
  *
  */
 @RestController
-@RequestMapping("/bcm")
 @CrossOrigin
+@RequestMapping("/bcm")
 public class BCMController {
-	
+
 	@Autowired
 	BCMService bcmService;
-	
+
 	@Autowired
 	AccountRepo accountRepo;
-		
+
 	@Autowired
 	LocationRepo locationRepo;
-	
+
 	@Autowired
 	AccountRepo acRepo;
-
 
 	/*
 	 * createProjectLocationAssociate
@@ -52,29 +51,29 @@ public class BCMController {
 		bcmService.createDilyStatus(formData);
 		return ResponseEntity.ok().body("success");
 	}
-	
+
 	@GetMapping(value = "/getAllLocations")
-	public ResponseEntity<List<Location>> getAllLocation(){
+	public ResponseEntity<List<Location>> getAllLocation() {
 		List<Location> locationList = locationRepo.findAll();
 		return ResponseEntity.ok().body(locationList);
 	}
-	
+
 	@GetMapping(value = "/getAllAccounts")
-	public ResponseEntity<List<Account>> getAllAccounts(){
+	public ResponseEntity<List<Account>> getAllAccounts() {
 		List<Account> accountList = accountRepo.findAll();
 		return ResponseEntity.ok().body(accountList);
 	}
-	
+
 	@GetMapping(value = "/getLeader/{locationId}/{accountId}")
-	public ResponseEntity<Leader> getLeaderById(@PathVariable("locationId") int locationId, 
-			@PathVariable("accountId") int accountId){
+	public ResponseEntity<Leader> getLeaderById(@PathVariable("locationId") int locationId,
+			@PathVariable("accountId") int accountId) {
 		Leader leaderData = bcmService.getLeader(locationId, accountId);
 		return ResponseEntity.ok().body(leaderData);
-		
+
 	}
-	
+
 	@GetMapping(value = "/getProject/{accountId}")
-	public ResponseEntity<List<Project>> getProject(@PathVariable("accountId") int accountId){
+	public ResponseEntity<List<Project>> getProject(@PathVariable("accountId") int accountId) {
 		List<Project> projectList = bcmService.getProjectById(accountId);
 		return ResponseEntity.ok().body(projectList);
 	}
