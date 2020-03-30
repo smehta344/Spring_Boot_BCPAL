@@ -15,10 +15,10 @@ import com.altimetrik.bcp.model.AttendanceByLocation;
 @Repository
 public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer> {
 	
-	@Query(nativeQuery = true,value="SELECT DISTINCT a.account_name FROM attendance_status a")
+	@Query(nativeQuery = true,value="SELECT DISTINCT a.account_name FROM attendance_status a WHERE a.account_name IS NOT NULL ORDER BY a.account_name ASC")
 	List<String> findDistinctAccountName();
 	
-	@Query(nativeQuery = true,value="SELECT DISTINCT a.client_location FROM attendance_status a")
+	@Query(nativeQuery = true,value="SELECT DISTINCT a.client_location FROM attendance_status a ORDER BY a.client_location ASC")
 	List<String> findDistinctClientLocation();
 
 	@Query(nativeQuery = true, name = "findAllDataMapping")

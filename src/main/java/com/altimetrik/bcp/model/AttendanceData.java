@@ -9,9 +9,11 @@ public class AttendanceData {
 	int marked;
 	int unmarked;
 	int leave;
+	int leaveAppPending;
 	int marked_percent;
 	int unmarked_percent;
 	int leave_percent;
+	int leave_app_pend_percent;
 	int accountId;
 	String accountName;
 	String locationName;
@@ -73,6 +75,13 @@ public class AttendanceData {
 	public void setLeave_percent(int leave_percent) {
 		this.leave_percent = leave_percent;
 	}
+	
+	public int getLeave_app_pend_percent() {
+		return leave_app_pend_percent;
+	}
+	public void setLeave_app_pend_percent(int leave_app_pend_percent) {
+		this.leave_app_pend_percent = leave_app_pend_percent;
+	}
 	public int getAccountId() {
 		return accountId;
 	}
@@ -80,7 +89,12 @@ public class AttendanceData {
 		this.accountId = accountId;
 	}
 	
-	
+	public int getLeaveAppPending() {
+		return leaveAppPending;
+	}
+	public void setLeaveAppPending(int leaveAppPending) {
+		this.leaveAppPending = leaveAppPending;
+	}
 	public List<AttendanceStatus> getEmployeeDetails() {
 		return employeeDetails;
 	}

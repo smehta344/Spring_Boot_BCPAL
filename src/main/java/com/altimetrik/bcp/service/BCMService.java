@@ -212,21 +212,26 @@ public class BCMService {
 		int markedPercentage = 0;
 		int unmarkedPercentage =0;
 		int leavePercentage = 0;
+		int leaveAppPendPercentage = 0;
 		if(marked > 0)
 			markedPercentage = (marked * 100 / total);
 		if(unmarked > 0)
 			unmarkedPercentage = (unmarked * 100 / total);
 		if(leaveCount > 0)
 			leavePercentage = (leaveCount * 100 / total);
+		if(leaveApprovalPending > 0)
+			leaveAppPendPercentage = (leaveApprovalPending * 100 / total);
 		
 		AttendanceData attendanceData = new AttendanceData();
 		attendanceData.setTotal(total);
 		attendanceData.setLeave(leaveCount);
 		attendanceData.setMarked(marked);
+		attendanceData.setLeaveAppPending(leaveApprovalPending);
 		attendanceData.setMarked_percent(markedPercentage);
 		attendanceData.setUnmarked(unmarked);
 		attendanceData.setUnmarked_percent(unmarkedPercentage);
 		attendanceData.setLeave_percent(leavePercentage);
+		attendanceData.setLeave_app_pend_percent(leaveAppPendPercentage);
 		if(attendanceByAccount instanceof AttendanceByAccount){
 			AttendanceByAccount atn = (AttendanceByAccount) attendanceByAccount;
 			attendanceData.setAccountName(atn.getAccountName());
@@ -246,11 +251,13 @@ public class BCMService {
 		int markedPercentage = 0;
 		int unmarkedPercentage=0;
 		int leavePercentage=0;
+		int leaveAppPendPercentage=0;
 		
 		int overAllTotal = 0;
 		int overAllMarked = 0;
 		int overAllUnMarked = 0;
 		int overAllLeave = 0;
+		int overAllLeaveAppPending = 0;
 		List<AttendanceData> attendanceDataList = new ArrayList<AttendanceData>();
 		for(int i=0; i<attendenceLst.size(); i++ ){
 				total = attendenceLst.get(i).getTotal();
@@ -264,20 +271,24 @@ public class BCMService {
 					unmarkedPercentage = (unmarked * 100 / total);
 				if(leaveCount > 0)
 					leavePercentage = (leaveCount * 100 / total);
+				if(leaveApprovalPending > 0)
+					leaveAppPendPercentage = (leaveApprovalPending * 100 / total);
 				
 				overAllTotal = overAllTotal+total;
 				overAllMarked = overAllMarked+marked;
 				overAllUnMarked = overAllUnMarked+unmarked;
 				overAllLeave = overAllLeave+leaveCount;
-				
+				overAllLeaveAppPending = overAllLeaveAppPending+leaveApprovalPending;
 				AttendanceData attendanceData = new AttendanceData();
 				attendanceData.setTotal(total);
 				attendanceData.setLeave(leaveCount);
+				attendanceData.setLeaveAppPending(leaveApprovalPending);
 				attendanceData.setMarked(marked);
 				attendanceData.setMarked_percent(markedPercentage);
 				attendanceData.setUnmarked(unmarked);
 				attendanceData.setUnmarked_percent(unmarkedPercentage);
 				attendanceData.setLeave_percent(leavePercentage);
+				attendanceData.setLeave_app_pend_percent(leaveAppPendPercentage);
 				if(attendenceLst.get(i) instanceof AttendanceByAccount){
 					AttendanceByAccount atn = (AttendanceByAccount) attendenceLst.get(i);
 					attendanceData.setAccountName(atn.getAccountName());
@@ -295,6 +306,7 @@ public class BCMService {
 			attendanceData.setMarked(overAllMarked);
 			attendanceData.setUnmarked(overAllUnMarked);
 			attendanceData.setLeave(overAllLeave);
+			attendanceData.setLeaveAppPending(overAllLeaveAppPending);
 			attendanceData.setLocationName("ORGANISATION WIDE");
 			attendanceDataList.add(0,attendanceData);
 		}

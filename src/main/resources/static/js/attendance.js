@@ -23,7 +23,7 @@ $(function(){
 					$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
 				});
 			},error : function() {
-				alert("Server error while fetching account");
+				alert("Server error while fetching  get All Accounts Or Locations");
 			}
 		});
         });
@@ -33,19 +33,40 @@ $(function(){
 		$("#attendanceTable").empty();
 		$('#attendanceWiseTypeMsg').empty();
     	$('#attendanceDateMsg').empty();
+    	$('#attendanceTypeMsg').empty();
+    	$('#attendanceTypeValuesMsg').empty();
 	var date = $("#attandanceDate").val();
 	var attendanceWiseType = $("#attendanceWiseType").val();
 	var attdTypeValue = $("#attendanceTypeValue").val();
 	var attdType = $("#attendanceType").val();
+	var attendanceType = $("#attendanceType").val();
+	var attendanceTypeValue = $("#attendanceTypeValue").val();
 	$("#bar-chartcanvas").empty();
 	if(attendanceWiseType == null || attendanceWiseType == 'empty' ){
-		$("#attendanceWiseTypeMsg").append("<font color='red'>Please select attendance type</font>");
+		$("#attendanceWiseTypeMsg").append("<font color='red'>Please select attendance wise</font>");
 		return false;
 	} else {
 		$('#attendanceWiseTypeMsg').attr('style','display: none;');
 		$('#attendanceWiseTypeMsg').empty();
 	}
+	if((attendanceWiseType == 'ACCOUNT') && (attendanceTypeValue =='empty' || attendanceTypeValue == null)){
+		$("#attendanceTypeValuesMsg").append("<font color='red'>Please select any Account</font>");
+		return false;
+	} else if ((attendanceWiseType == 'LOCATION') && (attendanceTypeValue =='empty' || attendanceTypeValue == null)){
+		$("#attendanceTypeValuesMsg").append("<font color='red'>Please select any Location</font>");
+		return false;
+	}else {
+		$('#attendanceTypeValuesMsg').attr('style','display: none;');
+		$('#attendanceTypeValuesMsg').empty();
+	}
 	
+	if(attendanceType == null || attendanceType == 'empty' ){
+		$("#attendanceTypeMsg").append("<font color='red'>Please select attendance type</font>");
+		return false;
+	} else {
+		$('#attendanceTypeMsg').attr('style','display: none;');
+		$('#attendanceTypeMsg').empty();
+	}
 	
 	if(!date.trim()){
 		$('#attendanceDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
@@ -67,6 +88,11 @@ $(function(){
 	var unmarked = [];
 	var unMarkedBgColor = [];
 	var unMarkedBdColor = [];
+	var leaveAppPending = [];
+	var leaveAppPendingBgColor = [];
+	var leaveAppPendingBdColor = [];
+	
+	
 	var leave = [];
 	var leaveBgColor = [];
 	var leaveBdColor = [];
@@ -108,8 +134,12 @@ $(function(){
 				
 				
 				leave.push(item.leave);
-				leaveBgColor.push("rgba(255,255,0,1");
-				leaveBdColor.push("rgba(255,255,0,1");
+				leaveBgColor.push("rgba(242, 255, 10,1");
+				leaveBdColor.push("rgba(242, 255, 10,1");
+				
+				leaveAppPending.push(item.leaveAppPending);
+				leaveAppPendingBgColor.push("rgba(54, 4, 164,0.8)");
+				leaveAppPendingBdColor.push("rgba(54, 4, 164,1)");
 				
 				//sno=(sno+1);
 			});
@@ -156,6 +186,13 @@ $(function(){
 			        borderWidth: 1
 			      },
 			      {
+			            label: "Leave",
+			            data: leave,
+			            backgroundColor: leaveBgColor,
+			            borderColor: leaveBdColor,
+			            borderWidth: 1
+			          },
+			      {
 			          label: "Attendance Unmarked",
 			          data: unmarked,
 			          backgroundColor: unMarkedBgColor,
@@ -164,13 +201,13 @@ $(function(){
 			         // hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
 			          borderWidth: 1
 			        },
-			        {
-			            label: "Leave",
-			            data: leave,
-			            backgroundColor: leaveBgColor,
-			            borderColor: leaveBdColor,
-			            borderWidth: 1
-			          }
+				        {
+				            label: "Leave - Approval Pending",
+				            data: leaveAppPending,
+				            backgroundColor: leaveAppPendingBgColor,
+				            borderColor: leaveAppPendingBdColor,
+				            borderWidth: 1
+				          }
 			    ]
 			  };
 
