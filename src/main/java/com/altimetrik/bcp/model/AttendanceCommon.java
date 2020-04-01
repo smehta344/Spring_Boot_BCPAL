@@ -2,53 +2,53 @@ package com.altimetrik.bcp.model;
 
 public class AttendanceCommon {
 	
-	int total;
+	double total;
 	
-	int marked;
+	double marked;
 	
-	int unmarked;
+	double unmarked;
 	
-	int leave_count;
+	double leave_count;
 	
-	int leave_app_pend;
+	double leave_app_pend;
 		
-    public int getTotal() {
+    public double getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 
-	public int getMarked() {
+	public double getMarked() {
 		return marked;
 	}
 
-	public void setMarked(int marked) {
+	public void setMarked(double marked) {
 		this.marked = marked;
 	}
 
-	public int getUnmarked() {
+	public double getUnmarked() {
 		return unmarked;
 	}
 
-	public void setUnmarked(int unmarked) {
+	public void setUnmarked(double unmarked) {
 		this.unmarked = unmarked;
 	}
 
-	public int getLeave_count() {
+	public double getLeave_count() {
 		return leave_count;
 	}
 
-	public void setLeave_count(int leave_count) {
+	public void setLeave_count(double leave_count) {
 		this.leave_count = leave_count;
 	}
 
-	public int getLeave_app_pend() {
+	public double getLeave_app_pend() {
 		return leave_app_pend;
 	}
 
-	public void setLeave_app_pend(int leave_app_pend) {
+	public void setLeave_app_pend(double leave_app_pend) {
 		this.leave_app_pend = leave_app_pend;
 	}
 

@@ -31,13 +31,13 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	public AttendanceByAccount getAttendByParticularAccount(@Param("accountName") String accountName,@Param("startDate") String startDate);
 	
 	@Query(nativeQuery = true, name = "getAttendanceByAccountNameAndAttdStatus")
-	public List<AttendanceByAccount> getAttendByAllAccountsAndAttdStatus(@Param("attendanceStatus") String attendanceStatus,@Param("startDate") String startDate);
+	public List<AttendanceByAccount> getAttendByAllAccountsAndAttdStatus(@Param("startDate") String startDate);
 
 	@Query(nativeQuery = true, name = "getAttendanceByLocationName")
 	public AttendanceByLocation getAttendByParticularLocation(@Param("clinetLocation") String clinetLocation,@Param("startDate") String startDate);
 	
 	@Query(nativeQuery = true, name = "getAttendanceByLocationAndAttdStatus")
-	public List<AttendanceByLocation> getAttendByAllLocationsAndAttdStatus(@Param("attendanceStatus") String attendanceStatus,@Param("startDate") String startDate);
+	public List<AttendanceByLocation> getAttendByAllLocationsAndAttdStatus(/*@Param("attendanceStatus") String attendanceStatus,*/@Param("startDate") String startDate);
 	
 	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndAttendanceDate(@Param("accountName") String accountName,@Param("startDate") Date startDate);
 	

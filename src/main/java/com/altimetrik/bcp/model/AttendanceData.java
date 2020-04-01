@@ -5,19 +5,20 @@ import java.util.List;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 
 public class AttendanceData {
-	int total;
-	int marked;
-	int unmarked;
-	int leave;
-	int leaveAppPending;
-	int marked_percent;
-	int unmarked_percent;
-	int leave_percent;
-	int leave_app_pend_percent;
+	double total;
+	double marked;
+	double unmarked;
+	double leave;
+	double leaveAppPending;
+	double marked_percent;
+	double unmarked_percent;
+	double leave_percent;
+	double leave_app_pend_percent;
 	int accountId;
 	String accountName;
 	String locationName;
 	List<AttendanceStatus> employeeDetails;
+	
 	public String getLocationName() {
 		return locationName;
 	}
@@ -33,53 +34,53 @@ public class AttendanceData {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-	public int getTotal() {
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
-	public int getMarked() {
+	public double getMarked() {
 		return marked;
 	}
-	public void setMarked(int marked) {
+	public void setMarked(double marked) {
 		this.marked = marked;
 	}
-	public int getUnmarked() {
+	public double getUnmarked() {
 		return unmarked;
 	}
-	public void setUnmarked(int unmarked) {
+	public void setUnmarked(double unmarked) {
 		this.unmarked = unmarked;
 	}
-	public int getLeave() {
+	public double getLeave() {
 		return leave;
 	}
-	public void setLeave(int leave) {
+	public void setLeave(double leave) {
 		this.leave = leave;
 	}
-	public int getMarked_percent() {
+	public double getMarked_percent() {
 		return marked_percent;
 	}
-	public void setMarked_percent(int marked_percent) {
+	public void setMarked_percent(double marked_percent) {
 		this.marked_percent = marked_percent;
 	}
-	public int getUnmarked_percent() {
+	public double getUnmarked_percent() {
 		return unmarked_percent;
 	}
-	public void setUnmarked_percent(int unmarked_percent) {
+	public void setUnmarked_percent(double unmarked_percent) {
 		this.unmarked_percent = unmarked_percent;
 	}
-	public int getLeave_percent() {
+	public double getLeave_percent() {
 		return leave_percent;
 	}
-	public void setLeave_percent(int leave_percent) {
+	public void setLeave_percent(double leave_percent) {
 		this.leave_percent = leave_percent;
 	}
 	
-	public int getLeave_app_pend_percent() {
+	public double getLeave_app_pend_percent() {
 		return leave_app_pend_percent;
 	}
-	public void setLeave_app_pend_percent(int leave_app_pend_percent) {
+	public void setLeave_app_pend_percent(double leave_app_pend_percent) {
 		this.leave_app_pend_percent = leave_app_pend_percent;
 	}
 	public int getAccountId() {
@@ -89,10 +90,10 @@ public class AttendanceData {
 		this.accountId = accountId;
 	}
 	
-	public int getLeaveAppPending() {
+	public double getLeaveAppPending() {
 		return leaveAppPending;
 	}
-	public void setLeaveAppPending(int leaveAppPending) {
+	public void setLeaveAppPending(double leaveAppPending) {
 		this.leaveAppPending = leaveAppPending;
 	}
 	public List<AttendanceStatus> getEmployeeDetails() {

@@ -1,5 +1,6 @@
 package com.altimetrik.bcp.controller;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,18 @@ public class DashBoardController {
 		else{
 			attendenceMap = bcmService.getAttendanceByLocation(typeValue, type, fromDate);
 		}
+		return ResponseEntity.ok().body(attendenceMap);
+	}
+	
+	@GetMapping(value = "/getAttendencePercent")
+	public ResponseEntity<Map<String, List<String>>> getAttendencePercent(@RequestParam("attendanceWise") String wiseType, 
+			@RequestParam("attdTypeValue") String typeValue,
+			@RequestParam("attdType") String type,
+			//@RequestParam("billingStatus") String billingStatus,
+			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate) throws ParseException{
+			Map<String, List<String>> attendenceMap = new TreeMap<>(); 
+			System.out.println("==typeValue=="+typeValue);
+			attendenceMap = bcmService.getAttendancePercent(wiseType,typeValue, type, fromDate);
 		return ResponseEntity.ok().body(attendenceMap);
 	}
 	

@@ -2,6 +2,7 @@ package com.altimetrik.bcp.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -12,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
@@ -136,7 +139,9 @@ public class AttendanceStatus {
 	String attendanceStatus;
 	
 	@JsonProperty("attendanceDate")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(
+			  shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "IST", locale = "en_GB")
 	@Column(name="Attendance_Date")
 	Date attendanceDate;
 

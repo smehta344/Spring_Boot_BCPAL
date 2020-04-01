@@ -1,8 +1,11 @@
 package com.altimetrik.bcp.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +26,10 @@ import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.model.AttendanceCommon;
 import com.altimetrik.bcp.model.AttendanceData;
+import com.altimetrik.bcp.model.AttendanceType;
 import com.altimetrik.bcp.model.PlanDetailFormData;
+import com.altimetrik.bcp.util.AppConstants;
+import com.altimetrik.bcp.util.BcpUtils;
 
 @Service
 public class BCMService {
@@ -100,7 +106,7 @@ public class BCMService {
 			}
 			return finalMap;
 		} else if(attdTypeValue.equals("all") && !attdType.equals("all")){
-			attendanceByAccountList = attendenceRepo.getAttendByAllAccountsAndAttdStatus(attdType,dateString);
+			attendanceByAccountList = attendenceRepo.getAttendByAllAccountsAndAttdStatus(dateString);
 			attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			attendanceDataList = calculatePercentage(attendanceByAccountList);
 			
@@ -144,6 +150,84 @@ public class BCMService {
 		return null;
 	}
 	
+	public Map<String,List<String>> getAttendancePercent(String wiseType, String attdTypeValue, String attdType, Date fromDate ) throws ParseException{
+		Map<Date,Map<String,Double>> finalMap = new TreeMap<>();
+		List<String> keyData = new ArrayList<>();
+		for(int day = 0; day < AppConstants.NO_OF_DAYS_TO_FETCH_ATTENDANCE_PERCENT ; day++){
+			Date date = BcpUtils.subtractDays(fromDate, day);
+			Map<String, AttendanceData> attendanceByAccount = null;
+			Map<String,Double> attendancePercentForParticularDate = new TreeMap<>();
+			
+			if(AttendanceType.ACCOUNT == AttendanceType.valueOf(wiseType)){
+				attendanceByAccount = getAttendanceByAccount(attdTypeValue, attdType, date);
+				if(attendanceByAccount.isEmpty()){
+					if(!attdTypeValue.equals("all")){
+						keyData.add(attdTypeValue);
+					} else {
+						keyData = getAccountNames();
+					}
+					
+					for(String key : keyData ){
+						attendancePercentForParticularDate.put(key.toUpperCase(), (double) 0);
+					}
+				}
+			} else {
+				attendanceByAccount = getAttendanceByLocation(attdTypeValue, attdType, date);
+				if(attendanceByAccount.isEmpty()){
+					if(!attdTypeValue.equals("all")){
+						keyData.add(attdTypeValue);
+					} else {
+						keyData = getClientLocations();
+						keyData.add("ORGANISATION WIDE");
+					}
+					
+					for(String key : keyData ){
+						attendancePercentForParticularDate.put(key.toUpperCase(), (double)0);
+					}
+					
+				}
+			}
+			
+			attendanceByAccount.forEach((k,v)->{
+				if(attdType.equals("Marked")){
+					attendancePercentForParticularDate.put(k.toUpperCase(), v.getMarked_percent());
+				} else if(attdType.equals("Not Marked")){
+					attendancePercentForParticularDate.put(k.toUpperCase(), v.getUnmarked_percent());
+				} else if (attdType.equals("Leave")){
+					attendancePercentForParticularDate.put(k.toUpperCase(), v.getLeave_percent());
+				} else if (attdType.equals("Leave - Approval Pending")){
+					attendancePercentForParticularDate.put(k.toUpperCase(), v.getLeave_app_pend_percent());
+				} else {
+					attendancePercentForParticularDate.put(k.toUpperCase(), v.getMarked_percent());
+				}
+			});
+			finalMap.put(BcpUtils.dateFormatterForAttdPercent(date),attendancePercentForParticularDate);
+		}
+		return formJsonDataForPercentageTable(finalMap, keyData);
+	}
+	
+	private Map<String,List<String>> formJsonDataForPercentageTable(Map<Date,Map<String,Double>> finalMap,List<String> keyData){
+		Map<String,List<String>> dd= new LinkedHashMap<>();
+		List<String> dateList = new ArrayList<>();
+		for (Map.Entry<Date,Map<String,Double>> entry : finalMap.entrySet()){
+			dateList.add(new SimpleDateFormat("dd/MMM/yyyy").format(entry.getKey()));
+		}
+		dd.put("", dateList);
+		for(String key : keyData){
+			List<String> list = new ArrayList<>();
+			for (Map.Entry<Date,Map<String,Double>> entry : finalMap.entrySet()){
+	            for (Map.Entry<String,Double> data : entry.getValue().entrySet()){
+	            	if(data.getKey().equals(key.toUpperCase())){
+	            		list.add(Double.toString(data.getValue()));
+	            	}
+	            }
+			}
+			dd.put(key.toUpperCase(),list);
+		}
+		return dd;
+	}
+	
+	
 	public Map<String, AttendanceData> getAttendanceByLocation(String attdTypeValue, String attdType,Date fromDate){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
@@ -158,7 +242,7 @@ public class BCMService {
 			}
 			return finalMap;
 		} else if(attdTypeValue.equals("all") && !attdType.equals("all")){
-			List<AttendanceByLocation> attendanceByAccountList = attendenceRepo.getAttendByAllLocationsAndAttdStatus(attdType,dateString);
+			List<AttendanceByLocation> attendanceByAccountList = attendenceRepo.getAttendByAllLocationsAndAttdStatus(dateString);
 			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			List<AttendanceData> attendanceDataList = calculatePercentage(attendanceByAccountList);
 			
@@ -204,60 +288,67 @@ public class BCMService {
 	}
 	
 	private AttendanceData calculatePercentageParticularAcc(AttendanceCommon attendanceByAccount){
-		int total = attendanceByAccount.getTotal();
-		int marked = attendanceByAccount.getMarked();
-		int unmarked = attendanceByAccount.getUnmarked();
-		int leaveCount = attendanceByAccount.getLeave_count();
-		int leaveApprovalPending = attendanceByAccount.getLeave_app_pend();
-		int markedPercentage = 0;
-		int unmarkedPercentage =0;
-		int leavePercentage = 0;
-		int leaveAppPendPercentage = 0;
-		if(marked > 0)
-			markedPercentage = (marked * 100 / total);
-		if(unmarked > 0)
-			unmarkedPercentage = (unmarked * 100 / total);
-		if(leaveCount > 0)
-			leavePercentage = (leaveCount * 100 / total);
-		if(leaveApprovalPending > 0)
-			leaveAppPendPercentage = (leaveApprovalPending * 100 / total);
-		
 		AttendanceData attendanceData = new AttendanceData();
-		attendanceData.setTotal(total);
-		attendanceData.setLeave(leaveCount);
-		attendanceData.setMarked(marked);
-		attendanceData.setLeaveAppPending(leaveApprovalPending);
-		attendanceData.setMarked_percent(markedPercentage);
-		attendanceData.setUnmarked(unmarked);
-		attendanceData.setUnmarked_percent(unmarkedPercentage);
-		attendanceData.setLeave_percent(leavePercentage);
-		attendanceData.setLeave_app_pend_percent(leaveAppPendPercentage);
-		if(attendanceByAccount instanceof AttendanceByAccount){
-			AttendanceByAccount atn = (AttendanceByAccount) attendanceByAccount;
-			attendanceData.setAccountName(atn.getAccountName());
-		}
-		else{
-			AttendanceByLocation atn = (AttendanceByLocation) attendanceByAccount;
-			attendanceData.setLocationName(atn.getClient_location());
+		if(attendanceByAccount != null){
+			double total = attendanceByAccount.getTotal();
+			double marked = attendanceByAccount.getMarked();
+			double unmarked = attendanceByAccount.getUnmarked();
+			double leaveCount = attendanceByAccount.getLeave_count();
+			double leaveApprovalPending = attendanceByAccount.getLeave_app_pend();
+			double markedPercentage = 0;
+			double unmarkedPercentage =0;
+			double leavePercentage = 0;
+			double leaveAppPendPercentage = 0;
+			if(marked > 0)
+				markedPercentage = (marked * 100 / total);
+			if(unmarked > 0)
+				unmarkedPercentage = (unmarked * 100 / total);
+			if(leaveCount > 0)
+				leavePercentage = (leaveCount * 100 / total);
+			if(leaveApprovalPending > 0)
+				leaveAppPendPercentage = (leaveApprovalPending * 100 / total);
+			
+			
+			attendanceData.setTotal(BcpUtils.roundDoubleValue(total));
+			attendanceData.setLeave(BcpUtils.roundDoubleValue(leaveCount));
+			attendanceData.setMarked(BcpUtils.roundDoubleValue(marked));
+			attendanceData.setLeaveAppPending(BcpUtils.roundDoubleValue(leaveApprovalPending));
+			attendanceData.setMarked_percent(BcpUtils.roundDoubleValue(markedPercentage));
+			attendanceData.setUnmarked(BcpUtils.roundDoubleValue(unmarked));
+			attendanceData.setUnmarked_percent(BcpUtils.roundDoubleValue(unmarkedPercentage));
+			attendanceData.setLeave_percent(BcpUtils.roundDoubleValue(leavePercentage));
+			attendanceData.setLeave_app_pend_percent(BcpUtils.roundDoubleValue(leaveAppPendPercentage));
+			if(attendanceByAccount instanceof AttendanceByAccount){
+				AttendanceByAccount atn = (AttendanceByAccount) attendanceByAccount;
+				attendanceData.setAccountName(atn.getAccountName());
+			}
+			else{
+				AttendanceByLocation atn = (AttendanceByLocation) attendanceByAccount;
+				attendanceData.setLocationName(atn.getClient_location());
+			}
 		}
 		return attendanceData;
 	}
 	public List<AttendanceData> calculatePercentage(List<? extends AttendanceCommon> attendenceLst){
-		int total;
-		int marked;
-		int unmarked;
-		int leaveCount;
-		int leaveApprovalPending;
-		int markedPercentage = 0;
-		int unmarkedPercentage=0;
-		int leavePercentage=0;
-		int leaveAppPendPercentage=0;
+		double total;
+		double marked;
+		double unmarked;
+		double leaveCount;
+		double leaveApprovalPending;
+		double markedPercentage = 0;
+		double unmarkedPercentage=0;
+		double leavePercentage=0;
+		double leaveAppPendPercentage=0;
 		
-		int overAllTotal = 0;
-		int overAllMarked = 0;
-		int overAllUnMarked = 0;
-		int overAllLeave = 0;
-		int overAllLeaveAppPending = 0;
+		double overAllTotal = 0;
+		double overAllMarked = 0;
+		double overAllUnMarked = 0;
+		double overAllLeave = 0;
+		double overAllLeaveAppPending = 0;
+		double overAllMarkedPercentage = 0;
+		double overAllUnmarkedPercentage=0;
+		double overAllLeavePercentage=0;
+		double overAllLeaveAppPendPercentage=0;
 		List<AttendanceData> attendanceDataList = new ArrayList<AttendanceData>();
 		for(int i=0; i<attendenceLst.size(); i++ ){
 				total = attendenceLst.get(i).getTotal();
@@ -267,12 +358,20 @@ public class BCMService {
 				leaveApprovalPending = attendenceLst.get(i).getLeave_app_pend();
 				if(marked > 0)
 					markedPercentage = (marked * 100 / total);
+				else 
+					markedPercentage = 0;
 				if(unmarked > 0)
 					unmarkedPercentage = (unmarked * 100 / total);
+				else 
+					unmarkedPercentage = 0;
 				if(leaveCount > 0)
 					leavePercentage = (leaveCount * 100 / total);
+				else 
+					leavePercentage = 0;
 				if(leaveApprovalPending > 0)
 					leaveAppPendPercentage = (leaveApprovalPending * 100 / total);
+				else 
+					leaveAppPendPercentage = 0;
 				
 				overAllTotal = overAllTotal+total;
 				overAllMarked = overAllMarked+marked;
@@ -280,15 +379,15 @@ public class BCMService {
 				overAllLeave = overAllLeave+leaveCount;
 				overAllLeaveAppPending = overAllLeaveAppPending+leaveApprovalPending;
 				AttendanceData attendanceData = new AttendanceData();
-				attendanceData.setTotal(total);
-				attendanceData.setLeave(leaveCount);
-				attendanceData.setLeaveAppPending(leaveApprovalPending);
-				attendanceData.setMarked(marked);
-				attendanceData.setMarked_percent(markedPercentage);
-				attendanceData.setUnmarked(unmarked);
-				attendanceData.setUnmarked_percent(unmarkedPercentage);
-				attendanceData.setLeave_percent(leavePercentage);
-				attendanceData.setLeave_app_pend_percent(leaveAppPendPercentage);
+				attendanceData.setTotal(BcpUtils.roundDoubleValue(total));
+				attendanceData.setLeave(BcpUtils.roundDoubleValue(leaveCount));
+				attendanceData.setLeaveAppPending(BcpUtils.roundDoubleValue(leaveApprovalPending));
+				attendanceData.setMarked(BcpUtils.roundDoubleValue(marked));
+				attendanceData.setMarked_percent(BcpUtils.roundDoubleValue(markedPercentage));
+				attendanceData.setUnmarked(BcpUtils.roundDoubleValue(unmarked));
+				attendanceData.setUnmarked_percent(BcpUtils.roundDoubleValue(unmarkedPercentage));
+				attendanceData.setLeave_percent(BcpUtils.roundDoubleValue(leavePercentage));
+				attendanceData.setLeave_app_pend_percent(BcpUtils.roundDoubleValue(leaveAppPendPercentage));
 				if(attendenceLst.get(i) instanceof AttendanceByAccount){
 					AttendanceByAccount atn = (AttendanceByAccount) attendenceLst.get(i);
 					attendanceData.setAccountName(atn.getAccountName());
@@ -301,12 +400,24 @@ public class BCMService {
 		}
 		
 		if(!attendenceLst.isEmpty() && attendenceLst.get(0) instanceof AttendanceByLocation){
+			if(overAllMarked > 0)
+				overAllMarkedPercentage = (overAllMarked * 100 / overAllTotal);
+			if(overAllUnMarked > 0)
+				overAllUnmarkedPercentage = (overAllUnMarked * 100 / overAllTotal);
+			if(overAllLeave > 0)
+				overAllLeavePercentage = (overAllLeave * 100 / overAllTotal);
+			if(overAllLeaveAppPending > 0)
+				overAllLeaveAppPendPercentage = (overAllLeaveAppPending * 100 / overAllTotal);
 			AttendanceData attendanceData = new AttendanceData();
-			attendanceData.setTotal(overAllTotal);
-			attendanceData.setMarked(overAllMarked);
-			attendanceData.setUnmarked(overAllUnMarked);
-			attendanceData.setLeave(overAllLeave);
-			attendanceData.setLeaveAppPending(overAllLeaveAppPending);
+			attendanceData.setTotal(BcpUtils.roundDoubleValue(overAllTotal));
+			attendanceData.setMarked(BcpUtils.roundDoubleValue(overAllMarked));
+			attendanceData.setUnmarked(BcpUtils.roundDoubleValue(overAllUnMarked));
+			attendanceData.setLeave(BcpUtils.roundDoubleValue(overAllLeave));
+			attendanceData.setLeaveAppPending(BcpUtils.roundDoubleValue(overAllLeaveAppPending));
+			attendanceData.setMarked_percent(BcpUtils.roundDoubleValue(overAllMarkedPercentage));
+			attendanceData.setUnmarked_percent(BcpUtils.roundDoubleValue(overAllUnmarkedPercentage));
+			attendanceData.setLeave_percent(BcpUtils.roundDoubleValue(overAllLeavePercentage));
+			attendanceData.setLeave_app_pend_percent(BcpUtils.roundDoubleValue(overAllLeaveAppPendPercentage));
 			attendanceData.setLocationName("ORGANISATION WIDE");
 			attendanceDataList.add(0,attendanceData);
 		}
