@@ -176,23 +176,28 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				//sno=(sno+1);
 			});
 			  var sno = 1;
-			  var accounttable = "<tbody><thead align='center'><tr align='center' class='table-primary'><th colspan='6'>OVERALL EMPLOYEE STATUS ["+date+"]</th>" +
+			  var accounttable = "<tbody><thead align='center'><tr align='center' class='table-primary'><th colspan='7'>OVERALL EMPLOYEE STATUS ["+date+"]</th>" +
 				"</tr></thead><thead align='center'> <tr class='table-primary'> <th scope='sNo'>S. No</th><th scope='eId'>ACCOUNT NAME</th>" +
 		  		"<th scope='eName'>MARKED</th>" +
-		  		"<th scope='col'>NOT MARKED</th><th scope='col'>LEAVE</th><th scope='col'>TOTAL</th></tr>";
+		  		"<th scope='col'>NOT MARKED</th><th scope='col'>LEAVE</th><th scope='col'>TOTAL</th><th scope='col'>MARKED (%)</th></tr>";
 			  	$("#attendancePercentTable").empty();
 				  for(var i = 0 in labelsArr){
+					  var percent  = ((marked[i]/(total[i]-leave[i]))*100);
+					  if(isNaN(percent)){
+						  percent = 0;
+					  }
 					  accounttable = accounttable+"<tr><th class='table-primary'>"+ sno +"</th><th class='table-primary'>"+labelsArr[i]+"</th>" +
 				  		"<td class='table-warning'>"+marked[i]+"</td><td class='table-warning'>"+unmarked[i]+"</td>" +
-		  				"<td class='table-warning'>"+leave[i]+"</td><td class='table-warning'>"+total[i]+"</td></tr>";
+		  				"<td class='table-warning'>"+leave[i]+"</td><td class='table-warning'>"+total[i]+"</td>" +
+		  						"<td class='table-warning'>"+percent.toFixed(1)+"</td></tr>";
 						
 					  sno=(sno+1);
 				  }
 				  accounttable= accounttable+"<tr><th class='table-primary' colspan='2'>TOTAL</th>" +
-				  		"<td class='table-warning'>"+marked.reduce(addElementsInList)+"</td>" +
-				  				"<td class='table-warning'>"+unmarked.reduce(addElementsInList)+"</td>" +
-				  						"<td class='table-warning'>"+leave.reduce(addElementsInList)+"</td>" +
-				  								"<td class='table-warning'>"+total.reduce(addElementsInList)+"</td></tr>"
+				  		"<td class='table-primary'>"+marked.reduce(addElementsInList)+"</td>" +
+				  				"<td class='table-primary'>"+unmarked.reduce(addElementsInList)+"</td>" +
+				  						"<td class='table-primary'>"+leave.reduce(addElementsInList)+"</td>" +
+				  								"<td class='table-primary'>"+total.reduce(addElementsInList)+"</td><td class='table-primary'>-</td></tr>"
 				  		
 				  accounttable = accounttable+"</tbody>";
 				  $("#attendancePercentTable").append(accounttable);
@@ -229,7 +234,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				       // hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
 				        borderWidth: 1
 				      },
-			      {
+			      /*{
 			            label: "Leave (%)",
 			            data: leavePercent,
 			            backgroundColor: leaveBgColor,
@@ -251,7 +256,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				            backgroundColor: leaveAppPendingBgColor,
 				            borderColor: leaveAppPendingBdColor,
 				            borderWidth: 1
-				          }
+				          }*/
 			    ]
 			  };
 
@@ -261,7 +266,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 			    title: {
 			      display: true,
 			      position: "top",
-			      text: "Overall Attendance (%)",
+			      text: "Marked Attendance (%)",
 			      fontSize: 18,
 			      fontColor: "#0000ff"
 			    },

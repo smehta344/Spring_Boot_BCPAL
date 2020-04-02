@@ -32,8 +32,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	                    @ColumnResult(name = "total",type=Integer.class),
 	                    @ColumnResult(name = "marked",type=Integer.class),
 	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class),
-	                    @ColumnResult(name = "leave_app_pend",type=Integer.class)
+	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
 	    )
@@ -47,8 +47,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	                    @ColumnResult(name = "total",type=Integer.class),
 	                    @ColumnResult(name = "marked",type=Integer.class),
 	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class),
-	                    @ColumnResult(name = "leave_app_pend",type=Integer.class)
+	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
 	    )

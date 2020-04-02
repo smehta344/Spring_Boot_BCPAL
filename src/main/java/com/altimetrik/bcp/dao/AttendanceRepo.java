@@ -42,18 +42,11 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	@Query(nativeQuery = true, name = "getAttendanceByLocationAndAttdStatus")
 	public List<AttendanceByLocation> getAttendByAllLocationsAndAttdStatus(/*@Param("attendanceStatus") String attendanceStatus,*/@Param("startDate") String startDate);
 	
-	
-	
-	
-	
-	
 	@Query(nativeQuery = true, name = "findAllAccountDataWithDateAndBillingStatus")
 	public List<AttendanceByAccount> getAttendByAllAccountsDateAndBillingStatus(@Param("category") String category,@Param("startDate") String startDate);
 	
 	@Query(nativeQuery = true, name = "getAttendByParticularAccountWithCategory")
 	public AttendanceByAccount getAttendByParticularAccountWithCategory(@Param("accountName") String accountName,@Param("category") String category,@Param("startDate") String startDate);
-	
-	
 	
 	@Query(nativeQuery = true, name = "getAttendByAllLocationsDateAndBillingStatus")
 	public List<AttendanceByLocation> getAttendByAllLocationsDateAndBillingStatus(@Param("category") String category,@Param("startDate") String startDate);
@@ -75,12 +68,27 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	
 	public List<AttendanceStatus> getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
 	
-	
-	
 	public List<AttendanceStatus> getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
 	
 	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(@Param("accountName") String accountName,@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
 	
 	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndCategoryAndAttendanceDate(@Param("accountName") String accountName,@Param("category") String category,@Param("startDate") Date startDate);
 	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.attendance_status IN (:names) AND a.attendance_date = :date")
+    List<AttendanceStatus> getAttendanceStatusByLeaveAndDate(@Param("names")List<String> names,@Param("date") Date startDate);
+	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.account_name = :accountName AND a.attendance_status IN (:names) AND a.attendance_date = :date")
+    List<AttendanceStatus> getAttendanceStatusByAccountNameAndLeaveAndAttendanceDate(@Param("accountName") String accountName,@Param("names")List<String> names,@Param("date") Date startDate);
+	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.attendance_status IN (:names) AND a.category = :category AND a.attendance_date = :date ")
+    List<AttendanceStatus> getAttendanceStatusByLeaveAndCategoryAndAttendanceDate(@Param("names")List<String> names,@Param("category") String category,@Param("date") Date startDate);
+	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.account_name = :accountName AND a.attendance_status IN (:names) AND a.category = :category AND a.attendance_date = :date ")
+    List<AttendanceStatus> getAttendanceStatusByAccountNameAndLeaveAndCategoryAndAttendanceDate(@Param("accountName") String accountName,@Param("names")List<String> names,@Param("category") String category,@Param("date") Date startDate);
+	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.client_location = :clinetLocation AND a.attendance_status IN (:names) AND a.attendance_date = :date")
+    List<AttendanceStatus> getAttendanceStatusByClinetLocationAndLeaveAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("names")List<String> names,@Param("date") Date startDate);
+	
+	@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.client_location = :clinetLocation AND a.attendance_status IN (:names) AND a.category = :category AND a.attendance_date = :date ")
+    List<AttendanceStatus> getAttendanceStatusByClinetLocationAndLeaveAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("names")List<String> names,@Param("category") String category,@Param("date") Date startDate);
 }

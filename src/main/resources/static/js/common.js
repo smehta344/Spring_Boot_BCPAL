@@ -21,11 +21,23 @@ function isWeekend(incomeDate){
 	return (day === 6) || (day === 0);
 }
 
+function getYesterdaysDate(){
+    var date = new Date();
+    date.setDate(date.getDate()-2);
+    return (date.getDay() < 10 ? '0' : '') + '/' + ((date.getMonth()+1) < 10 ? '0' : '') + '/' + date.getFullYear();
+}
+
 
 $(function () {
-	
-    $('#currentDate').datetimepicker({
-    	format: 'yyyy-mm-dd'
-    	});
-    
+	$('#attandanceDate').datepicker().on('change', function(){
+        $('.datepicker').hide();
+    });
+    $('#currentDate').datepicker({
+    	format: "mm/dd/yyyy",
+        todayBtn: true,
+        defaultDate: moment().subtract(1, 'days'),
+        clearBtn: true
+      }).on('change', function(){
+          $('.datepicker').hide();
+      });
 });
