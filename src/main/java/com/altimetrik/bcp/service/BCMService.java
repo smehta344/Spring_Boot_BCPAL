@@ -90,13 +90,13 @@ public class BCMService {
 		return projList;
 	}
 	
-	public Map<String, AttendanceData> getAttendanceByAccount(String attdTypeValue, String attdType, Date fromDate ){
+	public Map<String, AttendanceData> getAttendanceByAccount(String attdTypeValue, String billingStatus, String attdType, Date fromDate ){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
 		List<AttendanceByAccount> attendanceByAccountList = new ArrayList<>();
 		List<AttendanceData> attendanceDataList = new ArrayList<>();
 		List<AttendanceStatus> attendanceStatusList = new ArrayList<>();
-		if(attdTypeValue.equals("all") && attdType.equals("all")){
+		if(attdTypeValue.equals("all") && attdType.equals("all") && billingStatus.equals("all")){
 			attendanceByAccountList = attendenceRepo.getAttendByAllAccounts(dateString);
 			List<AttendanceData> attnPercentageData = calculatePercentage(attendanceByAccountList);
 			Map<String,AttendanceData> finalMap = new TreeMap<>();
@@ -105,7 +105,7 @@ public class BCMService {
 					finalMap.put(data.getAccountName(), data);
 			}
 			return finalMap;
-		} else if(attdTypeValue.equals("all") && !attdType.equals("all")){
+		} else if(attdTypeValue.equals("all") && !attdType.equals("all") && billingStatus.equals("all")){
 			attendanceByAccountList = attendenceRepo.getAttendByAllAccountsAndAttdStatus(dateString);
 			attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			attendanceDataList = calculatePercentage(attendanceByAccountList);
@@ -125,7 +125,7 @@ public class BCMService {
 				}
 			}
 			return finalMap;
-		} else if(!attdTypeValue.equals("all") && attdType.equals("all")) {
+		} else if(!attdTypeValue.equals("all") && attdType.equals("all") && billingStatus.equals("all")) {
 			AttendanceByAccount attendanceByAccount = attendenceRepo.getAttendByParticularAccount(attdTypeValue,dateString);
 			attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceDate(attdTypeValue,fromDate);
 			//List<AttendanceStatus> attendanceStatusByAccountName = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatus(attdTypeValue,"marked");
@@ -136,9 +136,68 @@ public class BCMService {
 				finalMap.put(attnPercentageData.getAccountName(), attnPercentageData);
 			}
 			return finalMap;
-		} else if(!attdTypeValue.equals("all") && !attdType.equals("all")){
+		} else if(!attdTypeValue.equals("all") && !attdType.equals("all") && billingStatus.equals("all")){
 			AttendanceByAccount attendanceByAccount = attendenceRepo.getAttendByParticularAccount(attdTypeValue,dateString);
 			attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndAttendanceDate(attdTypeValue,attdType,fromDate);
+			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
+			attnPercentageData.setEmployeeDetails(attendanceStatusList);
+			Map<String,AttendanceData> finalMap = new TreeMap<>();
+			if(attnPercentageData.getAccountName() != null){
+				finalMap.put(attnPercentageData.getAccountName(), attnPercentageData);
+			}
+			return finalMap;
+			
+			
+		} else if(attdTypeValue.equals("all") && attdType.equals("all") && !billingStatus.equals("all")){
+			attendanceByAccountList = attendenceRepo.getAttendByAllAccountsDateAndBillingStatus(billingStatus,dateString);
+			List<AttendanceData> attnPercentageData = calculatePercentage(attendanceByAccountList);
+			Map<String,AttendanceData> finalMap = new TreeMap<>();
+			for(AttendanceData data : attnPercentageData){
+				if(data.getAccountName() != null)
+					finalMap.put(data.getAccountName(), data);
+			}
+			return finalMap;
+		}
+		 else if(attdTypeValue.equals("all") && !attdType.equals("all") && !billingStatus.equals("all")){
+				attendanceByAccountList = attendenceRepo.getAttendByAllAccountsDateAndBillingStatus(billingStatus,dateString);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
+				attendanceDataList = calculatePercentage(attendanceByAccountList);
+				
+				Map<String,AttendanceData> finalMap = new TreeMap<>();
+				for(AttendanceData data : attendanceDataList){
+					if(data.getAccountName() != null){
+						List<AttendanceStatus> datas = new ArrayList<>();
+						for(AttendanceStatus status : attendanceStatusList){
+							if(status.getAccountName()!= null && 
+									status.getAccountName().equalsIgnoreCase(data.getAccountName())){
+								datas.add(status);
+							}
+						}
+						data.setEmployeeDetails(datas);
+						finalMap.put(data.getAccountName(), data);
+					}
+				}
+				return finalMap;
+			} 
+		 else if(!attdTypeValue.equals("all") && attdType.equals("all") && !billingStatus.equals("all")) {
+				AttendanceByAccount attendanceByAccount = attendenceRepo.getAttendByParticularAccountWithCategory(attdTypeValue,billingStatus,dateString);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndCategoryAndAttendanceDate(attdTypeValue,billingStatus,fromDate);
+				//List<AttendanceStatus> attendanceStatusByAccountName = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatus(attdTypeValue,"marked");
+				AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
+				attnPercentageData.setEmployeeDetails(attendanceStatusList);
+				Map<String,AttendanceData> finalMap = new TreeMap<>();
+				if(attnPercentageData.getAccountName() != null){
+					finalMap.put(attnPercentageData.getAccountName(), attnPercentageData);
+				}
+				return finalMap;
+		} 
+		
+		
+		
+		
+		else if(!attdTypeValue.equals("all") && !attdType.equals("all") && !billingStatus.equals("all")){
+			AttendanceByAccount attendanceByAccount = attendenceRepo.getAttendByParticularAccountWithCategory(attdTypeValue,billingStatus,dateString);
+			attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
 			attnPercentageData.setEmployeeDetails(attendanceStatusList);
 			Map<String,AttendanceData> finalMap = new TreeMap<>();
@@ -150,7 +209,7 @@ public class BCMService {
 		return null;
 	}
 	
-	public Map<String,List<String>> getAttendancePercent(String wiseType, String attdTypeValue, String attdType, Date fromDate ) throws ParseException{
+	public Map<String,List<String>> getAttendancePercent(String wiseType, String attdTypeValue, String billingStatus, String attdType, Date fromDate ) throws ParseException{
 		Map<Date,Map<String,Double>> finalMap = new TreeMap<>();
 		List<String> keyData = new ArrayList<>();
 		for(int day = 0; day < AppConstants.NO_OF_DAYS_TO_FETCH_ATTENDANCE_PERCENT ; day++){
@@ -159,7 +218,7 @@ public class BCMService {
 			Map<String,Double> attendancePercentForParticularDate = new TreeMap<>();
 			
 			if(AttendanceType.ACCOUNT == AttendanceType.valueOf(wiseType)){
-				attendanceByAccount = getAttendanceByAccount(attdTypeValue, attdType, date);
+				attendanceByAccount = getAttendanceByAccount(attdTypeValue, billingStatus, attdType, date);
 				if(attendanceByAccount.isEmpty()){
 					if(!attdTypeValue.equals("all")){
 						keyData.add(attdTypeValue);
@@ -172,13 +231,17 @@ public class BCMService {
 					}
 				}
 			} else {
-				attendanceByAccount = getAttendanceByLocation(attdTypeValue, attdType, date);
+				attendanceByAccount = getAttendanceByLocation(attdTypeValue,billingStatus,attdType, date);
 				if(attendanceByAccount.isEmpty()){
 					if(!attdTypeValue.equals("all")){
 						keyData.add(attdTypeValue);
 					} else {
-						keyData = getClientLocations();
-						keyData.add("ORGANISATION WIDE");
+						if(billingStatus.equals("all")){
+							keyData = getClientLocations();
+						} else {
+							keyData = getClientLocationsByCategory(billingStatus);
+						}
+						keyData.add(0,"ORGANISATION WIDE");
 					}
 					
 					for(String key : keyData ){
@@ -228,11 +291,11 @@ public class BCMService {
 	}
 	
 	
-	public Map<String, AttendanceData> getAttendanceByLocation(String attdTypeValue, String attdType,Date fromDate){
+	public Map<String, AttendanceData> getAttendanceByLocation(String attdTypeValue, String billingStatus, String attdType,Date fromDate){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
 		
-		if(attdTypeValue.equals("all") && attdType.equals("all")){
+		if(attdTypeValue.equals("all") && attdType.equals("all") && billingStatus.equals("all")){
 			List<AttendanceByLocation> attendanceList = attendenceRepo.getAttendByLocation(dateString);
 			List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
 			Map<String,AttendanceData> finalMap = new HashMap<>();
@@ -241,7 +304,7 @@ public class BCMService {
 					finalMap.put(data.getLocationName(), data);
 			}
 			return finalMap;
-		} else if(attdTypeValue.equals("all") && !attdType.equals("all")){
+		} else if(attdTypeValue.equals("all") && !attdType.equals("all") && billingStatus.equals("all")){
 			List<AttendanceByLocation> attendanceByAccountList = attendenceRepo.getAttendByAllLocationsAndAttdStatus(dateString);
 			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			List<AttendanceData> attendanceDataList = calculatePercentage(attendanceByAccountList);
@@ -261,7 +324,7 @@ public class BCMService {
 				}
 			}
 			return finalMap;
-		} else if(!attdTypeValue.equals("all") && attdType.equals("all")) {
+		} else if(!attdTypeValue.equals("all") && attdType.equals("all") && billingStatus.equals("all")) {
 			AttendanceByLocation attendanceByLocation = attendenceRepo.getAttendByParticularLocation(attdTypeValue,dateString);
 			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceDate(attdTypeValue,fromDate);
 			//List<AttendanceStatus> attendanceStatusByAccountName = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatus(attdTypeValue,"marked");
@@ -272,7 +335,7 @@ public class BCMService {
 				finalMap.put(attnPercentageData.getLocationName(), attnPercentageData);
 			}
 			return finalMap;
-		} else if(!attdTypeValue.equals("all") && !attdType.equals("all")){
+		} else if(!attdTypeValue.equals("all") && !attdType.equals("all") && billingStatus.equals("all")){
 			AttendanceByLocation attendanceByLocation = attendenceRepo.getAttendByParticularLocation(attdTypeValue,dateString);
 			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndAttendanceDate(attdTypeValue,attdType,fromDate);
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
@@ -282,7 +345,58 @@ public class BCMService {
 				finalMap.put(attnPercentageData.getLocationName(), attnPercentageData);
 			}
 			return finalMap;
-		}
+		} else if(attdTypeValue.equals("all") && attdType.equals("all") && !billingStatus.equals("all")){
+			List<AttendanceByLocation> attendanceList = attendenceRepo.getAttendByAllLocationsDateAndBillingStatus(billingStatus,dateString);
+			System.out.println("size="+attendanceList.size());
+			List<AttendanceData> attnPercentageData = calculatePercentage(attendanceList);
+			Map<String,AttendanceData> finalMap = new HashMap<>();
+			for(AttendanceData data : attnPercentageData){
+				if(data.getLocationName() != null)
+					finalMap.put(data.getLocationName(), data);
+			}
+			return finalMap;
+		} else if(attdTypeValue.equals("all") && !attdType.equals("all") && !billingStatus.equals("all")){
+			List<AttendanceByLocation> attendanceByAccountList = attendenceRepo.getAttendByAllLocationsDateAndBillingStatus(billingStatus,dateString);
+			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
+			List<AttendanceData> attendanceDataList = calculatePercentage(attendanceByAccountList);
+			
+			Map<String,AttendanceData> finalMap = new TreeMap<>();
+			for(AttendanceData data : attendanceDataList){
+				if(data.getLocationName() != null){
+					List<AttendanceStatus> datas = new ArrayList<>();
+					for(AttendanceStatus status : attendanceStatusList){
+						if(status.getClinetLocation()!= null && 
+								status.getClinetLocation().equalsIgnoreCase(data.getLocationName())){
+							datas.add(status);
+						}
+					}
+					data.setEmployeeDetails(datas);
+					finalMap.put(data.getLocationName(), data);
+				}
+			}
+			return finalMap;
+		}  else if(!attdTypeValue.equals("all") && attdType.equals("all") && !billingStatus.equals("all")) {
+			AttendanceByLocation attendanceByLocation = attendenceRepo.getAttendByLocationAndDateAndBillingStatus(attdTypeValue,billingStatus,dateString);
+			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndCategoryAndAttendanceDate(attdTypeValue,billingStatus,fromDate);
+			//List<AttendanceStatus> attendanceStatusByAccountName = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatus(attdTypeValue,"marked");
+			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
+			attnPercentageData.setEmployeeDetails(attendanceStatusList);
+			Map<String,AttendanceData> finalMap = new TreeMap<>();
+			if(attnPercentageData.getLocationName() != null){
+				finalMap.put(attnPercentageData.getLocationName(), attnPercentageData);
+			}
+			return finalMap;
+		} else if(!attdTypeValue.equals("all") && !attdType.equals("all") && !billingStatus.equals("all")){
+			AttendanceByLocation attendanceByLocation = attendenceRepo.getAttendByLocationAndDateAndBillingStatus(attdTypeValue,billingStatus,dateString);
+			List<AttendanceStatus> attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
+			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
+			attnPercentageData.setEmployeeDetails(attendanceStatusList);
+			Map<String,AttendanceData> finalMap = new TreeMap<>();
+			if(attnPercentageData.getLocationName() != null){
+				finalMap.put(attnPercentageData.getLocationName(), attnPercentageData);
+			}
+			return finalMap;
+		} 
 		return null;
 		
 	}
@@ -330,6 +444,7 @@ public class BCMService {
 		return attendanceData;
 	}
 	public List<AttendanceData> calculatePercentage(List<? extends AttendanceCommon> attendenceLst){
+		System.out.println("attendenceLst===>"+attendenceLst);
 		double total;
 		double marked;
 		double unmarked;
@@ -431,6 +546,9 @@ public class BCMService {
 	
 	public List<String> getClientLocations(){
 		return attendenceRepo.findDistinctClientLocation();
+	}
+	public List<String> getClientLocationsByCategory(String category){
+		return attendenceRepo.findDistinctClientLocationByCategory(category);
 	}
 	
 }

@@ -14,6 +14,14 @@ function formatDate(date) {
 
     return [year, month, day].join('/');
 }
+
+function isWeekend(incomeDate){
+	var date = new Date(incomeDate);
+	var day = date.getDay();
+	return (day === 6) || (day === 0);
+}
+
+
 $(function () {
 	
     $('#currentDate').datetimepicker({

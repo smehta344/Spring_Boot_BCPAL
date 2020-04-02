@@ -90,11 +90,10 @@
 				<div id="attendanceTypeValuesMsg"></div>
 				</div>
 				
-				<div class='col-sm-3'>
+				<div class='col-sm-2'>
 				<select class="form-control" name="attendanceType" id="attendanceType">
-					<option value="empty"  disabled hidden>
-						Select Attendance Type</option>
-					<option value="all" selected>ALL</option>
+					<option value="empty" disabled >
+						SELECT ATTENDANCE TYPE</option>
 					<option value="Marked">MARKED</option>
 					<option value="Not Marked">UNMARKED</option>
 					<option value="Leave">LEAVE</option>
@@ -103,19 +102,29 @@
 				<div id="attendanceTypeMsg"></div>
 				</div>
 				
-				<div class='col-sm-3'>
-				
-				
-				<div class="form-group date" data-date-format="yyyy/mm/dd" data-provide="datepicker">
-					<div class="input-group-prepend">
-
-						<input autocomplete="off" class="form-control" type="text" id="attandanceDate"
-							placeholder="Select Date "> <span class="input-group-text">
-							<span class="glyphicon glyphicon-calendar"></span>
-					</div>
+				<div class='col-sm-2'>
+				<select class="form-control" name="billingType" id="billingType">
+					<option value="empty"  disabled>
+						SELECT BILLING CATEGORY</option>
+					<option value="all" selected>ALL</option>
+					<option value="BILLED">BILLED</option>
+					<option value="Tech UnBilled">TECH UNBILLED</option>
+					<option value="NonTech Unbilled">NON-TECH UNBILLED </option>
+				</select> 
+				<div id="billingTypeMsg"></div>
 				</div>
 				
-				<div id="attendanceDateMsg"></div>
+				<div class='col-sm-2'>
+					<div class="form-group date" data-date-format="yyyy/mm/dd" data-provide="datepicker">
+						<div class="input-group-prepend">
+	
+							<input autocomplete="off" class="form-control" type="text" id="attandanceDate"
+								placeholder="Select Date "> <span class="input-group-text">
+								<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+					</div>
+					
+					<div id="attendanceDateMsg"></div>
 				</div>
 				
 				<div class='col-sm-2'>
@@ -126,7 +135,7 @@
 		</br></br>
 				
 				<div class="row">
-				<div class='col-sm-10'>
+				<div class='col-sm-12'>
 				<table class="table table-bordered table-hover" id="attendancePercentTable">
 				  
 				  
@@ -136,7 +145,7 @@
 				  </div>
 				  </div>
 				<br><br>
-				<div class="conatiner" style="width:1400px;height:600px;">
+				<div class="conatiner" style="width:1300px;height:600px;">
 					<!-- <div class="col-md-12"> -->
 	
 						<div class="chart-container">
@@ -149,8 +158,8 @@
 				</br></br>
 				
 				<div class="row">
-				<div class='col-sm-11'>
-					<table class="table table-bordered table-hover" id="attendanceTable">
+				<div class='col-lg-12'>
+					<table class="table table-bordered table-hover" id="attendanceTable" style="float:left; margin-right:10px;table-layout: fixed">
 					  
 					  </table>
 				  </div>

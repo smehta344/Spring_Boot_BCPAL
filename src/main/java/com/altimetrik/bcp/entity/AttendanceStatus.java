@@ -57,10 +57,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @NamedNativeQuery(name = "dataByLocationMapping", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.ATTENDANCE_LOCATION_QUERY)
 @NamedNativeQuery(name = "getAttendanceByAccountName", resultSetMapping ="AttendanceMapping",resultClass = AttendanceByAccount.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_ACC_NAME)
 @NamedNativeQuery(name = "getAttendanceByAccountNameAndAttdStatus", resultSetMapping ="AttendanceMapping",resultClass = AttendanceByAccount.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_ATTD_STATUS_AND_DATE)
-
-
 @NamedNativeQuery(name = "getAttendanceByLocationName", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_LOCATION)
 @NamedNativeQuery(name = "getAttendanceByLocationAndAttdStatus", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.GET_ATTENDANCE_LOCATION_COUNT_ATTD_STATUS_AND_DATE)
+
+@NamedNativeQuery(name = "findAllAccountDataWithDateAndBillingStatus", resultSetMapping ="AttendanceMapping",resultClass = AttendanceByAccount.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_CATEGORY_AND_DATE)
+@NamedNativeQuery(name = "getAttendByParticularAccountWithCategory", resultSetMapping ="AttendanceMapping",resultClass = AttendanceByAccount.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_ACC_NAME_AND_CATEGORY_DATE)
+
+@NamedNativeQuery(name = "getAttendByAllLocationsDateAndBillingStatus", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_LOCATION_AND_CATEGORY_DATE)
+@NamedNativeQuery(name = "getAttendByLocationAndDateAndBillingStatus", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_PARTICULAR_LOCATION_AND_CATEGORY_DATE)
+
 
 public class AttendanceStatus {
 	
@@ -109,7 +114,8 @@ public class AttendanceStatus {
 	@Column(name="Assignment_Status")
 	String assignmentStatus;
 	
-	@Column(name="category")
+	@JsonProperty("Category")
+	@Column(name="Category")
 	String category;
 	
 	@Column(name="DOJ")
@@ -148,9 +154,9 @@ public class AttendanceStatus {
 	@Override
 	public String toString() {
 		return "AttendanceStatus [S_NO=" + S_NO + ", employeeId=" + employeeId + ", empployeeName=" + empployeeName
-				+ ", accountName=" + accountName + ", dateOfJoining=" + dateOfJoining + ", reportingManager="
-				+ reportingManager + ", attendanceStatus=" + attendanceStatus + ", attendanceDate=" + attendanceDate
-				+ "]";
+				+ ", accountName=" + accountName + ", clinetLocation=" + clinetLocation + ", project=" + project
+				+ ", category=" + category + ", reportingManager=" + reportingManager + ", attendanceStatus="
+				+ attendanceStatus + ", attendanceDate=" + attendanceDate + "]";
 	}
 
 	public int getEmployeeId() {

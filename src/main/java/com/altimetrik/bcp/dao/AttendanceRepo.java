@@ -20,6 +20,9 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	
 	@Query(nativeQuery = true,value="SELECT DISTINCT a.client_location FROM attendance_status a ORDER BY a.client_location ASC")
 	List<String> findDistinctClientLocation();
+	
+	@Query(nativeQuery = true,value="SELECT DISTINCT a.client_location FROM attendance_status a where a.category = :category ORDER BY a.client_location ASC")
+	public List<String> findDistinctClientLocationByCategory(@Param("category") String category);
 
 	@Query(nativeQuery = true, name = "findAllDataMapping")
 	public List<AttendanceByAccount> getAttendByAllAccounts(@Param("startDate") String startDate);
@@ -39,6 +42,25 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	@Query(nativeQuery = true, name = "getAttendanceByLocationAndAttdStatus")
 	public List<AttendanceByLocation> getAttendByAllLocationsAndAttdStatus(/*@Param("attendanceStatus") String attendanceStatus,*/@Param("startDate") String startDate);
 	
+	
+	
+	
+	
+	
+	@Query(nativeQuery = true, name = "findAllAccountDataWithDateAndBillingStatus")
+	public List<AttendanceByAccount> getAttendByAllAccountsDateAndBillingStatus(@Param("category") String category,@Param("startDate") String startDate);
+	
+	@Query(nativeQuery = true, name = "getAttendByParticularAccountWithCategory")
+	public AttendanceByAccount getAttendByParticularAccountWithCategory(@Param("accountName") String accountName,@Param("category") String category,@Param("startDate") String startDate);
+	
+	
+	
+	@Query(nativeQuery = true, name = "getAttendByAllLocationsDateAndBillingStatus")
+	public List<AttendanceByLocation> getAttendByAllLocationsDateAndBillingStatus(@Param("category") String category,@Param("startDate") String startDate);
+	
+	@Query(nativeQuery = true, name = "getAttendByLocationAndDateAndBillingStatus")
+	public AttendanceByLocation getAttendByLocationAndDateAndBillingStatus(@Param("clinetLocation") String clinetLocation,@Param("category") String category,@Param("startDate") String startDate);
+	
 	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndAttendanceDate(@Param("accountName") String accountName,@Param("startDate") Date startDate);
 	
 	public List<AttendanceStatus> getAttendanceStatusByAttendanceStatusAndAttendanceDate(@Param("attendanceStatus") String attendanceStatus,@Param("startDate") Date startDate);
@@ -49,5 +71,16 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	
 	public List<AttendanceStatus> getAttendanceStatusByClinetLocationAndAttendanceStatusAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("attendanceStatus") String attendanceStatus,@Param("startDate") Date startDate);
 
-
+	public List<AttendanceStatus> getAttendanceStatusByClinetLocationAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("category") String category,@Param("startDate") Date startDate);
+	
+	public List<AttendanceStatus> getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
+	
+	
+	
+	public List<AttendanceStatus> getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
+	
+	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(@Param("accountName") String accountName,@Param("attendanceStatus") String attendanceStatus,@Param("category") String category,@Param("startDate") Date startDate);
+	
+	public List<AttendanceStatus> getAttendanceStatusByAccountNameAndCategoryAndAttendanceDate(@Param("accountName") String accountName,@Param("category") String category,@Param("startDate") Date startDate);
+	
 }

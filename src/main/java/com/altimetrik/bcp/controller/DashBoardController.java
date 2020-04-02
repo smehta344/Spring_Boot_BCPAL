@@ -28,14 +28,15 @@ public class DashBoardController {
 	@GetMapping(value = "/getAttendence")
 	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(@RequestParam("attendanceWise") String wiseType, 
 			@RequestParam("attdTypeValue") String typeValue,
+			@RequestParam("billingType") String billingStatus,
 			@RequestParam("attdType") String type,
 			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
 		Map<String, AttendanceData> attendenceMap = new TreeMap<>(); 
 		if(AttendanceType.ACCOUNT == AttendanceType.valueOf(wiseType)){
-			attendenceMap = bcmService.getAttendanceByAccount(typeValue, type, fromDate);
+			attendenceMap = bcmService.getAttendanceByAccount(typeValue, billingStatus, type,  fromDate);
 		}
 		else{
-			attendenceMap = bcmService.getAttendanceByLocation(typeValue, type, fromDate);
+			attendenceMap = bcmService.getAttendanceByLocation(typeValue, billingStatus, type, fromDate);
 		}
 		return ResponseEntity.ok().body(attendenceMap);
 	}
@@ -43,12 +44,11 @@ public class DashBoardController {
 	@GetMapping(value = "/getAttendencePercent")
 	public ResponseEntity<Map<String, List<String>>> getAttendencePercent(@RequestParam("attendanceWise") String wiseType, 
 			@RequestParam("attdTypeValue") String typeValue,
+			@RequestParam("billingType") String billingStatus,
 			@RequestParam("attdType") String type,
-			//@RequestParam("billingStatus") String billingStatus,
 			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate) throws ParseException{
 			Map<String, List<String>> attendenceMap = new TreeMap<>(); 
-			System.out.println("==typeValue=="+typeValue);
-			attendenceMap = bcmService.getAttendancePercent(wiseType,typeValue, type, fromDate);
+			attendenceMap = bcmService.getAttendancePercent(wiseType,typeValue, billingStatus, type, fromDate);
 		return ResponseEntity.ok().body(attendenceMap);
 	}
 	

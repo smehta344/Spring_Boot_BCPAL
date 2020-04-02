@@ -2,7 +2,7 @@ var chart;
 function getAccountNames(){
 	var urlForProject = urlForServer+"dashboard/getAccountNames";
 	$('#attendanceTypeValue').empty();
-	$('#attendanceTypeValue').append("<option value='empty' disabled hidden>Select Account</option>");
+	$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT ACCOUNT</option>");
 	$.ajax({
 		type : 'GET',
 		url : urlForProject,
@@ -17,11 +17,13 @@ function getAccountNames(){
 		}
 	});
 }
-
+function addElementsInList(total, num) {
+	  return total + num;
+}
 function getClientLocations(){
 	var urlForProject = urlForServer+"dashboard/getClientLocations";
 	$('#attendanceTypeValue').empty();
-	$('#attendanceTypeValue').append("<option value='empty' disabled hidden>Select Location</option>");
+	$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT LOCATION</option>");
 	$.ajax({
 		type : 'GET',
 		url : urlForProject,
@@ -37,7 +39,7 @@ function getClientLocations(){
 	});
 }
 
-function getAttendancePagePercentTable(attendanceWiseType,attendanceTypeValue,attendanceType,date){
+function getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType,billingType,date){
 	var urlForPercentTable = urlForServer+"dashboard/getAttendencePercent";
 	$("#attendancePercentTable").empty();
 	var totalPercent = [];
@@ -50,6 +52,7 @@ function getAttendancePagePercentTable(attendanceWiseType,attendanceTypeValue,at
 		data : {
 			attendanceWise:attendanceWiseType,
 			attdTypeValue:attendanceTypeValue,
+			billingType:billingType,
 			attdType:attendanceType,
 			fromDate:date
 		},
@@ -92,7 +95,7 @@ function getAttendancePagePercentTable(attendanceWiseType,attendanceTypeValue,at
 		}
 	});
 }
-function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType,date) {
+function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType,billingType,date) {
 
 	var urlForAttendance = urlForServer+"dashboard/getAttendence/";
 	//alert(urlForAttendance);
@@ -125,6 +128,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 		data : {
 			attendanceWise:attendanceWiseType,
 			attdTypeValue:attendanceTypeValue,
+			billingType:billingType,
 			attdType:attendanceType,
 			fromDate:date
 		},
@@ -172,7 +176,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				//sno=(sno+1);
 			});
 			  var sno = 1;
-			  var accounttable = "<tbody><thead align='center'><tr align='center' class='table-primary'><th colspan='6'>OVERALL EMPLOYEE STATUS</th>" +
+			  var accounttable = "<tbody><thead align='center'><tr align='center' class='table-primary'><th colspan='6'>OVERALL EMPLOYEE STATUS ["+date+"]</th>" +
 				"</tr></thead><thead align='center'> <tr class='table-primary'> <th scope='sNo'>S. No</th><th scope='eId'>ACCOUNT NAME</th>" +
 		  		"<th scope='eName'>MARKED</th>" +
 		  		"<th scope='col'>NOT MARKED</th><th scope='col'>LEAVE</th><th scope='col'>TOTAL</th></tr>";
@@ -184,20 +188,26 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 						
 					  sno=(sno+1);
 				  }
+				  accounttable= accounttable+"<tr><th class='table-primary' colspan='2'>TOTAL</th>" +
+				  		"<td class='table-warning'>"+marked.reduce(addElementsInList)+"</td>" +
+				  				"<td class='table-warning'>"+unmarked.reduce(addElementsInList)+"</td>" +
+				  						"<td class='table-warning'>"+leave.reduce(addElementsInList)+"</td>" +
+				  								"<td class='table-warning'>"+total.reduce(addElementsInList)+"</td></tr>"
+				  		
 				  accounttable = accounttable+"</tbody>";
 				  $("#attendancePercentTable").append(accounttable);
 			  if(empDetails.length > 0){
 				  $("#attendanceTable").empty();
-				  $("#attendanceTable").append("<tbody><thead><tr> <th scope='sNo'>S. No</th><th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th>" +
-				  		"<th scope='col'>ACCOUNT</th><th scope='col'>PROJECT</th><th scope='col'>LOCATION</th>" +
-				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
+				  $("#attendanceTable").append("<tbody><thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th><th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th>" +
+				  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
+				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th><th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
 				  var sno = 1;
 			  
 				  for(var i in empDetails){
-					  $("#attendanceTable").append("<tr><td>"+ sno +"</td><td>"+empDetails[i].empId+"</td>" +
+					  $("#attendanceTable").append("<tr class='table-warning'><td>"+ sno +"</td><td>"+empDetails[i].empId+"</td>" +
 					  		"<td>"+empDetails[i].empployeeName+"</td><td>"+empDetails[i].accountName+"</td>" +
 					  				"<td>"+empDetails[i].project+"</td><td>"+empDetails[i].clientLocation+"</td>" +
-					  						"<td>"+empDetails[i].reportManager+"</td><td>"+empDetails[i].attendanceStatus+"</td>" +
+					  						"<td>"+empDetails[i].reportManager+"</td><td>"+empDetails[i].Category+"</td><td>"+empDetails[i].attendanceStatus+"</td>" +
 					  								"<td>"+empDetails[i].attendanceDate+"</td></tr>");
 					  sno=(sno+1);
 				  }
@@ -309,10 +319,12 @@ $(function(){
 	var date = new Date();
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	
-	getAttendancePage('LOCATION', 'all', 'all', formatDate(today));
+	getAttendancePage('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
 	getClientLocations();
-	getAttendancePagePercentTable('LOCATION', 'all', 'all', formatDate(today));
+	getAttendancePagePercentTable('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
 	var record="";
+	$("#billingType").val('BILLED');
+	$("#attendanceType").val('Marked');
 	$('#attandanceDate').val(formatDate(today));
 	$("select#attendanceWiseType").change(function(){
 		var attendanceWiseType = $(this).children("option:selected").val();
@@ -320,11 +332,11 @@ $(function(){
         if(attendanceWiseType != 'empty' && attendanceWiseType =='ACCOUNT'){
         	var urlForProject = urlForServer+"dashboard/getAccountNames";
         	$('#attendanceTypeValue').empty();
-			$('#attendanceTypeValue').append("<option value='empty' selected disabled hidden>Select Account</option>");
+			$('#attendanceTypeValue').append("<option value='empty' selected disabled>SELECT ACCOUNT</option>");
         } else {
         	var urlForProject = urlForServer+"dashboard/getClientLocations";
         	$('#attendanceTypeValue').empty();
-			$('#attendanceTypeValue').append("<option value='empty' selected disabled hidden>Select Location</option>");
+			$('#attendanceTypeValue').append("<option value='empty' selected disabled>SELECT LOCATION</option>");
         }
 		$.ajax({
 			type : 'GET',
@@ -374,6 +386,7 @@ $(function(){
     	$('#attendanceTypeValuesMsg').empty();
 	var date = $("#attandanceDate").val();
 	var attendanceWiseType = $("#attendanceWiseType").val();
+	var billingType = $("#billingType").val();
 	var attendanceType = $("#attendanceType").val();
 	var attendanceTypeValue = $("#attendanceTypeValue").val();
 	$("#bar-chartcanvas").empty();
@@ -415,9 +428,9 @@ $(function(){
 	if(chart != null){
 		chart.destroy();
 	}
-	getAttendancePage(attendanceWiseType, attendanceTypeValue, attendanceType, date);
+	getAttendancePage(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	if(attendanceWiseType == 'LOCATION'){
-		getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType, date);
+		getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	}
 	});
 });
