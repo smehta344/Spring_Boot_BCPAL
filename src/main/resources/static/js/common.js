@@ -21,13 +21,6 @@ function isWeekend(incomeDate){
 	return (day === 6) || (day === 0);
 }
 
-function getYesterdaysDate(){
-    var date = new Date();
-    date.setDate(date.getDate()-2);
-    return (date.getDay() < 10 ? '0' : '') + '/' + ((date.getMonth()+1) < 10 ? '0' : '') + '/' + date.getFullYear();
-}
-
-
 $(function () {
 	$('#attandanceDate').datepicker().on('change', function(){
         $('.datepicker').hide();

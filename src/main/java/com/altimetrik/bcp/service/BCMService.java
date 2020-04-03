@@ -50,30 +50,12 @@ public class BCMService {
 		DailyStatus statusObj = createStatusObj(formaData);
 		statusRepo.save(statusObj);
 	}
-	
 	public DailyStatus createStatusObj(PlanDetailFormData formData){
 		DailyStatus statusObject = new DailyStatus();
 		statusObject.setDate(formData.getDate());
-		statusObject.setAccountId(formData.getAccountId());
+		statusObject.setChallenges(formData.getDeliveryChallenge());
 		statusObject.setLocationId(formData.getLocationId());
 		statusObject.setProjectId(formData.getProjectId());
-		statusObject.setLeaderId(formData.getLeaderId());
-		statusObject.setStatus(formData.getStatus());
-		statusObject.setTeamLogged(formData.getTeamLogged());
-		statusObject.setTeamSize(formData.getTeamSize());
-		statusObject.setDeliveryOnTrack(formData.getDeliveryOnTrack());
-		statusObject.setTargetPercentage(formData.getTargetPercentage());
-		statusObject.setActualPercentage(formData.getActualPercentage());
-		statusObject.setMilestone(formData.getMilestone());
-		statusObject.setDeliveryChallenges(formData.getDeliveryChallenge());
-		statusObject.setWfhChallenges(formData.getWfhChallenge());
-		statusObject.setDeliveryMitigationPlan(formData.getDeliveryMitigationPlan());
-		statusObject.setWfhMitigationPlan(formData.getWfhMitigationPlan());
-		statusObject.setHiringUpdates(formData.getHiringUpdates());
-		statusObject.setKeyDeliverable(formData.getKeyDeliverable());
-		
-		
-		
 		
 		//TODO Need to add below attributes with correct format
 		statusObject.setCreatedBy("Test");
@@ -84,30 +66,17 @@ public class BCMService {
 		return statusObject;
 	}
 	
-	public Leader getLeader(int projectId, int accountId){
+	public Leader getLeader(int locationId, int accountId){
 		Leader leader = new Leader();
 		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
 		for(ProjLocLeaderAssoc leaderAssoc:assocList){
 			if((leaderAssoc.getAccount().getId() == accountId) && 
-					leaderAssoc.getProject().getId() == projectId ){
+					leaderAssoc.getLocation().getId() == locationId ){
 				leader = leaderAssoc.getLeader();
 				return leader;
 			}
 		}
 		return leader;
-	}
-	
-	public Location getLeaderLocation(int projectId, int accountId){
-		Location location = new Location();
-		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
-		for(ProjLocLeaderAssoc leaderAssoc:assocList){
-			if((leaderAssoc.getAccount().getId() == accountId) && 
-					leaderAssoc.getProject().getId() == projectId ){
-				location = leaderAssoc.getLocation();
-				return location;
-			}
-		}
-		return location;
 	}
 	
 	public List<Project> getProjectById(int accountId){
@@ -120,6 +89,7 @@ public class BCMService {
 		}
 		return projList;
 	}
+	
 	
 	public Map<String, AttendanceData> getAttendanceByAccount(String attdTypeValue, String billingStatus, String attdType, Date fromDate ){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

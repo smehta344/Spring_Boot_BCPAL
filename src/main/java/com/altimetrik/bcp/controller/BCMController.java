@@ -64,18 +64,10 @@ public class BCMController {
 		return ResponseEntity.ok().body(accountList);
 	}
 
-	@GetMapping(value = "/getLeader/{projectId}/{accountId}")
-	public ResponseEntity<Leader> getLeaderById(@PathVariable("projectId") int projectId,
+	@GetMapping(value = "/getLeader/{locationId}/{accountId}")
+	public ResponseEntity<Leader> getLeaderById(@PathVariable("locationId") int locationId,
 			@PathVariable("accountId") int accountId) {
-		Leader leaderData = bcmService.getLeader(projectId, accountId);
-		return ResponseEntity.ok().body(leaderData);
-
-	}
-	
-	@GetMapping(value = "/getLeaderLocation/{projectId}/{accountId}")
-	public ResponseEntity<Location> getLeaderLocationById(@PathVariable("projectId") int projectId,
-			@PathVariable("accountId") int accountId) {
-		Location leaderData = bcmService.getLeaderLocation(projectId, accountId);
+		Leader leaderData = bcmService.getLeader(locationId, accountId);
 		return ResponseEntity.ok().body(leaderData);
 
 	}

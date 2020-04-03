@@ -21,7 +21,6 @@
 <link href="css/common.css" rel="stylesheet" />
 <!-- <link href="css/bootstrap-glypicons.css" rel="stylesheet" /> -->
 <link href="css/bootstrap-datepicker.min.css" rel="stylesheet" />
-<script src="js/moment.js"></script>
 
 </head>
 <body>
@@ -82,12 +81,18 @@
 					</div>
 				</div>
 				<div id="currentDateMsg"></div>
-				
+				<select class="form-control" name="Location" id="location">
+				<option value='empty' selected disabled hidden>Select Location</option>
+				</select> 
+				<div id="locationMsg"></div>
+				<br> 
 				<select class="form-control" name="account" id="account">
 				<option value='empty' selected disabled hidden>Select Account</option>
 				</select>
 				<div id="accountMsg"></div>
-				
+				</br>
+				<input class="form-control" id="engg_leader"  type="text"
+					disabled="disabled" placeholder="Engineering Leader"> 
 				</br> 
 				<select class="form-control" name="project" id="project">
 				<option value='empty' selected disabled hidden>Select Project</option>
@@ -96,15 +101,6 @@
 				<div id="specific_proj" style="display:none;"><br><input class='form-control' id='customProjectName' maxlength="20" type='text' placeholder='Project name'></div>
 				<div id="specific_projMsg"></div>
 				</br> 
-				
-				<input class="form-control" id="engg_leader"  type="text"
-					disabled="disabled" placeholder="Engineering Leader"> 
-					</br>
-				<select class="form-control" name="Location" id="location">
-				<option value='empty' selected disabled hidden>Select Location</option>
-				</select> 
-				<div id="locationMsg"></div>
-				<br> 
 				
 				<select class="form-control" name="proj_status" id="proj_status">
 					<option value="empty" selected disabled hidden>
@@ -134,7 +130,7 @@
 				</br>
 				
 				<div class="input-group mb-3">
-				  <input class="form-control" id="target" value = "0" type="number" min="0" max="100"
+				  <input class="form-control" id="target" type="number" min="0" max="100"
 					oninput="validity.valid||(value='');" placeholder="Targeted % of Completion on Sprint / Release">
 				  <div class="input-group-prepend">
 				    <div class="input-group-text">
@@ -144,7 +140,7 @@
 				</div>
 				<div id="targetMsg"></div>
 				<div class="input-group mb-3">
-				  <input class="form-control" id="actual" value = "0" type="number" min="0" max="100"
+				  <input class="form-control" id="actual" type="number" min="0" max="100"
 					oninput="validity.valid||(value='');" placeholder="Actual % of Completion on Sprint / Release">
 				  <div class="input-group-prepend">
 				    <div class="input-group-text">
@@ -157,7 +153,7 @@
 			<div class='col-sm-1'></div>
 			<div class='col-sm-6'>
 				<div class="form-group">
-					<label for="comment">Milestone Name:</label>
+					<label for="comment">Milestone:</label>
 					<textarea class="form-control" rows="2" id="milestone"></textarea>
 				</div>
 				<div id="milestoneMsg"></div>
@@ -186,12 +182,6 @@
 					<textarea class="form-control" rows="2" id="key_deliverables"></textarea>
 				</div>
 				<div id="key_deliverablesMsg"></div>
-				
-				<div class="form-group">
-					<label for="comment">Hiring Updates:</label>
-					<textarea class="form-control" rows="2" id="hiring_updates"></textarea>
-				</div>
-				<div id="hiring_updatesMsg"></div>
 			</div>
 		</div>
 

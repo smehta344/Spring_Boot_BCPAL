@@ -13,7 +13,7 @@ public class PlanDetailFormData {
 	int projectId;
 	String status;
 	int teamSize;
-	int teamLogged;
+	int loogedCount;
 	String deliveryOnTrack;
 	int targetPercentage;
 	int actualPercentage;
@@ -23,7 +23,6 @@ public class PlanDetailFormData {
 	String deliveryMitigationPlan;
 	String wfhChallenge;
 	String keyDeliverable;
-	String hiringUpdates;
 	
 	public int getAccountId() {
 		return accountId;
@@ -66,6 +65,12 @@ public class PlanDetailFormData {
 	}
 	public void setTeamSize(int teamSize) {
 		this.teamSize = teamSize;
+	}
+	public int getLoogedCount() {
+		return loogedCount;
+	}
+	public void setLoogedCount(int loogedCount) {
+		this.loogedCount = loogedCount;
 	}
 	public String getDeliveryOnTrack() {
 		return deliveryOnTrack;
@@ -114,41 +119,6 @@ public class PlanDetailFormData {
 	}
 	public void setKeyDeliverable(String keyDeliverable) {
 		this.keyDeliverable = keyDeliverable;
-	}
-	public int getTeamLogged() {
-		return teamLogged;
-	}
-	public void setTeamLogged(int teamLogged) {
-		this.teamLogged = teamLogged;
-	}
-	public String getWfhMitigationPlan() {
-		return wfhMitigationPlan;
-	}
-	public void setWfhMitigationPlan(String wfhMitigationPlan) {
-		this.wfhMitigationPlan = wfhMitigationPlan;
-	}
-	public String getDeliveryMitigationPlan() {
-		return deliveryMitigationPlan;
-	}
-	public void setDeliveryMitigationPlan(String deliveryMitigationPlan) {
-		this.deliveryMitigationPlan = deliveryMitigationPlan;
-	}
-	public String getHiringUpdates() {
-		return hiringUpdates;
-	}
-	public void setHiringUpdates(String hiringUpdates) {
-		this.hiringUpdates = hiringUpdates;
-	}
-	@Override
-	public String toString() {
-		return "PlanDetailFormData [date=" + date + ", locationId=" + locationId + ", accountId=" + accountId
-				+ ", leaderId=" + leaderId + ", projectId=" + projectId + ", status=" + status + ", teamSize="
-				+ teamSize + ", teamLogged=" + teamLogged + ", deliveryOnTrack=" + deliveryOnTrack
-				+ ", targetPercentage=" + targetPercentage + ", actualPercentage=" + actualPercentage + ", milestone="
-				+ milestone + ", deliveryChallenge=" + deliveryChallenge + ", wfhMitigationPlan=" + wfhMitigationPlan
-				+ ", deliveryMitigationPlan=" + deliveryMitigationPlan + ", wfhChallenge=" + wfhChallenge
-				+ ", keyDeliverable=" + keyDeliverable + ", hiringUpdates="
-				+ hiringUpdates + "]";
 	}
 	
 }

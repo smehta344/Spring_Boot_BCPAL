@@ -189,7 +189,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 					  accounttable = accounttable+"<tr><th class='table-primary'>"+ sno +"</th><th class='table-primary'>"+labelsArr[i]+"</th>" +
 				  		"<td class='table-warning'>"+marked[i]+"</td><td class='table-warning'>"+unmarked[i]+"</td>" +
 		  				"<td class='table-warning'>"+leave[i]+"</td><td class='table-warning'>"+total[i]+"</td>" +
-		  						"<td class='table-warning'>"+percent.toFixed(1)+"</td></tr>";
+		  						"<td class='table-warning'>"+percent.toFixed(1)+"%</td></tr>";
 						
 					  sno=(sno+1);
 				  }
