@@ -2,7 +2,6 @@ package com.altimetrik.bcp.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
