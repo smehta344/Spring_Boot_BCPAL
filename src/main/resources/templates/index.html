@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
     "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 
 <meta charset="utf-8" />
@@ -20,9 +20,9 @@
 
 <script>
 $(document).ready(function(){
-    $("#loginSubmit").click(function(){   
-    	var username = $("#inputEmail").val();
-    	var password = $("#inputPassword").val();
+    /* $("#loginSubmit").click(function(){   
+    	var username = $("#username").val();
+    	var password = $("#password").val();
         var url = urlForServer+"/login";
        
 		var datastr = '{"username":"'+username+'","password":"'+password+'"}';
@@ -38,7 +38,7 @@ $(document).ready(function(){
 				alert("error");
 			}
 		});
-    });
+    }); */
 });
 
 
@@ -54,12 +54,13 @@ $(document).ready(function(){
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
             <div class="form-signin">
+            <form action="/index" method="post">
               <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Email address" required autofocus>
               </div></br>
 
               <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
               </div>
 				</br>
               <div class="custom-control custom-checkbox mb-3">
@@ -67,6 +68,7 @@ $(document).ready(function(){
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
               </div>
               <button id="loginSubmit" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              </form>
             </div>
           </div>
         </div>
