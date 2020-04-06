@@ -203,14 +203,16 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				  $("#attendancePercentTable").append(accounttable);
 			  if(empDetails.length > 0){
 				  $("#attendanceTable").empty();
-				  $("#attendanceTable").append("<tbody><thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th><th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th>" +
+				  $("#attendanceTable").append("<tbody><thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th>" +
+				  		"<th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
 				  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
-				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th><th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
+				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th>" +
+				  		"<th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
 				  var sno = 1;
 			  
 				  for(var i in empDetails){
 					  $("#attendanceTable").append("<tr class='table-warning'><td>"+ sno +"</td><td>"+empDetails[i].empId+"</td>" +
-					  		"<td>"+empDetails[i].empployeeName+"</td><td>"+empDetails[i].accountName+"</td>" +
+					  		"<td>"+empDetails[i].empployeeName+"</td><td>"+empDetails[i].emailId+"</td><td>"+empDetails[i].accountName+"</td>" +
 					  				"<td>"+empDetails[i].project+"</td><td>"+empDetails[i].clientLocation+"</td>" +
 					  						"<td>"+empDetails[i].reportManager+"</td><td>"+empDetails[i].Category+"</td><td>"+empDetails[i].attendanceStatus+"</td>" +
 					  								"<td>"+empDetails[i].attendanceDate+"</td></tr>");

@@ -74,11 +74,15 @@ public class AttendanceStatus {
 	
 	@JsonProperty("empId")
 	@Column(name="Emp_ID")
-	int employeeId;
+	String employeeId;
 	
 	@JsonProperty("empployeeName")
 	@Column(name="EMPLOYEE_NAME")
 	String empployeeName;
+	
+	@JsonProperty("emailId")
+	@Column(name="Email_ID")
+	String emailId;
 	
 	@Column(name="GEOGRAPHY")
 	String geography;
@@ -130,7 +134,7 @@ public class AttendanceStatus {
 	String secondarySkill;
 	
 	@Column(name="TOTAL_EXP_in_YRS")
-	int totalExperience;
+	String totalExperience;
 	
 	@JsonProperty("reportManager")
 	@Column(name="REPORTING_MANAGER")
@@ -158,11 +162,11 @@ public class AttendanceStatus {
 				+ attendanceStatus + ", attendanceDate=" + attendanceDate + "]";
 	}
 
-	public int getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -220,5 +224,13 @@ public class AttendanceStatus {
 
 	public void setAttendanceDate(Date attendanceDate) {
 		this.attendanceDate = attendanceDate;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 }
