@@ -83,6 +83,7 @@ public class BCMService {
 		statusObject.setWfhChallenge(formData.getWfhChallenge());
 		statusObject.setWfhMitigationPlan(formData.getWfhMitigationPlan());
 		statusObject.setMitigationPlan(formData.getDeliveryMitigationPlan());
+		statusObject.setHiringUpdate(formData.getHiringUpdate());
 		return statusObject;
 	}
 	
@@ -113,6 +114,7 @@ public class BCMService {
 		planData.setWfhChallenge(dailyStatus.getWfhChallenge());
 		planData.setWfhMitigationPlan(dailyStatus.getWfhMitigationPlan());
 		planData.setKeyDeliverable(dailyStatus.getDeliverableOfDay());
+		planData.setHiringUpdate(dailyStatus.getHiringUpdate());
 		}
 		return planData;
 	}
@@ -640,6 +642,7 @@ public class BCMService {
 			planData.setWfhChallenge(dailyList.get(i).getWfhChallenge());
 			planData.setWfhMitigationPlan(dailyList.get(i).getWfhMitigationPlan());
 			planData.setKeyDeliverable(dailyList.get(i).getDeliverableOfDay());
+			planData.setHiringUpdate(dailyList.get(i).getHiringUpdate());
 			planDetailList.add(planData);
 		}
 		return planDetailList;

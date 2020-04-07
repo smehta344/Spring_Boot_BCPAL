@@ -76,6 +76,9 @@ public class DailyStatus {
 	
 	@Column(name = "wfh_mitigation_plan")
 	private String wfhMitigationPlan;
+	
+	@Column(name = "hiring_update")
+	private String hiringUpdate;
 
 	@Column(name = "created_by")
 	private String createdBy;
@@ -225,6 +228,13 @@ public class DailyStatus {
 		this.wfhMitigationPlan = wfhMitigationPlan;
 	}
 
+	public String getHiringUpdate() {
+		return hiringUpdate;
+	}
+
+	public void setHiringUpdate(String hiringUpdate) {
+		this.hiringUpdate = hiringUpdate;
+	}
 	
 	@Override
 	public String toString() {

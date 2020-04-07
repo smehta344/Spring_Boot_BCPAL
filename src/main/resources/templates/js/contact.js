@@ -7,6 +7,7 @@ $(document).ready(function(){
 	
 	$("#currentDate").datepicker("setDate", "-1d").on("change", function() {
 	    $('.datepicker').hide();
+	    loadInitialData();
 	  });
     
 	$.ajax({
@@ -43,7 +44,6 @@ $(document).ready(function(){
 							$('#location').attr('value', location.name);
 							$('#location').attr('name', location.id);
 								var date = $("#currentDate").val();
-								alert(date.toString())
 								var sa = new Date(date);
 								var dateObj = new Date((sa.setDate(sa.getDate()-1)));
 								var hoistoryDataUrl = urlForServer+"bcm/getHistoryData";
@@ -66,6 +66,7 @@ $(document).ready(function(){
 								    	$('#key_deliverables').val(responseData.keyDeliverable);
 								    	$('#mitigation').val(responseData.mitigationPlan);
 								    	$('#teamSize').val(responseData.teamSize);
+								    	$('#hiringUpdates').val(responseData.hiringUpdate);
 										}
 										else{
 											$('#challenges').val("");
@@ -76,6 +77,7 @@ $(document).ready(function(){
 									    	$('#key_deliverables').val("");
 									    	$('#mitigation').val("");
 									    	$('#teamSize').val("");
+									    	$('#hiringUpdates').val("");
 										}
 									},error : function() {
 										alert("Server error while fetching engineering leader");
@@ -157,6 +159,7 @@ $(document).ready(function(){
     	var wfhChallenges = $("#wfh_challenges").val();
     	var wfhMitigation = $("#wfh_mitigation").val();
     	var keyDeliverables = $("#key_deliverables").val();
+    	var hiringUpdate = $("#hiringUpdates").val();
     	
     	if(!date.trim()){
     		$('#currentDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
@@ -227,23 +230,7 @@ $(document).ready(function(){
     		$('#deliverOnTrackMsg').attr('style','display: none;');
     		$('#deliverOnTrackMsg').empty();
     	}
-    	if(targetPercent==''){
-    		$('#targetMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
-    		$("#targetMsg").append("<font color='red'>Please enter target percentage</font>");
-    		return false;
-    	} else {
-    		$('#targetMsg').attr('style','display: none;');
-    		$('#targetMsg').empty();
-    	}
-    	if(actualPercent==''){
-    		$('#actualMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
-    		$("#actualMsg").append("<font color='red'>Please enter actual percentage</font>");
-    		return false;
-    	} else {
-    		$('#actualMsg').attr('style','display: none;');
-    		$('#actualMsg').empty();
-    	}
-    	
+    
     	if(!milestone.trim()){
     		$('#milestoneMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
     		$("#milestoneMsg").append("<font color='red'>Please enter milestone</font>");
@@ -298,36 +285,18 @@ $(document).ready(function(){
     	
         var url = urlForServer+"bcm/addDilyStatus";
        
-        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+milestone+'","deliveryChallenge":"'+challenges+'","mitigationPlan":"'+mitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigation":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'"}';
-		alert(datastr);
+        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+milestone+'","deliveryChallenge":"'+challenges+'","mitigationPlan":"'+mitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigation":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'","hiringUpdate":"'+hiringUpdate+'"}';
         $.ajax({
 			contentType: 'application/json; charset=utf-8',
 			type : 'POST',
 			url : url,
 			data : datastr,
 			success : function(responseText) {
+				loadInitialData();
 				$("#currentDate").val("");
-				$('#location').val("empty");
-				$('#engg_leader').attr('value', "Engineering Leader");
-				$("#milestone").val("");
-				$('#project').empty();
-				$('#project').append("<option value='empty' selected disabled hidden>Select Project</option>");
-				$("#customProjectName").val("");
-				$('#account').val("empty");
-				$("#proj_status").val("empty");
-				$("#challenges").val("");
-				$("#teamSize").val("");
-				$("#teamLogged").val("");
-				$("#mitigation").val("");
-				$("#target").val("");
-				$("#actual").val("");
-				$("#deliverOnTrack").val("");
-				$("#wfh_challenges").val("");
-				$("#wfh_mitigation").val("");
-				$("#key_deliverables").val("");
 				$("#modalBody").empty();
 				$("#myModal").modal("show");
-				$("#modalBody").append("<b><font color='green'>Contact added successfully!!!</font></b>");
+				$("#modalBody").append("<b><font color='green'>Project added successfully!!!</font></b>");
 			},error : function() {
 				alert("error");
 			}
@@ -350,4 +319,26 @@ function changeFormat(x, y) {
     return y.replace(/(y+)/g, function(v) {
         return x.getFullYear().toString().slice(-v.length)
     });
+}
+
+function loadInitialData(){
+	$('#location').val("empty");
+	$('#engg_leader').attr('value', "Engineering Leader");
+	$("#milestone").val("");
+	$('#project').empty();
+	$('#project').append("<option value='empty' selected disabled hidden>Select Project</option>");
+	$("#customProjectName").val("");
+	$('#account').val("empty");
+	$("#proj_status").val("empty");
+	$("#challenges").val("");
+	$("#teamSize").val("");
+	$("#teamLogged").val("");
+	$("#mitigation").val("");
+	$("#target").val("");
+	$("#actual").val("");
+	$("#deliverOnTrack").val("");
+	$("#wfh_challenges").val("");
+	$("#wfh_mitigation").val("");
+	$("#key_deliverables").val("");
+	$('#hiringUpdates').val("");
 }

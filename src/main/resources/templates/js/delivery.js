@@ -85,7 +85,7 @@ $.ajax({
 			  for(var i in data){
 				  $("#modalTable").append("<tr align='left' class='d-flex' height=60 ondblClick=changeRowColor()><td align='left' class='col-2'>"+ data[i].projectName+"</td>" + 
 				  		"<td align='left' class='col-2' height=60 ondblClick=changeRowColor()>"+data[i].deliveryChallenge+"</td><td align='left' class='col-2'>"+data[i].wfhMitigationPlan+"</td>" +
-				  				"<td align='left' class='col-2'>"+data[i].milestone+"</td><td align='left' class='col-2'>"+data[i].keyDeliverable+"</td><td align='left' class='col-2'>"+data[i].milestone+"</td></tr>");
+				  				"<td align='left' class='col-2'>"+data[i].milestone+"</td><td align='left' class='col-2'>"+data[i].keyDeliverable+"</td><td align='left' class='col-2'>"+data[i].hiringUpdate+"</td></tr>");
 			  }
 			  $("#modalTable").append("</tbody>");
 	},error : function() {

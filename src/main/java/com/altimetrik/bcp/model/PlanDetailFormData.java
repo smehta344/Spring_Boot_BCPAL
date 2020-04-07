@@ -24,7 +24,14 @@ public class PlanDetailFormData {
 	String wfhChallenge;
 	String keyDeliverable;
 	String projectName;
+	String hiringUpdate;
 	
+	public String getHiringUpdate() {
+		return hiringUpdate;
+	}
+	public void setHiringUpdate(String hiringupdate) {
+		this.hiringUpdate = hiringupdate;
+	}
 	public String getProjectName() {
 		return projectName;
 	}
