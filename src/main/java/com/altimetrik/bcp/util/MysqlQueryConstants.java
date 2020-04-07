@@ -103,5 +103,16 @@ public class MysqlQueryConstants {
 			"attendance_date= :startDate"+ " " +
 			"group by client_location;";
 	
+	public static final String DELIVERY_SUMMARY_QUERY = "SELECT count(*) Total," +
+			"acc.name account,"+ 
+			"count(case when status='RED' then 1 end) redCount,"+ 
+			"count(case when status='AMBER' then 1 end) amberCount," +
+			"count(case when status='GREEN' then 1 end) greenCount" + " " + 
+			"FROM daily_status stat, project proj, account acc" + " " +
+			"where" + " " + 
+			"stat.project_id = proj.id" + " " +
+			"and proj.account_id = acc.id" + " " +
+			"and date= :fromDate" +" "+
+			"group by account, date;";
 }
 

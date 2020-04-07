@@ -23,7 +23,14 @@ public class PlanDetailFormData {
 	String deliveryMitigationPlan;
 	String wfhChallenge;
 	String keyDeliverable;
+	String projectName;
 	
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 	public int getAccountId() {
 		return accountId;
 	}
@@ -120,5 +127,17 @@ public class PlanDetailFormData {
 	public void setKeyDeliverable(String keyDeliverable) {
 		this.keyDeliverable = keyDeliverable;
 	}
+	public String getWfhMitigationPlan() {
+		return wfhMitigationPlan;
+	}
+	public void setWfhMitigationPlan(String wfhMitigationPlan) {
+		this.wfhMitigationPlan = wfhMitigationPlan;
+	}
 	
+	public String getDeliveryMitigationPlan() {
+		return deliveryMitigationPlan;
+	}
+	public void setDeliveryMitigationPlan(String deliveryMitigationPlan) {
+		this.deliveryMitigationPlan = deliveryMitigationPlan;
+	}
 }

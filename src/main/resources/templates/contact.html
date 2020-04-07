@@ -82,27 +82,39 @@
 					</div>
 				</div>
 				<div id="currentDateMsg"></div>
-				<select class="form-control" name="Location" id="location">
-				<option value='empty' selected disabled hidden>Select Location</option>
-				</select> 
-				<div id="locationMsg"></div>
-				<br> 
+				<div class="form-group">
+				<label for="account">Account:</label>
 				<select class="form-control" name="account" id="account">
 				<option value='empty' selected disabled hidden>Select Account</option>
 				</select>
+				</div>
 				<div id="accountMsg"></div>
-				</br>
-				<input class="form-control" id="engg_leader"  type="text"
-					disabled="disabled" placeholder="Engineering Leader"> 
-				</br> 
+				
+				<div class="form-group">
+				<label for="project">Project:</label>
 				<select class="form-control" name="project" id="project">
 				<option value='empty' selected disabled hidden>Select Project</option>
 				</select> 
+				</div>
+				
 				<div id="projectMsg"></div>
 				<div id="specific_proj" style="display:none;"><br><input class='form-control' id='customProjectName' maxlength="20" type='text' placeholder='Project name'></div>
 				<div id="specific_projMsg"></div>
-				</br> 
 				
+				<div class="form-group">
+				<label for="leader">Engineering Leader:</label>
+				<input class="form-control" id="engg_leader"  type="text"
+					disabled="disabled" placeholder="Engineering Leader">
+				</div> 
+				 
+				 <div class="form-group">
+				 <label for="location">Location:</label>
+				<input class="form-control" id="location" name="location" type="text"
+					disabled="disabled" placeholder="Location"> 
+				</div>
+				
+				<div class="form-group">
+				<label for="project">Project Status:</label>
 				<select class="form-control" name="proj_status" id="proj_status">
 					<option value="empty" selected disabled hidden>
 						Select Project Status</option>
@@ -110,16 +122,26 @@
 					<option value="amber">AMBER</option>
 					<option value="green">GREEN</option>
 				</select> 
+				</div>
 				<div id="proj_statusMsg"></div>
-				</br>
+				
+				<div class="form-group">
+				<label for="teamSize">Team Size:</label>
 				<input class="form-control" id="teamSize" type="number" min="0"
 					oninput="validity.valid||(value='');" placeholder="Team Size">
+				</div>
+				
 					<div id="teamSizeMsg"></div>
-				</br>
+				
+				<div class="form-group">
+				<label for="teamLogged">Team Logged:</label>
 				 <input class="form-control" id="teamLogged" type="number" min="0"
 					oninput="validity.valid||(value='');" placeholder="Team Logged">
+				</div>	
 					<div id="teamLoggedMsg"></div>
-				</br> 
+				
+				<div class="form-group">
+				<label for="deliveryOnTrack">Delivery On Track:</label>
 				<select class="form-control" name="deliverOnTrack"
 					id="deliverOnTrack">
 					<option value="Delivery On Track" selected disabled hidden>
@@ -127,9 +149,19 @@
 					<option value="yes">YES</option>
 					<option value="no">NO</option>
 				</select>
+				</div>
 				<div id="deliverOnTrackMsg"></div>
-				</br>
-				
+				<div id="hiring_updates"></div>
+				<div class="form-group">
+					<label for="comment">Hiring Updates</label>
+					<textarea class="form-control" rows="2" id="hiringUpdates"></textarea>
+				</div>
+				<div id="hiring_updatesMsg"></div>
+			</div>
+			<div class='col-sm-1'></div>
+			<div class='col-sm-6'>
+			<div class="form-group">
+			<label for="targetedCompletion">Targeted % of Completion on Sprint / Release:</label>
 				<div class="input-group mb-3">
 				  <input class="form-control" id="target" type="number" min="0" max="100"
 					oninput="validity.valid||(value='');" placeholder="Targeted % of Completion on Sprint / Release">
@@ -139,7 +171,11 @@
 				    </div>
 				  </div>
 				</div>
+				</div>
 				<div id="targetMsg"></div>
+				
+				<div class="form-group">
+				<label for="targetedCompletion">Actual % of Completion on Sprint / Release:</label>
 				<div class="input-group mb-3">
 				  <input class="form-control" id="actual" type="number" min="0" max="100"
 					oninput="validity.valid||(value='');" placeholder="Actual % of Completion on Sprint / Release">
@@ -149,10 +185,8 @@
 				    </div>
 				  </div>
 				</div>
+				</div>
 				<div id="actualMsg"></div>
-			</div>
-			<div class='col-sm-1'></div>
-			<div class='col-sm-6'>
 				<div class="form-group">
 					<label for="comment">Milestone:</label>
 					<textarea class="form-control" rows="2" id="milestone"></textarea>

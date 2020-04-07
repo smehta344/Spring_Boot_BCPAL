@@ -1,23 +1,14 @@
 $(document).ready(function(){
-	var urlForLocation = urlForServer+"bcm/getAllLocations";
-	$.ajax({
-		type : 'GET',
-		url : urlForLocation,
-		success : function(response) {
-			var data = JSON.stringify(response)
-			$('#location').empty();
-			$('#location').append("<option value='empty' selected disabled hidden>Select Location</option>");
-
-			$.each(JSON.parse(data), function(idx, item) {
-				$('#location').append("<option value="+item.id+">"+item.name+"</option>");
-			});
-		},error : function() {
-			alert("Server error while fetching location");
-		}
-	});
 	
 	var urlForAccount = urlForServer+"bcm/getAllAccounts";
+	var isDateChanged = true;
 	
+	$("#currentDate").datepicker({ dateFormat: 'yy, mm, dd' });
+	
+	$("#currentDate").datepicker("setDate", "-1d").on("change", function() {
+	    $('.datepicker').hide();
+	  });
+    
 	$.ajax({
 		type : 'GET',
 		url : urlForAccount,
@@ -33,58 +24,74 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("select#location").change(function(){
-		var location = $(this).children("option:selected").val();
+		$("select#project").change(function(){
+		var project = $(this).children("option:selected").val();
 		var account = $("#account").children("option:selected").val();
-        if(location != 'empty' && account !='empty'){
-        	var urlForProject = urlForServer+"bcm/getLeader/"+location+"/"+account;
+        if(project != 'empty' && account !='empty'){
+        	var urlForProject = urlForServer+"bcm/getLocationAndLeader/"+project+"/"+account;
+        	var urlForhistoryData = urlForServer+"bcm/getHistoryData";
 			$.ajax({
-				type : 'GET',
-				url : urlForProject,
-				success : function(response) {
-					var data = JSON.stringify(response)
-					$('#project').empty();
-					$('#project').append("<option value='empty' selected disabled hidden>Select Project</option>");
-					$.each(JSON.parse(data), function(idx, item) {
-						$('#project').append("<option value="+item+">"+item+"</option>");
-					});
-				},error : function() {
-					alert("Server error while fetching account");
-				}
+						type : 'GET',
+						url : urlForProject,
+						success : function(response) {
+							var location = response.location;
+							var leader = response.leader;
+							$('#engg_leader').empty();
+							$('#engg_leader').attr('value', leader.name);
+							$('#engg_leader').attr('name', leader.id);
+							$('#location').empty();
+							$('#location').attr('value', location.name);
+							$('#location').attr('name', location.id);
+								var date = $("#currentDate").val();
+								alert(date.toString())
+								var sa = new Date(date);
+								var dateObj = new Date((sa.setDate(sa.getDate()-1)));
+								var hoistoryDataUrl = urlForServer+"bcm/getHistoryData";
+								var dateVal = changeFormat(dateObj, 'yyyy/MM/dd');
+								var quryDate = formatDate(dateVal)
+								$.ajax({
+									type : 'GET',
+									url : urlForhistoryData,
+									data : {
+										projectId:project,
+										fromDate:quryDate
+									},
+									success : function(responseData) {
+										if(responseData.projectName != null){
+										$('#milestone').val(responseData.milestone);
+									    $('#challenges').val(responseData.deliveryChallenge);
+								    	$('#wfh_challenges').val(responseData.wfhChallenge);
+								    	$('#wfh_mitigation').val(responseData.mitigationPlan);
+								    	$('#wfh_challenges').val(responseData.wfhChallenge);
+								    	$('#key_deliverables').val(responseData.keyDeliverable);
+								    	$('#mitigation').val(responseData.mitigationPlan);
+								    	$('#teamSize').val(responseData.teamSize);
+										}
+										else{
+											$('#challenges').val("");
+											$('#milestone').val("");
+									    	$('#wfh_challenges').val("");
+									    	$('#wfh_mitigation').val("");
+									    	$('#wfh_challenges').val("");
+									    	$('#key_deliverables').val("");
+									    	$('#mitigation').val("");
+									    	$('#teamSize').val("");
+										}
+									},error : function() {
+										alert("Server error while fetching engineering leader");
+									}
+						});
+							
+						},error : function() {
+							alert("Server error while fetching engineering leader");
+						}
 			});
         }
-	
 	});
 	
-	$("select#project").change(function(){
-        var projName = $(this).children("option:selected").val();
-        if(projName == '0'){
-        	$('#specific_proj').attr('style','display: block;');
-        } else {
-        	$('#specific_proj').attr('style','display: none;');
-        }
-    });
-	
-    $('select#account').on('change', function() {
+	    $('select#account').on('change', function() {
     	var location = $("#location").children("option:selected").val();
     	var accountId = $(this).children("option:selected").val();
-    	
-    	if(location != 'empty' && accountId !='empty'){
-    		var urlForLeader = urlForServer+"bcm/getLeader/"+location+"/"+accountId;
-			$.ajax({
-				type : 'GET',
-				url : urlForLeader,
-				success : function(response) {
-					var data = JSON.stringify(response);
-					$('#engg_leader').empty();
-					$('#engg_leader').attr('value', response.name);
-					$('#engg_leader').attr('name', response.id);
-				},error : function() {
-					alert("Server error while fetching engineering leader");
-				}
-			});
-        }
-    	
     	if(accountId != 'empty'){
     		var urlForProject = urlForServer+"bcm/getProject/"+accountId;
 			$.ajax({
@@ -98,11 +105,18 @@ $(document).ready(function(){
 						$('#project').append("<option value="+item.id+">"+item.name+"</option>");
 					});
 					$('#project').append("<option value='0'>Others</option>");
+					
+					 $("#project").val($("#project option:eq(1)").val()).change();
+					 
+					 $("#proj_status").val($("#proj_status option:eq(3)").val()).change();
+					 
+					 $("#deliverOnTrack").val($("#deliverOnTrack option:eq(1)").val()).change();
+					 
 				},error : function() {
 					alert("Server error while fetching project name");
 				}
 			});
-         }	
+         }
     });
 	
     $("#contactSubmit").click(function(){  
@@ -125,10 +139,8 @@ $(document).ready(function(){
     	$('#wfh_challengesMsg').empty();
     	$('#wfh_mitigationMsg').empty();
     	
-    	
-    	
     	var date = $("#currentDate").val();
-    	var location = $("#location").val();
+    	var location = $("#location").attr('name');
     	var engg_leader = $("#engg_leader").attr('name');
     	var milestone = $("#milestone").val();
     	var project = $("#project").val();
@@ -145,7 +157,6 @@ $(document).ready(function(){
     	var wfhChallenges = $("#wfh_challenges").val();
     	var wfhMitigation = $("#wfh_mitigation").val();
     	var keyDeliverables = $("#key_deliverables").val();
-    	//alert("deliverOnTrack = "+deliverOnTrack.trim()+"  proj_status="+!proj_status+" keyDeliverables= "+!keyDeliverables);
     	
     	if(!date.trim()){
     		$('#currentDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
@@ -322,10 +333,21 @@ $(document).ready(function(){
 			}
 		});
     });
-    
-    
-    
-    
-    
-    
 });
+
+function changeFormat(x, y) {
+    var z = {
+        M: x.getMonth() + 1,
+        d: x.getDate(),
+        h: x.getHours(),
+        m: x.getMinutes(),
+        s: x.getSeconds()
+    };
+    y = y.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+        return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
+    });
+
+    return y.replace(/(y+)/g, function(v) {
+        return x.getFullYear().toString().slice(-v.length)
+    });
+}
