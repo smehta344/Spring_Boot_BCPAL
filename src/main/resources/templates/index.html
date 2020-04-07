@@ -19,26 +19,23 @@
 <link href="css/style.css" rel="stylesheet" />
 
 <script>
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
 $(document).ready(function(){
-    /* $("#loginSubmit").click(function(){   
-    	var username = $("#username").val();
-    	var password = $("#password").val();
-        var url = urlForServer+"/login";
-       
-		var datastr = '{"username":"'+username+'","password":"'+password+'"}';
-		$.ajax({
-			contentType: 'application/json; charset=utf-8',
-			type : 'POST',
-			url : url,
-			data : datastr,
-			success : function(responseText) {
-				alert("success");
-				window.location.href = "delivery.html";
-			},error : function() {
-				alert("error");
-			}
-		});
-    }); */
+	if(getUrlVars()["error"] == 'true'){
+		$("#validateUserPassMsg").attr("style","display:block");
+	}
 });
 
 
@@ -53,6 +50,8 @@ $(document).ready(function(){
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
+            
+            <p id="validateUserPassMsg" style="display:none"><font color='red'>Invalid credentials</font></p>
             <div class="form-signin">
             <form action="/index" method="post">
               <div class="form-label-group">
