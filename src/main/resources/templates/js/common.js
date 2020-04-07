@@ -1,6 +1,16 @@
-/*function logout(){
-    window.location.href="index.html";
-}*/
+function getLoginUser(){
+	var urlForProject = "/person";
+	$.ajax({
+		type : 'GET',
+		url : urlForProject,
+		success : function(response) {
+			userInfoMap.set("username",response.username);
+			$("#uname").html("<font color='green'>Hi "+userInfoMap.get("username")+"!!</font>");
+		},error : function() {
+			alert("Error while fetching user info");
+		}
+	});
+}
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -22,6 +32,9 @@ function isWeekend(incomeDate){
 }
 
 $(function () {
+	
+	getLoginUser();
+	
 	$('#attandanceDate').datepicker().on('change', function(){
         $('.datepicker').hide();
     });
@@ -33,4 +46,6 @@ $(function () {
       }).on('change', function(){
           $('.datepicker').hide();
       });
+    
+   
 });
