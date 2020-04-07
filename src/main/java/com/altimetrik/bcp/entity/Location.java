@@ -38,8 +38,6 @@ public class Location {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
-		builder.append(", projLocLeaderAssoc=");
-		builder.append(", dailyStatus=");
 		builder.append("]");
 		return builder.toString();
 	}

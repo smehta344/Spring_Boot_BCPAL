@@ -26,9 +26,11 @@ public class Project {
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Account account;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Location location;
 	
 	public Location getLocation() {

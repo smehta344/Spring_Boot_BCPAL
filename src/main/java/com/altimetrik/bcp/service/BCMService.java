@@ -24,7 +24,6 @@ import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Leader;
-import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;

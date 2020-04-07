@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "acc_loc_leader_assoc")
 public class AccLocLeaderAssoc {
@@ -17,10 +19,11 @@ public class AccLocLeaderAssoc {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@ManyToOne
 	private Leader leader;
 	
-	@ManyToOne	
+	@ManyToOne
 	private Location location;
 	
 	@ManyToOne

@@ -2,10 +2,18 @@ package com.altimetrik.bcp.model;
 
 import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.Location;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class DeliveryInput {
-	Location location;
-	Leader leader;
+	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Location location;
+	
+	private Leader leader;
+	
 	public Location getLocation() {
 		return location;
 	}
