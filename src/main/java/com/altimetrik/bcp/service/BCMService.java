@@ -13,31 +13,34 @@ import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.altimetrik.bcp.dao.AccLocLeaderAssocrepo;
+import com.altimetrik.bcp.dao.AccountRepo;
 import com.altimetrik.bcp.dao.AttendanceRepo;
 import com.altimetrik.bcp.dao.DailyStatusRepo;
 import com.altimetrik.bcp.dao.LeaderRepo;
-import com.altimetrik.bcp.dao.ProjectAssocRepo;
+import com.altimetrik.bcp.dao.ProjectRepo;
+import com.altimetrik.bcp.entity.AccLocLeaderAssoc;
+import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Leader;
-import com.altimetrik.bcp.entity.ProjLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.model.AttendanceCommon;
 import com.altimetrik.bcp.model.AttendanceData;
 import com.altimetrik.bcp.model.AttendanceType;
+import com.altimetrik.bcp.model.DeliveryInput;
+import com.altimetrik.bcp.model.DeliverySummary;
 import com.altimetrik.bcp.model.PlanDetailFormData;
 import com.altimetrik.bcp.util.AppConstants;
 import com.altimetrik.bcp.util.BcpUtils;
 
 @Service
 public class BCMService {
-	@Autowired
-	private DailyStatusRepo statusRepo;
 	
 	@Autowired
-	ProjectAssocRepo projecAssocRepo;
+	ProjectRepo projecRepo;
 	
 	@Autowired
 	LeaderRepo leaderRepo;
@@ -45,16 +48,26 @@ public class BCMService {
 	@Autowired
 	AttendanceRepo attendenceRepo;
 	
+	@Autowired
+	AccLocLeaderAssocrepo assoRepo;
+
+	@Autowired
+	DailyStatusRepo dailyStatusRepo;
+	
+	@Autowired
+	AccountRepo accountRepo;
+	
 	public void createDilyStatus(PlanDetailFormData formaData){
 		DailyStatus statusObj = createStatusObj(formaData);
-		statusRepo.save(statusObj);
+		dailyStatusRepo.save(statusObj);
 	}
+	
 	public DailyStatus createStatusObj(PlanDetailFormData formData){
 		DailyStatus statusObject = new DailyStatus();
 		statusObject.setDate(formData.getDate());
 		statusObject.setChallenges(formData.getDeliveryChallenge());
 		statusObject.setLocationId(formData.getLocationId());
-		statusObject.setProjectId(formData.getProjectId());
+		statusObject.setProjectId(projecRepo.findById(formData.getProjectId()).get());
 		
 		//TODO Need to add below attributes with correct format
 		statusObject.setCreatedBy("Test");
@@ -62,33 +75,49 @@ public class BCMService {
 		statusObject.setUpdatedBy("TEST");
 		statusObject.setUpdatedTime(new Date());
 		statusObject.setUpdates("test");
+		statusObject.setStatus(formData.getStatus());
+		
+		statusObject.setDeliverableOfDay(formData.getKeyDeliverable());
+		statusObject.setMilestone(formData.getMilestone());
+		statusObject.setMitigationPlan(formData.getMitigationPlan());
+		statusObject.setWfhChallenge(formData.getWfhChallenge());
+		statusObject.setWfhMitigationPlan(formData.getWfhMitigationPlan());
+		statusObject.setMitigationPlan(formData.getDeliveryMitigationPlan());
+		statusObject.setHiringUpdate(formData.getHiringUpdate());
 		return statusObject;
 	}
 	
-	public Leader getLeader(int locationId, int accountId){
-		Leader leader = new Leader();
-		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
-		for(ProjLocLeaderAssoc leaderAssoc:assocList){
-			if((leaderAssoc.getAccount().getId() == accountId) && 
-					leaderAssoc.getLocation().getId() == locationId ){
-				leader = leaderAssoc.getLeader();
-				return leader;
-			}
-		}
-		return leader;
+	public DeliveryInput getLocationAndLeader(int projectId, int accountId){
+		DeliveryInput deliveryInput = new DeliveryInput();
+		Project project = projecRepo.findById(projectId).get();
+		int locationId = project.getLocation().getId();
+		AccLocLeaderAssoc associationData = assoRepo.findLeaderByAccountIdAndLocationId(accountId, locationId);
+		deliveryInput.setLocation(associationData.getLocation());
+		deliveryInput.setLeader(associationData.getLeader());
+		return deliveryInput;
 	}
 	
 	public List<Project> getProjectById(int accountId){
-		List<ProjLocLeaderAssoc> assocList = projecAssocRepo.findAll();
-		List<Project> projList = new ArrayList<Project>();
-		for(ProjLocLeaderAssoc projAssoc:assocList){
-			if(projAssoc.getAccount().getId() == accountId){
-				projList.add(projAssoc.getProject());
-			}
-		}
-		return projList;
+		return projecRepo.findByAccountId(accountId);
 	}
 	
+	public PlanDetailFormData getHistoryData(Date fromDate, int projectId){
+		PlanDetailFormData planData = new PlanDetailFormData();
+		DailyStatus dailyStatus = dailyStatusRepo.findByDateAndProject(fromDate, 
+				projecRepo.findById(projectId).get());
+		if(dailyStatus != null){
+		planData.setDeliveryChallenge(dailyStatus.getChallenges());
+		planData.setTeamSize(dailyStatus.getTeamSize());
+		planData.setProjectName(dailyStatus.getProject().getName());
+		planData.setMilestone(dailyStatus.getMilestone());
+		planData.setMitigationPlan(dailyStatus.getMitigationPlan());
+		planData.setWfhChallenge(dailyStatus.getWfhChallenge());
+		planData.setWfhMitigationPlan(dailyStatus.getWfhMitigationPlan());
+		planData.setKeyDeliverable(dailyStatus.getDeliverableOfDay());
+		planData.setHiringUpdate(dailyStatus.getHiringUpdate());
+		}
+		return planData;
+	}
 	
 	public Map<String, AttendanceData> getAttendanceByAccount(String attdTypeValue, String billingStatus, String attdType, Date fromDate ){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -587,8 +616,36 @@ public class BCMService {
 	public List<String> getClientLocations(){
 		return attendenceRepo.findDistinctClientLocation();
 	}
+	
 	public List<String> getClientLocationsByCategory(String category){
 		return attendenceRepo.findDistinctClientLocationByCategory(category);
+	}
+	
+	
+	public List<DeliverySummary> getDeliverList(Date fromDate){
+		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = sdf.format(fromDate);
+		return dailyStatusRepo.findDeliverySummaryByDate(dateString);
+	}
+	
+	public List<PlanDetailFormData> getSummayByProject(String name, Date date, String statusValue){
+		List<PlanDetailFormData> planDetailList = new ArrayList<PlanDetailFormData>();
+		Account accountObj = accountRepo.findByName(name);
+		List<Project> projectsList = projecRepo.findByAccountId(accountObj.getId());
+		List<DailyStatus> dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date, statusValue, projectsList);
+		for(int i=0;i<dailyList.size();i++){
+			PlanDetailFormData planData = new PlanDetailFormData();
+			planData.setDeliveryChallenge(dailyList.get(i).getChallenges());
+			planData.setProjectName(dailyList.get(i).getProject().getName());
+			planData.setMilestone(dailyList.get(i).getMilestone());
+			planData.setMitigationPlan(dailyList.get(i).getMitigationPlan());
+			planData.setWfhChallenge(dailyList.get(i).getWfhChallenge());
+			planData.setWfhMitigationPlan(dailyList.get(i).getWfhMitigationPlan());
+			planData.setKeyDeliverable(dailyList.get(i).getDeliverableOfDay());
+			planData.setHiringUpdate(dailyList.get(i).getHiringUpdate());
+			planDetailList.add(planData);
+		}
+		return planDetailList;
 	}
 	
 }

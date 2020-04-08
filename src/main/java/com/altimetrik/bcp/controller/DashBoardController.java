@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.altimetrik.bcp.model.AttendanceData;
 import com.altimetrik.bcp.model.AttendanceType;
+import com.altimetrik.bcp.model.DeliverySummary;
+import com.altimetrik.bcp.model.PlanDetailFormData;
 import com.altimetrik.bcp.service.BCMService;
 
 @RestController
 @RequestMapping("/dashboard")
 public class DashBoardController {
-
+	
 	@Autowired
 	private BCMService bcmService;
 
@@ -48,15 +50,26 @@ public class DashBoardController {
 		attendenceMap = bcmService.getAttendancePercent(wiseType, typeValue, billingStatus, type, fromDate);
 		return ResponseEntity.ok().body(attendenceMap);
 	}
-
+	
 	@GetMapping(value = "/getAccountNames")
-	public ResponseEntity<List<String>> getAccountNames() {
+	public ResponseEntity<List<String>> getAccountNames(){
 		return ResponseEntity.ok().body(bcmService.getAccountNames());
 	}
-
+	
 	@GetMapping(value = "/getClientLocations")
-	public ResponseEntity<List<String>> getClientLocations() {
+	public ResponseEntity<List<String>> getClientLocations(){
 		return ResponseEntity.ok().body(bcmService.getClientLocations());
 	}
-
+	
+	@GetMapping(value="/getDeliveryList")
+	public ResponseEntity<List<DeliverySummary>> getDeliverySummaryList(
+			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
+		return ResponseEntity.ok().body(bcmService.getDeliverList(fromDate));
+	}
+	
+	@GetMapping(value="getDeliveryByProject")
+	public ResponseEntity<List<PlanDetailFormData>> getDeliveryByProjectWise(@RequestParam("accountName") 
+	String accountName, @RequestParam("status") String statusValue, @RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
+		return ResponseEntity.ok().body(bcmService.getSummayByProject(accountName, fromDate, statusValue));
+	}
 }

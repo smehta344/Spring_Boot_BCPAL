@@ -3,14 +3,38 @@ package com.altimetrik.bcp.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.altimetrik.bcp.model.AttendanceByAccount;
+import com.altimetrik.bcp.model.AttendanceByLocation;
+import com.altimetrik.bcp.model.DeliverySummary;
+import com.altimetrik.bcp.util.MysqlQueryConstants;
+
 @Entity
+@SqlResultSetMapping(
+	    name = "deliveryMapping",
+	    classes = @ConstructorResult(
+	            targetClass = DeliverySummary.class,
+	            columns = {
+	            		@ColumnResult(name = "total",type=Integer.class),
+	            		@ColumnResult(name = "account",type=String.class),
+	                    @ColumnResult(name = "redCount",type=Integer.class),
+	                    @ColumnResult(name = "amberCount",type=Integer.class),
+	                    @ColumnResult(name = "greenCount",type=Integer.class),
+	            }
+	    )
+	)
 @Table(name = "daily_status")
+@NamedNativeQuery(name = "deliverySummaryByDateQuery", resultSetMapping ="deliveryMapping",resultClass = DeliverySummary.class, query=MysqlQueryConstants.DELIVERY_SUMMARY_QUERY)
 public class DailyStatus {
 
 	@Id
@@ -26,8 +50,8 @@ public class DailyStatus {
 	@Column(name = "updates")
 	private String updates;
 	
-	@Column(name = "project_id")
-	private int projectId;	
+	@ManyToOne
+	private Project project;	
 
 	@Column(name = "location_id")
 	private int locationId;
@@ -35,6 +59,27 @@ public class DailyStatus {
 	@Column(name = "challenges")
 	private String challenges;
 	
+	@Column(name = "milestone")
+	private String milestone;
+	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "mitigation_plan")
+	private String mitigationPlan;
+	
+	@Column(name = "deliverable_of_day")
+	private String deliverableOfDay;
+	
+	@Column(name = "wfh_challenge")
+	private String wfhChallenge;
+	
+	@Column(name = "wfh_mitigation_plan")
+	private String wfhMitigationPlan;
+	
+	@Column(name = "hiring_update")
+	private String hiringUpdate;
+
 	@Column(name = "created_by")
 	private String createdBy;
 	
@@ -45,16 +90,24 @@ public class DailyStatus {
 	private String updatedBy;
 	
 	@Column(name = "updated_time")
-	private Date updatedTime;
-
-	public int getProjectId() {
-		return projectId;
+	private Date updatedTime;	
+	
+	public String getStatus() {
+		return status;
 	}
 
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProjectId(Project project) {
+		this.project = project;
+	}
+	
 	public int getLocationId() {
 		return locationId;
 	}
@@ -135,6 +188,54 @@ public class DailyStatus {
 		this.updatedTime = updatedTime;
 	}
 
+	public String getMilestone() {
+		return milestone;
+	}
+
+	public void setMilestone(String milestone) {
+		this.milestone = milestone;
+	}
+	
+	public String getMitigationPlan() {
+		return mitigationPlan;
+	}
+
+	public void setMitigationPlan(String mitigationPlan) {
+		this.mitigationPlan = mitigationPlan;
+	}
+
+	public String getDeliverableOfDay() {
+		return deliverableOfDay;
+	}
+
+	public void setDeliverableOfDay(String deliverableOfDay) {
+		this.deliverableOfDay = deliverableOfDay;
+	}
+
+	public String getWfhChallenge() {
+		return wfhChallenge;
+	}
+
+	public void setWfhChallenge(String wfhChallenge) {
+		this.wfhChallenge = wfhChallenge;
+	}
+
+	public String getWfhMitigationPlan() {
+		return wfhMitigationPlan;
+	}
+
+	public void setWfhMitigationPlan(String wfhMitigationPlan) {
+		this.wfhMitigationPlan = wfhMitigationPlan;
+	}
+
+	public String getHiringUpdate() {
+		return hiringUpdate;
+	}
+
+	public void setHiringUpdate(String hiringUpdate) {
+		this.hiringUpdate = hiringUpdate;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .dropdown-menu {
     margin-top: -15px !important;
 }
@@ -10,7 +11,8 @@ canvas{
 .table td {
    text-align: center;   
 }
-/* select option:disabled {
-    color: #000;
-    font-weight: bold;
-} */
+
+.table-row{
+	cursor:pointer;
+	}
+

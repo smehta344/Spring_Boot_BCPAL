@@ -7,5 +7,6 @@ import com.altimetrik.bcp.entity.Account;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Account, Integer> {
-
+	
+	Account findByName(String name);
 }
