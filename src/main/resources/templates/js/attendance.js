@@ -443,15 +443,18 @@ $(function(){
 	});
 
 	$("#attendanceTable").on("click", "td", function(event) {
-		var mail = $( this ).text();
-	     var col = $(this).parent().children().index($(this));
-	     var name = $(this).parent().children().next().next().html();
-	     event.preventDefault();
-	     if(col == 3){
-		     $("#emailmodalBody").empty();
-			$("#emailModal").modal("show");
-			$("#emailmodalBody").append("<b><p id='mailUname' hidden>"+name+"</p><font color='blue'>Do you want to send notification email to</font><font color='red' id='mail'> "+mail+"</font></b>");
-		 }
+		var attendanceType = $("#attendanceType").val();
+		event.preventDefault();
+		if(attendanceType == 'Not Marked'){
+			var mail = $( this ).text();
+			var col = $(this).parent().children().index($(this));
+			var name = $(this).parent().children().next().next().html();
+		    if(col == 3){
+			    $("#emailmodalBody").empty();
+				$("#emailModal").modal("show");
+				$("#emailmodalBody").append("<b><p id='mailUname' hidden>"+name+"</p><font color='blue'>Do you want to send notification email to</font><font color='red' id='mail'> "+mail+"</font></b>");
+			}
+		}
 	 });
 	
 	$("#emailNotificationYes").click(function(){ 
