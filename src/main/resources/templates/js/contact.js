@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	
+	
 	var urlForAccount = urlForServer+"bcm/getAllAccounts";
 	var isDateChanged = true;
 	
