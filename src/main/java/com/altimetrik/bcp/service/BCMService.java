@@ -632,7 +632,14 @@ public class BCMService {
 		List<PlanDetailFormData> planDetailList = new ArrayList<PlanDetailFormData>();
 		Account accountObj = accountRepo.findByName(name);
 		List<Project> projectsList = projecRepo.findByAccountId(accountObj.getId());
-		List<DailyStatus> dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date, statusValue, projectsList);
+		
+		List<DailyStatus> dailyList = new ArrayList<DailyStatus>();
+		if(statusValue.equals("hiringUpdate")){
+			dailyList = dailyStatusRepo.findByDateAndProjectIn(date, projectsList);
+		}
+		else{
+			dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date, statusValue, projectsList);
+		}
 		for(int i=0;i<dailyList.size();i++){
 			PlanDetailFormData planData = new PlanDetailFormData();
 			planData.setDeliveryChallenge(dailyList.get(i).getChallenges());

@@ -8,6 +8,13 @@
    text-align: left !important;   
 }
 
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+#hiringTable td {
+   text-align: left !important;   
+}
 
 @media (min-width: 576px)
 .modal-dialog {
@@ -25,6 +32,40 @@
     overflow: hidden;
     outline: 0;
 }
+
+.hiringModal {
+    position: fixed;
+    top: 0px !important;
+    right: 50;
+    bottom: 0;
+    left: 5px;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+.hiring-modal-content {
+	height: 100% !important;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100% !important;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+    max-width: 100% !important;
+    margin: 1.50rem auto !important;
+}
+
 .modal-content {
 	height: 100% !important;
     position: relative;
@@ -45,9 +86,17 @@
     max-width: 100% !important;
     margin: 1.50rem auto !important;
 }
+
 .modal-dialog {
     height: 90%;
     width: 90%;
     max-width: 100% !important;
-    margin: 1.75rem auto !important;
+    margin: 1.75rem 1rem auto !important;
+}
+
+.hiring-modal-dialog {
+    height: 90%;
+    width: 90%;
+    max-width: 100% !important;
+    margin: 1.75rem 16rem auto !important;
 }
