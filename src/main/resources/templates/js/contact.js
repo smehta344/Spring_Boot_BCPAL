@@ -41,8 +41,7 @@ $(document).ready(function(){
 							$('#engg_leader').empty();
 							$('#engg_leader').attr('value', leader.name);
 							$('#engg_leader').attr('name', leader.id);
-							$('#location').empty();
-							$('#location').attr('value', location.name);
+							$('#location').val(location.name);
 							$('#location').attr('name', location.id);
 								var date = $("#currentDate").val();
 								var sa = new Date(date);
