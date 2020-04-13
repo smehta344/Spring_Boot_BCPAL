@@ -20,9 +20,9 @@
 
 <script>
 function validateUsername() {
-	var uname = $("#username").val();
-	if(uname != '' && uname.indexOf("@altimetrik.com") != -1){
-		var name = uname.split("@");
+	var usrname = $("#username").val();
+	if(usrname != '' && usrname.indexOf("@altimetrik.com") != -1){
+		var name = usrname.split("@");
 		$("#username").val(name[0])
 	}
 }

@@ -23,7 +23,6 @@ import com.altimetrik.bcp.entity.AccLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.entity.DailyStatus;
-import com.altimetrik.bcp.entity.Leader;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
@@ -140,7 +139,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			}else{
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByLeaveAndDate(BcpUtils.getLeaveDbValues(),fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndAttendanceDate(BcpUtils.getLeaveDbValues(),fromDate);
 			}
 			attendanceDataList = calculatePercentage(attendanceByAccountList);
 			
@@ -176,7 +175,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndAttendanceDate(attdTypeValue,attdType,fromDate);
 			} else {
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndLeaveAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusInAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),fromDate);
 			}
 			
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
@@ -203,7 +202,7 @@ public class BCMService {
 				if(!attdType.equals(AppConstants.LEAVE)){
 					attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
 				} else {
-					attendanceStatusList = attendenceRepo.getAttendanceStatusByLeaveAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
+					attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 				}
 				
 				attendanceDataList = calculatePercentage(attendanceByAccountList);
@@ -245,7 +244,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
 			} else {
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndLeaveAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusInAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
 			attnPercentageData.setEmployeeDetails(attendanceStatusList);
@@ -359,7 +358,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndAttendanceDate(attdType,fromDate);
 			} else{
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByLeaveAndDate(BcpUtils.getLeaveDbValues(),fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndAttendanceDate(BcpUtils.getLeaveDbValues(),fromDate);
 			}
 			List<AttendanceData> attendanceDataList = calculatePercentage(attendanceByAccountList);
 			
@@ -395,7 +394,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndAttendanceDate(attdTypeValue,attdType,fromDate);
 			} else {
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndLeaveAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusInAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),fromDate);
 			}
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
 			attnPercentageData.setEmployeeDetails(attendanceStatusList);
@@ -420,7 +419,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
 			} else {
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByLeaveAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
 			List<AttendanceData> attendanceDataList = calculatePercentage(attendanceByAccountList);
 			Map<String,AttendanceData> finalMap = new TreeMap<>();
@@ -455,7 +454,7 @@ public class BCMService {
 			if(!attdType.equals(AppConstants.LEAVE)){
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
 			} else {
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndLeaveAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusInAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
 			
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
