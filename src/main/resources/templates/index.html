@@ -19,7 +19,13 @@
 <link href="css/style.css" rel="stylesheet" />
 
 <script>
-
+function validateUsername() {
+	var uname = $("#username").val();
+	if(uname != '' && uname.indexOf("@altimetrik.com") != -1){
+		var name = uname.split("@");
+		$("#username").val(name[0])
+	}
+}
 function getUrlVars()
 {
     var vars = [], hash;
@@ -66,7 +72,7 @@ $(document).ready(function(){
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
               </div>
-              <button id="loginSubmit" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <button id="loginSubmit" onclick="return validateUsername()" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
               </form>
             </div>
           </div>

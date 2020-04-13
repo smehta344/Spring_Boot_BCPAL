@@ -436,10 +436,10 @@ $(function(){
 	if(chart != null){
 		chart.destroy();
 	}
-	getAttendancePage(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	if(attendanceWiseType == 'LOCATION'){
 		getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	}
+	getAttendancePage(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	});
 
 	$("#attendanceTable").on("click", "td", function(event) {
