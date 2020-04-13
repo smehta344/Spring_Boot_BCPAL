@@ -12,6 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private CustomAuthenticationProvider customAuthenticationProvider;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		 http
@@ -36,9 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		  auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
-		  auth.inMemoryAuthentication().withUser("tester").password("{noop}tester").roles("USER");
-		  auth.inMemoryAuthentication().withUser("karthick").password("{noop}karthick").roles("USER");
+		
+		auth.authenticationProvider(customAuthenticationProvider);
+		
+//		  auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
+//		  auth.inMemoryAuthentication().withUser("tester").password("{noop}tester").roles("USER");
+//		  auth.inMemoryAuthentication().withUser("karthick").password("{noop}karthick").roles("USER");
 	}
 	
 	@Override
