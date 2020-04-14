@@ -6,5 +6,5 @@ import com.altimetrik.bcp.entity.AccLocLeaderAssoc;
 
 @Repository
 public interface AccLocLeaderAssocrepo extends JpaRepository<AccLocLeaderAssoc, Integer> {
-	AccLocLeaderAssoc findLeaderByAccountIdAndLocationId(int accountId, int locationId);
+	AccLocLeaderAssoc findTopByAccountIdAndLocationId(int accountId, int locationId);
 }
