@@ -90,7 +90,7 @@ public class BCMService {
 		DeliveryInput deliveryInput = new DeliveryInput();
 		Project project = projecRepo.findById(projectId).get();
 		int locationId = project.getLocation().getId();
-		AccLocLeaderAssoc associationData = assoRepo.findLeaderByAccountIdAndLocationId(accountId, locationId);
+		AccLocLeaderAssoc associationData = assoRepo.findTopByAccountIdAndLocationId(accountId, locationId);
 		deliveryInput.setLocation(associationData.getLocation());
 		deliveryInput.setLeader(associationData.getLeader());
 		return deliveryInput;
