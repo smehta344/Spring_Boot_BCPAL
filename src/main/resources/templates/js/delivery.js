@@ -30,7 +30,7 @@ $(document).ready(function(){
 				  for(var i in data){
 					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 ondblClick=changeRowColor(this)><td class='col-2'>"+ data[i].account+"</td>" + 
 					  		"<td class='col-2' style=background-color:#ff3333> <button class='btn' name='red' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].redCount+"</button></td>"+ "<td class = 'col-2' style=background-color:#FFBF00> <button class='btn' name ='amber' type=button onClick=changeRowColor(this) style=width:75px;border-radius:10px>"+data[i].amberCount+"</button></td>" +
-					  				"<td class='col-2' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-2'>" + "<button type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
+					  				"<td class='col-2' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-2'>" + "<button class='btn' type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
 					  						"<td class='col-2' style=background-color:#ebebe0><button class='btn' name='hiringUpdate' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+"<i class='fa fa-eye'></i>"+"</button></td></tr>");
 				  }
 				  }
