@@ -15,12 +15,12 @@ import com.altimetrik.bcp.model.DeliverySummary;
 @Repository
 public interface DailyStatusRepo extends JpaRepository<DailyStatus, Integer> {
 
-	DailyStatus findByDateAndProject(Date date, Project project);
+	DailyStatus findByDateAndProject(String date, Project project);
 	
     @Query(nativeQuery = true, name="deliverySummaryByDateQuery")	
 	List<DeliverySummary> findDeliverySummaryByDate(@Param("fromDate") String fromDate);
     
-    List<DailyStatus> findByDateAndStatusAndProjectIn(Date date, String status, List<Project> project);
+    List<DailyStatus> findByDateAndStatusAndProjectIn(String date, String status, List<Project> project);
     
-    List<DailyStatus> findByDateAndProjectIn(Date date, List<Project> project);
+    List<DailyStatus> findByDateAndProjectIn(String date, List<Project> project);
 }

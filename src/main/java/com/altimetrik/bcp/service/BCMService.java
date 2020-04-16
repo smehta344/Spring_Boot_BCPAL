@@ -63,7 +63,9 @@ public class BCMService {
 	
 	public DailyStatus createStatusObj(PlanDetailFormData formData){
 		DailyStatus statusObject = new DailyStatus();
-		statusObject.setDate(formData.getDate());
+		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = sdf.format(formData.getDate());
+		statusObject.setDate(dateString);
 		statusObject.setChallenges(formData.getDeliveryChallenge());
 		statusObject.setLocationId(formData.getLocationId());
 		statusObject.setProjectId(projecRepo.findById(formData.getProjectId()).get());
@@ -101,8 +103,10 @@ public class BCMService {
 	}
 	
 	public PlanDetailFormData getHistoryData(Date fromDate, int projectId){
+		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = sdf.format(fromDate);
 		PlanDetailFormData planData = new PlanDetailFormData();
-		DailyStatus dailyStatus = dailyStatusRepo.findByDateAndProject(fromDate, 
+		DailyStatus dailyStatus = dailyStatusRepo.findByDateAndProject(dateString, 
 				projecRepo.findById(projectId).get());
 		if(dailyStatus != null){
 		planData.setDeliveryChallenge(dailyStatus.getChallenges());
@@ -628,16 +632,18 @@ public class BCMService {
 	}
 	
 	public List<PlanDetailFormData> getSummayByProject(String name, Date date, String statusValue){
+		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = sdf.format(date);
 		List<PlanDetailFormData> planDetailList = new ArrayList<PlanDetailFormData>();
 		Account accountObj = accountRepo.findByName(name);
 		List<Project> projectsList = projecRepo.findByAccountId(accountObj.getId());
 		
 		List<DailyStatus> dailyList = new ArrayList<DailyStatus>();
 		if(statusValue.equals("hiringUpdate")){
-			dailyList = dailyStatusRepo.findByDateAndProjectIn(date, projectsList);
+			dailyList = dailyStatusRepo.findByDateAndProjectIn(dateString, projectsList);
 		}
 		else{
-			dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date, statusValue, projectsList);
+			dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(dateString, statusValue, projectsList);
 		}
 		for(int i=0;i<dailyList.size();i++){
 			PlanDetailFormData planData = new PlanDetailFormData();

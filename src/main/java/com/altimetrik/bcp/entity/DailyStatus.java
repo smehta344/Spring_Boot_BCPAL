@@ -1,7 +1,6 @@
 package com.altimetrik.bcp.entity;
 
-import java.util.Date;
-
+import java.util.*;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -42,7 +41,7 @@ public class DailyStatus {
 	private int id;
 	
 	@Column(name = "date")
-	private Date date;
+	private String date;
 	
 	@Column(name = "team_size")
 	private int teamSize;
@@ -124,11 +123,11 @@ public class DailyStatus {
 		this.id = id;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
