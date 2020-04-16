@@ -12,11 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.model.DeliverySummary;
 import com.altimetrik.bcp.util.MysqlQueryConstants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @SqlResultSetMapping(
@@ -40,8 +43,11 @@ public class DailyStatus {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(
+			  shape = JsonFormat.Shape.STRING, pattern = "dd-MMM-yyyy", timezone = "IST", locale = "en_GB")
 	@Column(name = "date")
-	private String date;
+	private Date date;
 	
 	@Column(name = "team_size")
 	private int teamSize;
@@ -123,11 +129,11 @@ public class DailyStatus {
 		this.id = id;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
