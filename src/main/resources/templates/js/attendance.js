@@ -13,6 +13,8 @@ function getAccountNames(){
 				$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
 			});
 		},error : function() {
+			$("#attendanceSubmit").attr("disabled", false);
+			$('#loadingDiv').attr('style','display: none;');
 			alert("Server error while fetching  get All Accounts");
 		}
 	});
@@ -34,6 +36,8 @@ function getClientLocations(){
 				$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
 			});
 		},error : function() {
+			$("#attendanceSubmit").attr("disabled", false);
+			$('#loadingDiv').attr('style','display: none;');
 			alert("Server error while fetching  get All Locations");
 		}
 	});
@@ -41,6 +45,7 @@ function getClientLocations(){
 
 function getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType,billingType,date){
 	var urlForPercentTable = urlForServer+"dashboard/getAttendencePercent";
+	
 	$("#attendancePercentTable").empty();
 	var totalPercent = [];
 	var markedPercent = [];
@@ -57,6 +62,8 @@ function getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, 
 			fromDate:date
 		},
 		success : function(response) {
+			$("#attendanceSubmit").attr("disabled", false);
+			$('#loadingDiv').attr('style','display: none;');
 			$("#attendancePercentTable").empty();
 			var data = JSON.stringify(response);
 			if(attendanceType != 'all'){
@@ -91,12 +98,13 @@ function getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, 
 			$("#attendancePercentTable").append(table);
 			
 		},error : function() {
-			alert("Server error while fetching  get All Accounts");
+			$("#attendanceSubmit").attr("disabled", false);
+			$('#loadingDiv').attr('style','display: none;');
+			alert("Server error while fetching  get attendance percentage");
 		}
 	});
 }
 function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType,billingType,date) {
-
 	var urlForAttendance = urlForServer+"dashboard/getAttendence/";
 	//alert(urlForAttendance);
 	var total = [];
@@ -177,31 +185,37 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 			});
 			  var sno = 1;
 			  if(attendanceWiseType != 'LOCATION'){
+				  $("#attendanceSubmit").attr("disabled", false);
+				  $('#loadingDiv').attr('style','display: none;');
 				  var accounttable = "<tbody><thead align='center'><tr align='center' class='table-primary'><th colspan='7'>OVERALL EMPLOYEE STATUS ["+date+"]</th>" +
 					"</tr></thead><thead align='center'> <tr class='table-primary'> <th scope='sNo'>S. No</th><th scope='eId'>ACCOUNT NAME</th>" +
 			  		"<th scope='eName'>MARKED</th>" +
 			  		"<th scope='col'>NOT MARKED</th><th scope='col'>LEAVE</th><th scope='col'>TOTAL</th><th scope='col'>MARKED (%)</th></tr>";
 				  	$("#attendancePercentTable").empty();
-					  for(var i = 0 in labelsArr){
-						  var percent  = ((marked[i]/(total[i]-leave[i]))*100);
-						  if(isNaN(percent)){
-							  percent = 0;
+				  	if(labelsArr.length == 0){
+						  $("#NoRecordModal").modal("show");
+					  } else {
+						  for(var i = 0 in labelsArr){
+							  var percent  = ((marked[i]/(total[i]-leave[i]))*100);
+							  if(isNaN(percent)){
+								  percent = 0;
+							  }
+							  accounttable = accounttable+"<tr><th class='table-primary'>"+ sno +"</th><th class='table-primary'>"+labelsArr[i]+"</th>" +
+						  		"<td class='table-warning'>"+marked[i]+"</td><td class='table-warning'>"+unmarked[i]+"</td>" +
+				  				"<td class='table-warning'>"+leave[i]+"</td><td class='table-warning'>"+total[i]+"</td>" +
+				  						"<td class='table-warning'>"+percent.toFixed(1)+"%</td></tr>";
+								
+							  sno=(sno+1);
 						  }
-						  accounttable = accounttable+"<tr><th class='table-primary'>"+ sno +"</th><th class='table-primary'>"+labelsArr[i]+"</th>" +
-					  		"<td class='table-warning'>"+marked[i]+"</td><td class='table-warning'>"+unmarked[i]+"</td>" +
-			  				"<td class='table-warning'>"+leave[i]+"</td><td class='table-warning'>"+total[i]+"</td>" +
-			  						"<td class='table-warning'>"+percent.toFixed(1)+"%</td></tr>";
-							
-						  sno=(sno+1);
+						  accounttable= accounttable+"<tr><th class='table-primary' colspan='2'>TOTAL</th>" +
+						  		"<td class='table-primary'>"+marked.reduce(addElementsInList)+"</td>" +
+						  				"<td class='table-primary'>"+unmarked.reduce(addElementsInList)+"</td>" +
+						  						"<td class='table-primary'>"+leave.reduce(addElementsInList)+"</td>" +
+						  								"<td class='table-primary'>"+total.reduce(addElementsInList)+"</td><td class='table-primary'>-</td></tr>"
+						  		
+						  accounttable = accounttable+"</tbody>";
+						  $("#attendancePercentTable").append(accounttable);
 					  }
-					  accounttable= accounttable+"<tr><th class='table-primary' colspan='2'>TOTAL</th>" +
-					  		"<td class='table-primary'>"+marked.reduce(addElementsInList)+"</td>" +
-					  				"<td class='table-primary'>"+unmarked.reduce(addElementsInList)+"</td>" +
-					  						"<td class='table-primary'>"+leave.reduce(addElementsInList)+"</td>" +
-					  								"<td class='table-primary'>"+total.reduce(addElementsInList)+"</td><td class='table-primary'>-</td></tr>"
-					  		
-					  accounttable = accounttable+"</tbody>";
-					  $("#attendancePercentTable").append(accounttable);
 			  }
 			  if(empDetails.length > 0){
 				  $("#attendanceTable").empty();
@@ -326,7 +340,8 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 $(function(){
 	var date = new Date();
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-	
+	$("#attendanceSubmit").attr("disabled", true);
+	$('#loadingDiv').attr('style','display: block;');
 	getAttendancePage('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
 	getClientLocations();
 	getAttendancePagePercentTable('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
@@ -356,6 +371,8 @@ $(function(){
 					$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
 				});
 			},error : function() {
+				$("#attendanceSubmit").attr("disabled", false);
+				$('#loadingDiv').attr('style','display: none;');
 				alert("Server error while fetching  get All Accounts Or Locations");
 			}
 		});
@@ -388,10 +405,12 @@ $(function(){
 	});
 	$("#attendanceSubmit").click(function(){ 
 		$("#attendanceTable").empty();
+		$("#attendancePercentTable").empty();
 		$('#attendanceWiseTypeMsg').empty();
     	$('#attendanceDateMsg').empty();
     	$('#attendanceTypeMsg').empty();
     	$('#attendanceTypeValuesMsg').empty();
+    	$("#NoRecordModal").modal("hide");
 	var date = $("#attandanceDate").val();
 	var attendanceWiseType = $("#attendanceWiseType").val();
 	var billingType = $("#billingType").val();
@@ -400,24 +419,27 @@ $(function(){
 	$("#bar-chartcanvas").empty();
 	if(attendanceWiseType == null || attendanceWiseType == 'empty' ){
 		$("#attendanceWiseTypeMsg").append("<font color='red'>Please select attendance wise</font>");
+		$('#attendanceWiseTypeMsg').attr('style','display: block;');
 		return false;
 	} else {
 		$('#attendanceWiseTypeMsg').attr('style','display: none;');
 		$('#attendanceWiseTypeMsg').empty();
 	}
-	if((attendanceWiseType == 'ACCOUNT') && (attendanceTypeValue =='empty' || attendanceTypeValue == null)){
+	if((attendanceWiseType == 'ACCOUNT') && attendanceTypeValue == null){
 		$("#attendanceTypeValuesMsg").append("<font color='red'>Please select any Account</font>");
+		$('#attendanceTypeValuesMsg').attr('style','display: block;');
 		return false;
-	} else if ((attendanceWiseType == 'LOCATION') && (attendanceTypeValue =='empty' || attendanceTypeValue == null)){
+	} else if ((attendanceWiseType == 'LOCATION') && attendanceTypeValue == null){
 		$("#attendanceTypeValuesMsg").append("<font color='red'>Please select any Location</font>");
+		$('#attendanceTypeValuesMsg').attr('style','display: block;');
 		return false;
 	}else {
 		$('#attendanceTypeValuesMsg').attr('style','display: none;');
 		$('#attendanceTypeValuesMsg').empty();
 	}
-	
 	if(attendanceType == null || attendanceType == 'empty' ){
 		$("#attendanceTypeMsg").append("<font color='red'>Please select attendance type</font>");
+		$('#attendanceTypeMsg').attr('style','display: block;');
 		return false;
 	} else {
 		$('#attendanceTypeMsg').attr('style','display: none;');
@@ -427,7 +449,7 @@ $(function(){
 	if(!date.trim()){
 		$('#attendanceDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
 		$("#attendanceDateMsg").append("<font color='red'>Please select date</font>");
-		
+		$('#attendanceDateMsg').attr('style','display: block;');
 		return false;
 	} else {
 		$('#attendanceDateMsg').attr('style','display: none;');
@@ -436,6 +458,9 @@ $(function(){
 	if(chart != null){
 		chart.destroy();
 	}
+	$("#attendanceSubmit").attr("disabled", true);
+	$('#loadingDiv').attr('style','display: block;');
+	
 	if(attendanceWiseType == 'LOCATION'){
 		getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	}
