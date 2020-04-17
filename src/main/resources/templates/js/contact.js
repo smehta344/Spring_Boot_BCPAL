@@ -106,7 +106,6 @@ $(document).ready(function(){
 					$.each(JSON.parse(data), function(idx, item) {
 						$('#project').append("<option value="+item.id+">"+item.name+"</option>");
 					});
-					$('#project').append("<option value='0'>Others</option>");
 					
 					 $("#project").val($("#project option:eq(1)").val()).change();
 					 
