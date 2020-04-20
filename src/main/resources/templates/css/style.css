@@ -1,58 +1,94 @@
-body {
-  background: #57ADFC;
-  background: linear-gradient(to right, #0062E6, #33AEFF);
+#fullPage, #brandingWrapper {
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
 }
 
-.card-signin {
-  border: 0;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+#branding {
+    height: 100%;
+    margin-right: 500px;
+    margin-left: 0px;
+    background-color: inherit;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+.illustrationClass {
+    background-image: url(/img/illustration.jpg);
 }
 
-.card-signin .card-title {
-  margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 1.5rem;
+#contentWrapper {
+    position: relative;
+    width: 500px;
+    height: 100%;
+    overflow: auto;
+    background-color: #f0f0f0;
+    margin-left: -500px;
+    margin-right: 0px;
+}
+.float {
+    float: left;
 }
 
-.card-signin .card-body {
-  padding: 2rem;
+#content {
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -55px auto;
+    padding: 0px 150px 0px 50px;
+}
+#header {
+    padding-top: 30px;
+    margin-bottom: 30px;
+    font-size: 2em;
+	font-weight: lighter;
+	font-family: "Segoe UI Light" , "Segoe" , "SegoeUI-Light-final", Tahoma, Helvetica, Arial, sans-serif;
+}
+#header {
+    padding-top: 40px;
+    min-height: 0px;
+    overflow: hidden;
 }
 
-.form-signin {
-  width: 100%;
+.groupMargin {
+    margin-bottom: 30px;
+}
+#workArea, #header {
+    word-wrap: break-word;
+}
+#username {
+    height: 42px !important;
+    padding: 0px 20px 0px 10px !important;
+    border: solid 1px #BABABA !important;
+    border-radius: 5px 1px 1px 5px !important;
+}
+#password {
+	border-radius: 5px !important;
+	height: 42px !important;
+    padding: 0px 20px 0px 10px !important;
+    border: solid 1px #BABABA !important;
+	width: 130%;
+}
+#loginSubmit {
+    margin-top: 38px;
+    margin-bottom: 30px;
+    width: 130%;
+    color: rgb(255, 255, 255);
 }
 
-.form-signin .btn {
-  font-size: 80%;
-  border-radius: 5rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
-  padding: 1rem;
-  transition: all 0.2s;
+#footer {
+    height: 10px;
+    position: relative;
+    color: #666666;
+    font-size: 0.78em;
+    bottom: 0;
 }
-
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
+#footerLinks {
+    float: none;
+    padding-top: 10px;
+    margin-top: 100px;
 }
-
-.form-label-group input {
-  height: auto;
-  border-radius: 2rem;
-}
-
-.form-label-group>label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
-  /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
+#footerPlaceholder {
+    height: 40px;
 }

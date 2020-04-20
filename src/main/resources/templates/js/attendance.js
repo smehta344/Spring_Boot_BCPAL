@@ -22,10 +22,10 @@ function getAccountNames(){
 function addElementsInList(total, num) {
 	  return total + num;
 }
-function getClientLocations(){
-	var urlForProject = urlForServer+"dashboard/getClientLocations";
+function getAccountNames(){
+	var urlForProject = urlForServer+"dashboard/getAccountNames";
 	$('#attendanceTypeValue').empty();
-	$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT LOCATION</option>");
+	$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT ACCOUNT</option>");
 	$.ajax({
 		type : 'GET',
 		url : urlForProject,
@@ -38,7 +38,7 @@ function getClientLocations(){
 		},error : function() {
 			$("#attendanceSubmit").attr("disabled", false);
 			$('#loadingDiv').attr('style','display: none;');
-			alert("Server error while fetching  get All Locations");
+			alert("Server error while fetching  get All Accounts");
 		}
 	});
 }
@@ -217,23 +217,26 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 						  $("#attendancePercentTable").append(accounttable);
 					  }
 			  }
+			  var notMarkedEmployeeDetails = "<tbody><thead align='center'><tr align='center' class='table-primary'>" +
+		  		"<th colspan='11'>NOT MARKED EMPLOYEES LIST </th></tr></thead>" +
+		  		"<thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th>" +
+		  		"<th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
+		  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
+		  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th>" +
+		  		"<th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th></tr>";
 			  if(empDetails.length > 0){
 				  $("#attendanceTable").empty();
-				  $("#attendanceTable").append("<tbody><thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th>" +
-				  		"<th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
-				  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
-				  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th>" +
-				  		"<th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th>");
 				  var sno = 1;
 				  for(var i in empDetails){
-					  $("#attendanceTable").append("<tr><th class='table-primary'>"+ sno +"</th><td class='table-warning'>"+empDetails[i].empId+"</td>" +
+					  notMarkedEmployeeDetails = notMarkedEmployeeDetails + "<tr><th class='table-primary'>"+ sno +"</th><td class='table-warning'>"+empDetails[i].empId+"</td>" +
 					  		"<td class='table-warning'>"+empDetails[i].empployeeName+"</td><td class='table-warning'><a href=''>"+empDetails[i].emailId+"</a></td><td class='table-warning'>"+empDetails[i].accountName+"</td>" +
 					  				"<td class='table-warning'>"+empDetails[i].project+"</td><td class='table-warning'>"+empDetails[i].clientLocation+"</td>" +
 					  						"<td class='table-warning'>"+empDetails[i].reportManager+"</td><td class='table-warning'>"+empDetails[i].Category+"</td><td class='table-warning'>"+empDetails[i].attendanceStatus+"</td>" +
-					  								"<td class='table-warning'>"+empDetails[i].attendanceDate+"</td></tr>");
+					  								"<td class='table-warning'>"+empDetails[i].attendanceDate+"</td></tr>";
 					  sno=(sno+1);
 				  }
-				  $("#attendanceTable").append("</tbody>");
+				  notMarkedEmployeeDetails = notMarkedEmployeeDetails + "</tbody>";
+				  $("#attendanceTable").append(notMarkedEmployeeDetails);
 			  }
 			
 			
@@ -342,12 +345,10 @@ $(function(){
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	$("#attendanceSubmit").attr("disabled", true);
 	$('#loadingDiv').attr('style','display: block;');
-	getAttendancePage('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
-	getClientLocations();
-	getAttendancePagePercentTable('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
+	getAttendancePage('ACCOUNT', 'all', 'Marked','BILLED', formatDate(today));
+	getAccountNames();
+	//getAttendancePagePercentTable('LOCATION', 'all', 'Marked','BILLED', formatDate(today));
 	var record="";
-	$("#billingType").val('BILLED');
-	$("#attendanceType").val('Marked');
 	$('#attandanceDate').val(formatDate(today));
 	$("select#attendanceWiseType").change(function(){
 		var attendanceWiseType = $(this).children("option:selected").val();
@@ -411,10 +412,11 @@ $(function(){
     	$('#attendanceTypeMsg').empty();
     	$('#attendanceTypeValuesMsg').empty();
     	$("#NoRecordModal").modal("hide");
+    	
 	var date = $("#attandanceDate").val();
 	var attendanceWiseType = $("#attendanceWiseType").val();
-	var billingType = $("#billingType").val();
-	var attendanceType = $("#attendanceType").val();
+	var billingType = 'BILLED';
+	var attendanceType = 'Marked';
 	var attendanceTypeValue = $("#attendanceTypeValue").val();
 	$("#bar-chartcanvas").empty();
 	if(attendanceWiseType == null || attendanceWiseType == 'empty' ){
@@ -445,7 +447,6 @@ $(function(){
 		$('#attendanceTypeMsg').attr('style','display: none;');
 		$('#attendanceTypeMsg').empty();
 	}
-	
 	if(!date.trim()){
 		$('#attendanceDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
 		$("#attendanceDateMsg").append("<font color='red'>Please select date</font>");
@@ -460,7 +461,6 @@ $(function(){
 	}
 	$("#attendanceSubmit").attr("disabled", true);
 	$('#loadingDiv').attr('style','display: block;');
-	
 	if(attendanceWiseType == 'LOCATION'){
 		getAttendancePagePercentTable(attendanceWiseType, attendanceTypeValue, attendanceType, billingType, date);
 	}
@@ -468,17 +468,14 @@ $(function(){
 	});
 
 	$("#attendanceTable").on("click", "td", function(event) {
-		var attendanceType = $("#attendanceType").val();
 		event.preventDefault();
-		if(attendanceType == 'Not Marked'){
-			var mail = $( this ).text();
-			var col = $(this).parent().children().index($(this));
-			var name = $(this).parent().children().next().next().html();
-		    if(col == 3){
-			    $("#emailmodalBody").empty();
-				$("#emailModal").modal("show");
-				$("#emailmodalBody").append("<b><p id='mailUname' hidden>"+name+"</p><font color='blue'>Do you want to send notification email to</font><font color='red' id='mail'> "+mail+"</font></b>");
-			}
+		var mail = $( this ).text();
+		var col = $(this).parent().children().index($(this));
+		var name = $(this).parent().children().next().next().html();
+	    if(col == 3){
+		    $("#emailmodalBody").empty();
+			$("#emailModal").modal("show");
+			$("#emailmodalBody").append("<b><p id='mailUname' hidden>"+name+"</p><font color='blue'>Do you want to send notification email to</font><font color='red' id='mail'> "+mail+"</font></b>");
 		}
 	 });
 	

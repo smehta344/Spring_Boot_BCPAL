@@ -75,23 +75,23 @@
 	</br>
 	</br>
 	<div class="row">
-			<div class='col-sm-2'>
+			<div class='col-sm-3'>
 				<select class="form-control" name="attendanceWiseType" id="attendanceWiseType">
 					<option value="empty" disabled hidden>
 						Select Attendance</option>
-					<option value="ACCOUNT">Accountwise</option>
-					<option value="LOCATION" selected>Locationwise</option>
+					<option value="ACCOUNT" selected>Accountwise</option>
+					<option value="LOCATION" >Locationwise</option>
 				</select> 
 				<div id="attendanceWiseTypeMsg"></div>
 			</div>
 			
-				<div class='col-sm-2' id="attendanceTypeValueDiv" style="display:block;">
+				<div class='col-sm-3' id="attendanceTypeValueDiv" style="display:block;">
 				<select class="form-control" name="attendanceTypeValues" id="attendanceTypeValue">
 				</select> 
 				<div id="attendanceTypeValuesMsg"></div>
 				</div>
 				
-				<div class='col-sm-2'>
+				<!-- <div class='col-sm-2'>
 				<select class="form-control" name="attendanceType" id="attendanceType">
 					<option value="empty" disabled >
 						SELECT ATTENDANCE TYPE</option>
@@ -112,9 +112,9 @@
 					<option value="NonTech Unbilled">NON-TECH UNBILLED </option>
 				</select> 
 				<div id="billingTypeMsg"></div>
-				</div>
+				</div> -->
 				
-				<div class='col-sm-2'>
+				<div class='col-sm-3'>
 					<div class="form-group date" data-date-format="yyyy/mm/dd" data-date-end-date="0d" data-provide="datepicker">
 						<div class="input-group-prepend">
 	
@@ -127,7 +127,7 @@
 					<div id="attendanceDateMsg"></div>
 				</div>
 				
-				<div class='col-sm-2'>
+				<div class='col-sm-3'>
 				<button id="attendanceSubmit" class="btn btn-md btn-primary text-uppercase" type="submit">Submit</button>
 				</div>
 		</div>
