@@ -14,3 +14,10 @@ canvas{
     color: #000;
     font-weight: bold;
 } */
+
+
+.scroll {
+ 	display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
