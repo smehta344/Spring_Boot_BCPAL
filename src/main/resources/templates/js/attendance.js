@@ -356,18 +356,18 @@ $(function(){
         if(attendanceWiseType != 'empty' && attendanceWiseType =='ACCOUNT'){
         	var urlForProject = urlForServer+"dashboard/getAccountNames";
         	$('#attendanceTypeValue').empty();
-			$('#attendanceTypeValue').append("<option value='empty' selected disabled>SELECT ACCOUNT</option>");
+			$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT ACCOUNT</option>");
         } else {
         	var urlForProject = urlForServer+"dashboard/getClientLocations";
         	$('#attendanceTypeValue').empty();
-			$('#attendanceTypeValue').append("<option value='empty' selected disabled>SELECT LOCATION</option>");
+			$('#attendanceTypeValue').append("<option value='empty' disabled>SELECT LOCATION</option>");
         }
 		$.ajax({
 			type : 'GET',
 			url : urlForProject,
 			success : function(response) {
 				var data = JSON.stringify(response);
-				$('#attendanceTypeValue').append("<option value='all'>ALL</option>");
+				$('#attendanceTypeValue').append("<option value='all' selected>ALL</option>");
 				$.each(JSON.parse(data), function(idx, item) {
 					$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
 				});
