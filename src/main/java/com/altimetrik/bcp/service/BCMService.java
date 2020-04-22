@@ -86,7 +86,6 @@ public class BCMService {
 		
 		statusObject.setDeliverableOfDay(formData.getKeyDeliverable());
 		statusObject.setMilestone(formData.getMilestone());
-		statusObject.setMitigationPlan(formData.getMitigationPlan());
 		statusObject.setWfhChallenge(formData.getWfhChallenge());
 		statusObject.setWfhMitigationPlan(formData.getWfhMitigationPlan());
 		statusObject.setMitigationPlan(formData.getDeliveryMitigationPlan());
@@ -117,7 +116,7 @@ public class BCMService {
 		planData.setTeamSize(dailyStatus.getTeamSize());
 		planData.setProjectName(dailyStatus.getProject().getName());
 		planData.setMilestone(dailyStatus.getMilestone());
-		planData.setMitigationPlan(dailyStatus.getMitigationPlan());
+		planData.setDeliveryMitigationPlan(dailyStatus.getMitigationPlan());
 		planData.setWfhChallenge(dailyStatus.getWfhChallenge());
 		planData.setWfhMitigationPlan(dailyStatus.getWfhMitigationPlan());
 		planData.setKeyDeliverable(dailyStatus.getDeliverableOfDay());
@@ -670,7 +669,7 @@ public class BCMService {
 			planData.setDeliveryChallenge(dailyList.get(i).getChallenges());
 			planData.setProjectName(dailyList.get(i).getProject().getName());
 			planData.setMilestone(dailyList.get(i).getMilestone());
-			planData.setMitigationPlan(dailyList.get(i).getMitigationPlan());
+			planData.setDeliveryMitigationPlan(dailyList.get(i).getMitigationPlan());
 			planData.setWfhChallenge(dailyList.get(i).getWfhChallenge());
 			planData.setWfhMitigationPlan(dailyList.get(i).getWfhMitigationPlan());
 			planData.setKeyDeliverable(dailyList.get(i).getDeliverableOfDay());

@@ -23,9 +23,9 @@ $(document).ready(function(){
 		},
 		success : function(data) {
 				  $("#deliveryTable").empty();
-				  $("#deliveryTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex' style = align='left'> <th class='col-1' align='center' scope='col'>Account</th><th class='col-1' align='center' bdcolor='#ff0000' scope='col'>Red</th><th class= 'col-1' align='center' scope='col'>Amber</th>" +
-				  		"<th class='col-1' scope='col' align='center'>Green</th><th class ='col-1' scope='col'>Grand total</th>"
-						  + "<th class='col-3' scope='col' align='center'>Hiring Update</th>" + "<th class='col-4' scope='col' align='center'>Remarks</th>");
+				  $("#deliveryTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex' style = align='left'> <th class='col-2' align='center' scope='col'>Account</th><th class='col-1' align='center' bdcolor='#ff0000' scope='col'>Red</th><th class= 'col-1' align='center' scope='col'>Amber</th>" +
+				  		"<th class='col-1' scope='col' align='center'>Green</th><th class ='col-1' scope='col'>Total</th>"
+						  + "<th class='col-2' scope='col' align='center'>Hiring Update</th>" + "<th class='col-4' scope='col' align='center'>Remarks</th>");
 				  if(data.length > 0){
 					  
 					  var remarkData = [];
@@ -39,7 +39,7 @@ $(document).ready(function(){
 							  var projectsData = data[i].planList;
 							  var statusByProject = projectsData[j];
 							  remark = remark + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
-							  hiringUpdate = "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
+							  hiringUpdate = hiringUpdate + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
 							  if(statusByProject.deliveryChallenge != undefined){
 								  var decodedData = decodeURIComponent(statusByProject.deliveryChallenge)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -54,8 +54,8 @@ $(document).ready(function(){
 								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
-							  if(statusByProject.mitigationPlan != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.mitigationPlan)
+							  if(statusByProject.deliveryMitigationPlan != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
 								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
@@ -82,17 +82,17 @@ $(document).ready(function(){
 					  
 					  
 				  for(var i in data){
-					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-1'>"+ data[i].account+"</td>" + 
+					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 overflow-wrap: break-word align='left' ondblClick=changeRowColor(this)><td class='col-2'>"+ data[i].account+"</td>" + 
 					  		"<td class='col-1' style=background-color:#ff3333> <button class='btn' name='red' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].redCount+"</button></td>"+ "<td class = 'col-1' style=background-color:#FFBF00> <button class='btn' name ='amber' type=button onClick=changeRowColor(this) style=width:75px;border-radius:10px>"+data[i].amberCount+"</button></td>" +
 					  				"<td class='col-1' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-1'>" + "<button class='btn' type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
-					  						"<td class='col-3' style=background-color:#ebebe0>" + hiringUpdateData[i] +"</td>" + "<td class='col-4' style=background-color:#ebebe0>" + remarkData[i] + "</td>" + "</tr>");
+					  						"<td class='col-2' style=background-color:#ebebe0>" + hiringUpdateData[i] +"</td>" + "<td class='col-4' style=background-color:#ebebe0>" + remarkData[i] + "</td>" + "</tr>");
 				  }
 				  }
 				  else{
-					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-1'>"+ "" +"</td>" + 
+					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-2'>"+ "" +"</td>" + 
 						  		"<td class='col-1' style=background-color:#ff3333></td>"+ "<td class = 'col-1' style=background-color:#FFBF00></td>" +
 						  				"<td class='col-1' style=background-color:#99e699></td>" + "<td class='col-1'>" +""+"</td>"+ 
-						  				"<td class='col-3'>" +""+"</td>" + "<td class='col-4'>" +""+"</td>" + "</tr>");
+						  				"<td class='col-2'>" +""+"</td>" + "<td class='col-4'>" +""+"</td>" + "</tr>");
 				  }
 				  $("#deliveryTable").append("</tbody>");
 		},error : function() {

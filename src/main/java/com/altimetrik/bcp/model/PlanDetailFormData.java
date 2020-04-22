@@ -116,12 +116,6 @@ public class PlanDetailFormData {
 	public void setDeliveryChallenge(String deliveryChallenge) {
 		this.deliveryChallenge = deliveryChallenge;
 	}
-	public String getMitigationPlan() {
-		return wfhMitigationPlan;
-	}
-	public void setMitigationPlan(String mitigationPlan) {
-		this.wfhMitigationPlan = mitigationPlan;
-	}
 	public String getWfhChallenge() {
 		return wfhChallenge;
 	}
