@@ -55,7 +55,7 @@ $(document).ready(function(){
 								  "</span></p>";
 							  }
 							  if(statusByProject.mitigationPlan != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
+								  var decodedData = decodeURIComponent(statusByProject.mitigationPlan)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
 								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +

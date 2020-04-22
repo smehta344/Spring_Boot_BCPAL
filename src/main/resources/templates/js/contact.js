@@ -61,9 +61,9 @@ $(document).ready(function(){
 										$('#milestone').val(decodeURIComponent(responseData.milestone));
 									    $('#challenges').val(decodeURIComponent(responseData.deliveryChallenge));
 								    	$('#wfh_challenges').val(decodeURIComponent(responseData.wfhChallenge));
-								    	$('#wfh_mitigation').val(decodeURIComponent(responseData.mitigationPlan));
+								    	$('#wfh_mitigation').val(decodeURIComponent(responseData.wfhMitigation));
 								    	$('#key_deliverables').val(decodeURIComponent(responseData.keyDeliverable));
-								    	$('#mitigation').val(decodeURIComponent(responseData.mitigationPlan));
+								    	$('#mitigation').val(decodeURIComponent(responseData.deliveryMitigationPlan));
 								    	$('#teamSize').val(responseData.teamSize);
 								    	$('#hiringUpdates').val(decodeURIComponent(responseData.hiringUpdate));
 										}
@@ -150,7 +150,7 @@ $(document).ready(function(){
     	var challenges = $("#challenges").val();
     	var teamSize = $("#teamSize").val();
     	var teamLogged = $("#teamLogged").val();
-    	var mitigation = $("#mitigation").val();
+    	var deliveryMitigation = $("#mitigation").val();
     	var targetPercent = $("#target").val();
     	var actualPercent = $("#actual").val();
     	var deliverOnTrack = $("#deliverOnTrack").val();
@@ -246,7 +246,7 @@ $(document).ready(function(){
     		$('#challengesMsg').empty();
     	}
     	
-    	if(!mitigation.trim()){
+    	if(!deliveryMitigation.trim()){
     		$('#mitigationMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
     		$("#mitigationMsg").append("<font color='red'>Please enter delivery mitigation plans</font>");
     		return false;
@@ -283,7 +283,7 @@ $(document).ready(function(){
     	
         var url = urlForServer+"bcm/addDilyStatus";
        
-        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+encodeURIComponent(milestone)+'","deliveryChallenge":"'+challenges+'","mitigationPlan":"'+mitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigation":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'","hiringUpdate":"'+hiringUpdate+'"}';
+        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+encodeURIComponent(milestone)+'","deliveryChallenge":"'+challenges+'","deliveryMitigationPlan":"'+deliveryMitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigationPlan":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'","hiringUpdate":"'+hiringUpdate+'"}';
         $.ajax({
 			contentType: 'application/json; charset=utf-8',
 			type : 'POST',
