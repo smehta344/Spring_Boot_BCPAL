@@ -7,9 +7,43 @@ $(document).ready(function(){
 	datepicker({autoclose:true}).on("change", function() {
 		 $('.datepicker').hide();
 		 getDeliverySummaryList();
+		 getTodaySummary();
 	  });
 	getDeliverySummaryList();
-
+	getTodaySummary();
+	
+	function getTodaySummary(){
+		$("#todaySummaryDiv").empty();
+		var date = $("#startDate").val();
+		var url = urlForServer+"summary/getTodaySummary";
+		$.ajax({
+			contentType: 'application/json; charset=utf-8',
+			type : 'GET',
+			url : url,
+			data : {
+				fromDate:date
+			},
+			datatype: 'html',
+			content: "application/json; charset=utf-8",
+			success : function(responseText) {
+				var todaySummaryText = "<p style='font-size:20px;margin-bottom: -10px;'><b><u>Overall Summary for ["+date+"]:</b></u></p><br>";
+				todaySummaryText = todaySummaryText + "<div class='card scrollCard' style='max-height:300px;'><div class='card-body'>";
+				if(responseText != ''){
+					var responseData = responseText.summary;
+					while(responseData.indexOf("!@!@!@") != -1){
+						responseData = responseData.replace("!@!@!@", "\"");
+					}
+					todaySummaryText = todaySummaryText + responseData;
+				} else {
+					todaySummaryText = todaySummaryText + "<p><font color='red'>No records exists!!</font></p>";
+				}
+				todaySummaryText = todaySummaryText + "</div></div><br>"
+				$("#todaySummaryDiv").append(todaySummaryText);
+			},error : function() {
+				alert("error added");
+			}
+		});
+	}
 	function getDeliverySummaryList(){
 		var urlForAttendance = urlForServer+"dashboard/getDeliveryList";
 		var selectedDateString = $("#startDate").val();

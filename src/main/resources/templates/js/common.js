@@ -38,6 +38,9 @@ $(function () {
 	$('#attandanceDate').datepicker().on('change', function(){
         $('.datepicker').hide();
     });
+	$('#todaySummaryDate').datepicker().on('change', function(){
+        $('.datepicker').hide();
+    });
     $('#currentDate').datepicker({
     	format: "mm/dd/yyyy",
         todayBtn: true,

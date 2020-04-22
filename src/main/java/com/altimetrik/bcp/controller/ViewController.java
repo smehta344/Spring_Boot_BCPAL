@@ -52,6 +52,12 @@ public class ViewController extends WebMvcConfigurerAdapter{
 		mav.setViewName("attendance");
 		return mav;
 	}
+	@RequestMapping("/today_summary")
+	public ModelAndView getTodaySummary() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("today_summary");
+		return mav;
+	}
 	@RequestMapping("/delivery")
 	public ModelAndView delivery() {
 		ModelAndView mav = new ModelAndView();
@@ -89,12 +95,14 @@ public class ViewController extends WebMvcConfigurerAdapter{
                 "/webjars/**",
                 "/img/**",
                 "/css/**",
-                "/js/**")
+                "/js/**",
+                "/fonts/**")
                 .addResourceLocations(
                         "classpath:/META-INF/resources/webjars/",
                         "classpath:/templates/img/",
                         "classpath:/templates/css/",
-                        "classpath:/templates/js/");
+                        "classpath:/templates/js/",
+                        "classpath:/templates/fonts/");
     }
 	
 	

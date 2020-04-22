@@ -1,5 +1,9 @@
 package com.altimetrik.bcp.service;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,10 +18,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +27,13 @@ import com.altimetrik.bcp.dao.AttendanceRepo;
 import com.altimetrik.bcp.dao.DailyStatusRepo;
 import com.altimetrik.bcp.dao.LeaderRepo;
 import com.altimetrik.bcp.dao.ProjectRepo;
+import com.altimetrik.bcp.dao.TodaySummaryRepo;
 import com.altimetrik.bcp.entity.AccLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Project;
+import com.altimetrik.bcp.entity.TodaySummary;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.model.AttendanceCommon;
@@ -40,6 +42,7 @@ import com.altimetrik.bcp.model.AttendanceType;
 import com.altimetrik.bcp.model.DeliveryInput;
 import com.altimetrik.bcp.model.DeliverySummary;
 import com.altimetrik.bcp.model.PlanDetailFormData;
+import com.altimetrik.bcp.model.TodaySummaryDto;
 import com.altimetrik.bcp.util.AppConstants;
 import com.altimetrik.bcp.util.BcpUtils;
 
@@ -63,6 +66,9 @@ public class BCMService {
 	
 	@Autowired
 	AccountRepo accountRepo;
+	
+	@Autowired
+	TodaySummaryRepo todaySummaryRepo;
 	
 	public void createDilyStatus(PlanDetailFormData formaData){
 		DailyStatus statusObj = createStatusObj(formaData);
@@ -678,5 +684,26 @@ public class BCMService {
 		}
 		return planDetailList;
 	}
+	public void addTodaySummary(TodaySummaryDto formaData){
+		TodaySummary summary = createTodaySummaryObj(formaData);
+		todaySummaryRepo.save(summary);
+	}
 	
+	public TodaySummary getTodaySummary(Date date){
+		return todaySummaryRepo.getTodaySummaryByDate(date);
+	}
+	
+	private TodaySummary createTodaySummaryObj(TodaySummaryDto formaData){
+		TodaySummary todaySummary = getTodaySummary(formaData.getDate());
+		if(todaySummary != null){
+			todaySummary.setSummary(formaData.getTodaySummary());
+			return todaySummary;
+		} else {
+			TodaySummary summary = new TodaySummary();
+			summary.setDate(formaData.getDate());
+			summary.setSummary(formaData.getTodaySummary());
+			return summary;
+		}
+		
+	}
 }
