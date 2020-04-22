@@ -59,14 +59,14 @@ $(document).ready(function(){
 									success : function(responseData) {
 										if(responseData.projectName != null){
 										$('#milestone').val(decodeURIComponent(responseData.milestone));
-									    $('#challenges').val(responseData.deliveryChallenge);
-								    	$('#wfh_challenges').val(responseData.wfhChallenge);
-								    	$('#wfh_mitigation').val(responseData.mitigationPlan);
-								    	$('#wfh_challenges').val(responseData.wfhChallenge);
-								    	$('#key_deliverables').val(responseData.keyDeliverable);
-								    	$('#mitigation').val(responseData.mitigationPlan);
+									    $('#challenges').val(decodeURIComponent(responseData.deliveryChallenge));
+								    	$('#wfh_challenges').val(decodeURIComponent(responseData.wfhChallenge));
+								    	$('#wfh_mitigation').val(decodeURIComponent(responseData.mitigationPlan));
+								    	$('#wfh_challenges').val(decodeURIComponent(responseData.wfhChallenge));
+								    	$('#key_deliverables').val(decodeURIComponent(responseData.keyDeliverable));
+								    	$('#mitigation').val(decodeURIComponent(responseData.mitigationPlan));
 								    	$('#teamSize').val(responseData.teamSize);
-								    	$('#hiringUpdates').val(responseData.hiringUpdate);
+								    	$('#hiringUpdates').val(decodeURIComponent(responseData.hiringUpdate));
 										}
 										else{
 											$('#challenges').val("");

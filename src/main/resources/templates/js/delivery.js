@@ -30,41 +30,54 @@ $(document).ready(function(){
 					  
 					  var remarkData = [];
 					  
+					  var hiringUpdateData = [];
+					  
 					  for(var i=0;i<data.length;i++){
 						  var remark = "";
+						  var hiringUpdate = "";
 						  for(var j=0;j<data[i].planList.length;j++){
 							  var projectsData = data[i].planList;
 							  var statusByProject = projectsData[j];
 							  remark = remark + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
+							  hiringUpdate = "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
 							  if(statusByProject.deliveryChallenge != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.deliveryChallenge)
+								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.deliveryChallenge +
+								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							  if(statusByProject.wfhChallenge != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.wfhChallenge)
+								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.wfhChallenge +
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							  if(statusByProject.deliveryMitigationPlan != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
+								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.deliveryMitigationPlan +
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							  if(statusByProject.wfhMitigationPlan != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.wfhMitigationPlan)
+								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.wfhMitigationPlan +
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
-							  if(statusByProject.milestone != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.milestone)
+							 
+							  if(statusByProject.hiringUpdate != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.hiringUpdate)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Milestone" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+								  hiringUpdate = hiringUpdate +  "<p class='remarks' style='word-wrap: break-word;margin-left:0in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 						  }
 						  remarkData[i] = remark;
+						  hiringUpdateData[i] = hiringUpdate;
 					  }
 					  
 					  
@@ -72,7 +85,7 @@ $(document).ready(function(){
 					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-1'>"+ data[i].account+"</td>" + 
 					  		"<td class='col-1' style=background-color:#ff3333> <button class='btn' name='red' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].redCount+"</button></td>"+ "<td class = 'col-1' style=background-color:#FFBF00> <button class='btn' name ='amber' type=button onClick=changeRowColor(this) style=width:75px;border-radius:10px>"+data[i].amberCount+"</button></td>" +
 					  				"<td class='col-1' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-1'>" + "<button class='btn' type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
-					  						"<td class='col-3' style=background-color:#ebebe0>" +remarkData[i] +"</td>" + "<td class='col-4' style=background-color:#ebebe0>" + remarkData[i] + "</td>" + "</tr>");
+					  						"<td class='col-3' style=background-color:#ebebe0>" + hiringUpdateData[i] +"</td>" + "<td class='col-4' style=background-color:#ebebe0>" + remarkData[i] + "</td>" + "</tr>");
 				  }
 				  }
 				  else{
