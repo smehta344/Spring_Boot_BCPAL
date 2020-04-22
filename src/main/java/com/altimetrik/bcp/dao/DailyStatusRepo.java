@@ -22,5 +22,5 @@ public interface DailyStatusRepo extends JpaRepository<DailyStatus, Integer> {
     
     List<DailyStatus> findByDateAndStatusAndProjectIn(Date date, String status, List<Project> project);
     
-    List<DailyStatus> findByDateAndProjectIn(Date date, List<Project> project);
+    List<DailyStatus> findByDateAndProjectInAndStatusIn(Date date, List<Project> project, List<String>statusList);
 }

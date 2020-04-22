@@ -659,7 +659,7 @@ public class BCMService {
 		List<Project> projectsList = projecRepo.findByAccountId(accountObj.getId());
 		List<DailyStatus> dailyList = new ArrayList<DailyStatus>();
 		if(statusValue.equals("all")){
-		List<String> stausList = Arrays.asList("red","Amber");
+			List<String> stausList = Arrays.asList("red","Amber");
 			dailyList = dailyStatusRepo.findByDateAndProjectInAndStatusIn(date, projectsList, stausList);
 		}
 		else{

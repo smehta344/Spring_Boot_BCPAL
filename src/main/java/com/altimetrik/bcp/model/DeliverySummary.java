@@ -1,9 +1,15 @@
 package com.altimetrik.bcp.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class DeliverySummary {
 	int total;
 	String account;
 	int redCount;
+	List<PlanDetailFormData> planList;
+	
 	public DeliverySummary(int total, String account, int redCount, int amberCount, int greenCount) {
 		super();
 		this.total = total;
@@ -43,6 +49,12 @@ public class DeliverySummary {
 	}
 	public void setGreenCount(int greenCount) {
 		this.greenCount = greenCount;
+	}
+	public List<PlanDetailFormData> getPlanList() {
+		return planList;
+	}
+	public void setPlanList(List<PlanDetailFormData> planList) {
+		this.planList = planList;
 	}
 	
 }

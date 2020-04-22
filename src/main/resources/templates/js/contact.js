@@ -58,7 +58,7 @@ $(document).ready(function(){
 									},
 									success : function(responseData) {
 										if(responseData.projectName != null){
-										$('#milestone').val(responseData.milestone);
+										$('#milestone').val(decodeURIComponent(responseData.milestone));
 									    $('#challenges').val(responseData.deliveryChallenge);
 								    	$('#wfh_challenges').val(responseData.wfhChallenge);
 								    	$('#wfh_mitigation').val(responseData.mitigationPlan);
@@ -284,7 +284,7 @@ $(document).ready(function(){
     	
         var url = urlForServer+"bcm/addDilyStatus";
        
-        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+milestone+'","deliveryChallenge":"'+challenges+'","mitigationPlan":"'+mitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigation":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'","hiringUpdate":"'+hiringUpdate+'"}';
+        var datastr = '{"date":"'+date+'","locationId":"'+location+'","accountId":"'+account+'","leaderId":"'+engg_leader+'","projectId":"'+project+'","status":"'+proj_status+'","teamSize":"'+teamSize+'","loogedCount":"'+teamLogged+'","deliveryOnTrack":"'+deliverOnTrack+'","targetPercentage":"'+targetPercent+'","actualPercentage":"'+actualPercent+'","milestone":"'+encodeURIComponent(milestone)+'","deliveryChallenge":"'+challenges+'","mitigationPlan":"'+mitigation+'","wfhChallenge":"'+wfhChallenges+'","wfhMitigation":"'+wfhMitigation+'","keyDeliverable":"'+keyDeliverables+'","hiringUpdate":"'+hiringUpdate+'"}';
         $.ajax({
 			contentType: 'application/json; charset=utf-8',
 			type : 'POST',

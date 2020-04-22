@@ -23,21 +23,63 @@ $(document).ready(function(){
 		},
 		success : function(data) {
 				  $("#deliveryTable").empty();
-				  $("#deliveryTable").append("<tbody><thead style=background-color:#ebebe0 align= 'center'><tr class='d-flex'> <th class='col-2' align='center' scope='col'>Account</th><th class='col-2' align='center' bdcolor='#ff0000' scope='col'>Red</th><th class= 'col-2' align='center' scope='col'>Amber</th>" +
-				  		"<th class='col-2' scope='col' align='center'>Green</th><th class ='col-2' scope='col'>Grand total</th>"
-						  + "<th class='col-2' scope='col' align='center'>Hiring Update</th>");
+				  $("#deliveryTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex' style = align='left'> <th class='col-1' align='center' scope='col'>Account</th><th class='col-1' align='center' bdcolor='#ff0000' scope='col'>Red</th><th class= 'col-1' align='center' scope='col'>Amber</th>" +
+				  		"<th class='col-1' scope='col' align='center'>Green</th><th class ='col-1' scope='col'>Grand total</th>"
+						  + "<th class='col-3' scope='col' align='center'>Hiring Update</th>" + "<th class='col-4' scope='col' align='center'>Remarks</th>");
 				  if(data.length > 0){
+					  
+					  var remarkData = [];
+					  
+					  for(var i=0;i<data.length;i++){
+						  var remark = "";
+						  for(var j=0;j<data[i].planList.length;j++){
+							  var projectsData = data[i].planList;
+							  var statusByProject = projectsData[j];
+							  remark = remark + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
+							  if(statusByProject.deliveryChallenge != undefined){
+								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
+								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.deliveryChallenge +
+								  "</span></p>";
+							  }
+							  if(statusByProject.wfhChallenge != undefined){
+								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.wfhChallenge +
+								  "</span></p>";
+							  }
+							  if(statusByProject.deliveryMitigationPlan != undefined){
+								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.deliveryMitigationPlan +
+								  "</span></p>";
+							  }
+							  if(statusByProject.wfhMitigationPlan != undefined){
+								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + statusByProject.wfhMitigationPlan +
+								  "</span></p>";
+							  }
+							  if(statusByProject.milestone != undefined){
+								  var decodedData = decodeURIComponent(statusByProject.milestone)
+								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Milestone" + ":" + "</span></p>";
+								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+								  "</span></p>";
+							  }
+						  }
+						  remarkData[i] = remark;
+					  }
+					  
+					  
 				  for(var i in data){
-					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 ondblClick=changeRowColor(this)><td class='col-2'>"+ data[i].account+"</td>" + 
-					  		"<td class='col-2' style=background-color:#ff3333> <button class='btn' name='red' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].redCount+"</button></td>"+ "<td class = 'col-2' style=background-color:#FFBF00> <button class='btn' name ='amber' type=button onClick=changeRowColor(this) style=width:75px;border-radius:10px>"+data[i].amberCount+"</button></td>" +
-					  				"<td class='col-2' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-2'>" + "<button class='btn' type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
-					  						"<td class='col-2' style=background-color:#ebebe0><button class='btn' name='hiringUpdate' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+"<i class='fa fa-eye'></i>"+"</button></td></tr>");
+					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-1'>"+ data[i].account+"</td>" + 
+					  		"<td class='col-1' style=background-color:#ff3333> <button class='btn' name='red' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].redCount+"</button></td>"+ "<td class = 'col-1' style=background-color:#FFBF00> <button class='btn' name ='amber' type=button onClick=changeRowColor(this) style=width:75px;border-radius:10px>"+data[i].amberCount+"</button></td>" +
+					  				"<td class='col-1' style=background-color:#99e699><button class='btn' name='green' type=button style=width:75px;border-radius:10px onClick=changeRowColor(this)>"+data[i].greenCount+"</button></td>" + "<td class='col-1'>" + "<button class='btn' type=button style=width:75px;border-radius:10px>" + data[i].total+"</td>" +
+					  						"<td class='col-3' style=background-color:#ebebe0>" +remarkData[i] +"</td>" + "<td class='col-4' style=background-color:#ebebe0>" + remarkData[i] + "</td>" + "</tr>");
 				  }
 				  }
 				  else{
-					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 ondblClick=changeRowColor(this)><td class='col-4'>"+ "" +"</td>" + 
-						  		"<td class='col-2' style=background-color:#ff3333></td>"+ "<td class = 'col-2' style=background-color:#FFBF00></td>" +
-						  				"<td class='col-2' style=background-color:#99e699></td>" + "<td class='col-2'>" +""+"</td></tr>");
+					  $("#deliveryTable").append("<tr  class='d-flex' style=background-color:#ebebe0 align='left' ondblClick=changeRowColor(this)><td class='col-1'>"+ "" +"</td>" + 
+						  		"<td class='col-1' style=background-color:#ff3333></td>"+ "<td class = 'col-1' style=background-color:#FFBF00></td>" +
+						  				"<td class='col-1' style=background-color:#99e699></td>" + "<td class='col-1'>" +""+"</td>"+ 
+						  				"<td class='col-3'>" +""+"</td>" + "<td class='col-4'>" +""+"</td>" + "</tr>");
 				  }
 				  $("#deliveryTable").append("</tbody>");
 		},error : function() {

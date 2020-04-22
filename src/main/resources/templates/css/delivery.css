@@ -100,3 +100,29 @@
     max-width: 100% !important;
     margin: 1.75rem 16rem auto !important;
 }
+
+.delivery{
+    margin-left: 12px;
+    margin-right: 12px;
+}
+ .remarks{
+   margin-right: 0in;
+    margin-bottom: 0px !important;
+    margin-top: 0.5px !important;
+    margin-left: .5in;
+    font-size: 10.0pt;
+    font-family: "Calibri",sans-serif;
+    margin-left: 8px !important;
+    text-indent: -.25in;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+ }
+.deliver_Normal{
+    margin: 0in;
+    margin-bottom: .0001pt;
+    font-size: 12.0pt;
+    font-family: "Calibri",sans-serif;
+}
