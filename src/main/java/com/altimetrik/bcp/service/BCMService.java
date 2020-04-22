@@ -6,10 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -201,7 +208,7 @@ public class BCMService {
 		 else if(attdTypeValue.equals(AppConstants.ALL) && !attdType.equals(AppConstants.ALL) && !billingStatus.equals(AppConstants.ALL)){
 				attendanceByAccountList = attendenceRepo.getAttendByAllAccountsDateAndBillingStatus(billingStatus,dateString);
 				if(!attdType.equals(AppConstants.LEAVE)){
-					attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
+					attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate("Not Marked",billingStatus,fromDate);
 				} else {
 					attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 				}
@@ -212,9 +219,11 @@ public class BCMService {
 				for(AttendanceData data : attendanceDataList){
 					if(data.getAccountName() != null){
 						List<AttendanceStatus> datas = new ArrayList<>();
+						Set<String> set = new HashSet<>();
 						for(AttendanceStatus status : attendanceStatusList){
 							if(status.getAccountName()!= null && 
-									status.getAccountName().equalsIgnoreCase(data.getAccountName())){
+									status.getAccountName().equalsIgnoreCase(data.getAccountName()) && !set.contains(status.getEmployeeId())){
+								set.add(status.getEmployeeId());
 								datas.add(status);
 							}
 						}
@@ -243,12 +252,16 @@ public class BCMService {
 		else if(!attdTypeValue.equals(AppConstants.ALL) && !attdType.equals(AppConstants.ALL) && !billingStatus.equals(AppConstants.ALL)){
 			AttendanceByAccount attendanceByAccount = attendenceRepo.getAttendByParticularAccountWithCategory(attdTypeValue,billingStatus,dateString);
 			if(!attdType.equals(AppConstants.LEAVE)){
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,"Not Marked",billingStatus,fromDate);
 			} else {
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAccountNameAndAttendanceStatusInAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByAccount);
-			attnPercentageData.setEmployeeDetails(attendanceStatusList);
+			List<AttendanceStatus> uniqueList = attendanceStatusList.stream()
+																	.collect(collectingAndThen(toCollection(() -> 
+																	new TreeSet<>(comparing(AttendanceStatus::getEmployeeId))),
+																	ArrayList::new));
+			attnPercentageData.setEmployeeDetails(uniqueList);
 			Map<String,AttendanceData> finalMap = new TreeMap<>();
 			if(attnPercentageData.getAccountName() != null){
 				finalMap.put(attnPercentageData.getAccountName(), attnPercentageData);
@@ -418,7 +431,7 @@ public class BCMService {
 			List<AttendanceByLocation> attendanceByAccountList = attendenceRepo.getAttendByAllLocationsDateAndBillingStatus(billingStatus,dateString);
 			List<AttendanceStatus> attendanceStatusList = new ArrayList<>();
 			if(!attdType.equals(AppConstants.LEAVE)){
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate(attdType,billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusAndCategoryAndAttendanceDate("Not Marked",billingStatus,fromDate);
 			} else {
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByAttendanceStatusInAndCategoryAndAttendanceDate(BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
@@ -427,9 +440,11 @@ public class BCMService {
 			for(AttendanceData data : attendanceDataList){
 				if(data.getLocationName() != null){
 					List<AttendanceStatus> datas = new ArrayList<>();
+					Set<String> set = new HashSet<>();
 					for(AttendanceStatus status : attendanceStatusList){
 						if(status.getClinetLocation()!= null && 
-								status.getClinetLocation().equalsIgnoreCase(data.getLocationName())){
+								status.getClinetLocation().equalsIgnoreCase(data.getLocationName()) && !set.contains(status.getEmployeeId())){
+							set.add(status.getEmployeeId());
 							datas.add(status);
 						}
 					}
@@ -453,13 +468,17 @@ public class BCMService {
 			AttendanceByLocation attendanceByLocation = attendenceRepo.getAttendByLocationAndDateAndBillingStatus(attdTypeValue,billingStatus,dateString);
 			List<AttendanceStatus> attendanceStatusList = new ArrayList<>();
 			if(!attdType.equals(AppConstants.LEAVE)){
-				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,attdType,billingStatus,fromDate);
+				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusAndCategoryAndAttendanceDate(attdTypeValue,"Not Marked",billingStatus,fromDate);
 			} else {
 				attendanceStatusList = attendenceRepo.getAttendanceStatusByClinetLocationAndAttendanceStatusInAndCategoryAndAttendanceDate(attdTypeValue,BcpUtils.getLeaveDbValues(),billingStatus,fromDate);
 			}
 			
 			AttendanceData attnPercentageData = calculatePercentageParticularAcc(attendanceByLocation);
-			attnPercentageData.setEmployeeDetails(attendanceStatusList);
+			List<AttendanceStatus> uniqueList = attendanceStatusList.stream()
+					.collect(collectingAndThen(toCollection(() -> 
+					new TreeSet<>(comparing(AttendanceStatus::getEmployeeId))),
+					ArrayList::new));
+			attnPercentageData.setEmployeeDetails(uniqueList);
 			Map<String,AttendanceData> finalMap = new TreeMap<>();
 			if(attnPercentageData.getLocationName() != null){
 				finalMap.put(attnPercentageData.getLocationName(), attnPercentageData);

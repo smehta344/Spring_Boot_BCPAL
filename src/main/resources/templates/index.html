@@ -11,7 +11,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
 <META HTTP-EQUIV="Expires" CONTENT="-1" />
 
-<link rel="icon" href="img/altimetrik_favicon.ico" type="image/x-icon" >
+<link rel="icon" href="img/altimetrik_favicon.ico" type="image/x-icon">
 <script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/header.js"></script>
@@ -41,46 +41,77 @@ function getUrlVars()
 $(document).ready(function(){
 	if(getUrlVars()["error"] == 'true'){
 		$("#validateUserPassMsg").attr("style","display:block");
+		$("#footerLinks").attr("style","margin-top:20px");
 	}
 });
 
 
 </script>
-
 </head>
 
 <body>
-<div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
-          <div class="card-body">
-            <h5 class="card-title text-center">Sign In</h5>
-            
-            <p id="validateUserPassMsg" style="display:none"><font color='red'>Invalid credentials</font></p>
-            <div class="form-signin">
-            <form action="/index" method="post">
-              <div class="form-label-group">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Email address" required autofocus>
-              </div></br>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="fullPage">
+					<div id="brandingWrapper" class="float">
+						<div id="branding" class="illustrationClass"
+							style='background-image: url(/img/illustration.jpg); height: 100vh;'></div>
+					</div>
+					<div id="contentWrapper" class="float">
+						<div id="content">
+							<div id="header">Altimetrik Corp</div>
+							<div id="workArea">
+								<div id="loginMessage" class="groupMargin">Sign in with
+									your organizational account</div>
+								<p id="validateUserPassMsg" style="display: none">
+									<font color='red'>Incorrect user ID or password. Type
+										the correct user ID and password, and try again.</font>
+								</p>
+								<div class="form-signin">
+									<form action="/index" method="post">
+										<!-- <div class="form-label-group"> -->
 
-              <div class="form-label-group">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-              </div>
-				</br>
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Remember password</label>
-              </div>
-              <button id="loginSubmit" onclick="return validateUsername()" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+										<div class="input-group" style="width: 130%;">
+											<input type="text" id="username" name="username"
+												class="form-control" placeholder="Login id" required
+												autofocus>
+											<div class="input-group-append">
+												<div class="input-group-text">@altimetrik.com</div>
+											</div>
 
+										</div>
+
+
+										<!-- </div> -->
+										</br>
+
+										<div class="form-label-group">
+											<input type="password" id="password" name="password"
+												class="form-control" placeholder="Password" required>
+										</div>
+										</br>
+										<button id="loginSubmit" onclick="return validateUsername()"
+											class="btn btn-lg btn-block" type="submit"
+											style="background-color: #f47b20">Sign in</button>
+									</form>
+								</div>
+							</div>
+
+							<div id="footerPlaceholder"></div>
+							<div id="footer">
+								<div id="footerLinks" class="floatReverse">
+									<div>
+										<span id="copyright">© 2013 Microsoft</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
-
-</html>
