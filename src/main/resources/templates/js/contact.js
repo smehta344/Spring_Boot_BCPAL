@@ -122,6 +122,7 @@ $(document).ready(function(){
     $("#contactSubmit").click(function(){  
     	
     	$('#currentDateMsg').empty();
+    	$('#hiring_updatesMsg').empty();
     	$('#locationMsg').empty();
     	$('#accountMsg').empty();
     	$('#projectMsg').empty();
@@ -209,6 +210,7 @@ $(document).ready(function(){
     	}
     	if(teamSize==''){
     		$("#teamSizeMsg").append("<font color='red'>Please enter team size</font>");
+    		$('#teamSizeMsg').attr('style','display: block;');
     		return false;
     	} else {
     		$('#teamSizeMsg').attr('style','display: none;');
@@ -244,6 +246,15 @@ $(document).ready(function(){
     	} else {
     		$('#challengesMsg').attr('style','display: none;');
     		$('#challengesMsg').empty();
+    	}
+    	
+    	if(!hiringUpdate.trim()){
+    		$('#hiring_updatesMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
+    		$("#hiring_updatesMsg").append("<font color='red'>Please enter delivery challenges</font>");
+    		return false;
+    	} else {
+    		$('#hiring_updatesMsg').attr('style','display: none;');
+    		$('#hiring_updatesMsg').empty();
     	}
     	
     	if(!deliveryMitigation.trim()){
