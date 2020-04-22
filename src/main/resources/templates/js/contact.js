@@ -62,7 +62,6 @@ $(document).ready(function(){
 									    $('#challenges').val(decodeURIComponent(responseData.deliveryChallenge));
 								    	$('#wfh_challenges').val(decodeURIComponent(responseData.wfhChallenge));
 								    	$('#wfh_mitigation').val(decodeURIComponent(responseData.mitigationPlan));
-								    	$('#wfh_challenges').val(decodeURIComponent(responseData.wfhChallenge));
 								    	$('#key_deliverables').val(decodeURIComponent(responseData.keyDeliverable));
 								    	$('#mitigation').val(decodeURIComponent(responseData.mitigationPlan));
 								    	$('#teamSize').val(responseData.teamSize);
