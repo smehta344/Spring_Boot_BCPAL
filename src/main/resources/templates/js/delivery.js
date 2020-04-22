@@ -174,8 +174,8 @@ $.ajax({
 			  $("#hiringTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex'> <th class='col-4' align= 'left' scope='col'>Project Name</th><th class='col-8' align='left' bdcolor='#ff0000' cope='col'>Hiring updates</th>)");
 			  
 			  for(var i in data){
-				  $("#hiringTable").append("<tr align='left' class='d-flex' height=60 ondblClick=changeRowColor()><td align='left' class='col-4'>"+ data[i].projectName+"</td>" + 
-				  		"<td align='left' class='col-8' height=60 ondblClick=changeRowColor()>"+data[i].hiringUpdate+"</td></tr>");
+				  $("#hiringTable").append("<tr align='left' height: 'fit-content' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-4'>"+ data[i].projectName+"</td>" + 
+				  		"<td align='left' class='col-8' ondblClick=changeRowColor()>"+data[i].hiringUpdate+"</td></tr>");
 			  }
 			  
 			  $("#hiringTable").append("</tbody>");
@@ -186,8 +186,8 @@ $.ajax({
 			  $("#modalTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex'> <th class='col-2' align= 'left' scope='col'>Project Name</th><th class='col-3' align='left' bdcolor='#ff0000' cope='col'>Delivery Challenges</th><th class='col-3' align='left' scope='col'>Mitigation Plan</th>" +
 			  		"<th class='col-2' scope='col' align='left'>Milestone</th><th class='col-2' align='left' scope='col'>Deliverables of the day</th>");
 			  for(var i in data){
-				  $("#modalTable").append("<tr align='left' class='d-flex' height=60 ondblClick=changeRowColor()><td align='left' class='col-2'>"+ data[i].projectName+"</td>" + 
-				  		"<td align='left' class='col-3' height=60 ondblClick=changeRowColor()>"+data[i].deliveryChallenge+"</td><td align='left' class='col-3'>"+data[i].wfhMitigationPlan+"</td>" +
+				  $("#modalTable").append("<tr height: 'fit-content' align='left' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-2'>"+ data[i].projectName+"</td>" + 
+				  		"<td align='left' class='col-3' ondblClick=changeRowColor()>"+data[i].deliveryChallenge+"</td><td align='left' class='col-3'>"+data[i].wfhMitigationPlan+"</td>" +
 				  				"<td align='left' class='col-2'>"+data[i].milestone+"</td><td align='left' class='col-2'>"+data[i].keyDeliverable+"</td></tr>");
 				  $("#modalTable").append("</tbody>");
 				  $('#myModal').modal('show');
