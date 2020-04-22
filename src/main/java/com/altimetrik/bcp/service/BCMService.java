@@ -3,6 +3,7 @@ package com.altimetrik.bcp.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -624,20 +625,26 @@ public class BCMService {
 	public List<DeliverySummary> getDeliverList(Date fromDate){
 		java.text.SimpleDateFormat sdf =  new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = sdf.format(fromDate);
-		return dailyStatusRepo.findDeliverySummaryByDate(dateString);
+		List<DeliverySummary> deliverySummaryList = dailyStatusRepo.findDeliverySummaryByDate(dateString);
+		for(int index=0; index<deliverySummaryList.size(); index++ ){
+			DeliverySummary deliverySummary = deliverySummaryList.get(index);
+			deliverySummary.setPlanList(getSummayByProject(deliverySummary.getAccount(), fromDate,
+					"all"));
+		}
+		return deliverySummaryList;
 	}
 	
 	public List<PlanDetailFormData> getSummayByProject(String name, Date date, String statusValue){
 		List<PlanDetailFormData> planDetailList = new ArrayList<PlanDetailFormData>();
 		Account accountObj = accountRepo.findByName(name);
 		List<Project> projectsList = projecRepo.findByAccountId(accountObj.getId());
-		
 		List<DailyStatus> dailyList = new ArrayList<DailyStatus>();
-		if(statusValue.equals("hiringUpdate")){
-			dailyList = dailyStatusRepo.findByDateAndProjectIn(date, projectsList);
+		if(statusValue.equals("all")){
+		List<String> stausList = Arrays.asList("red","Amber");
+			dailyList = dailyStatusRepo.findByDateAndProjectInAndStatusIn(date, projectsList, stausList);
 		}
 		else{
-			dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date, statusValue, projectsList);
+			dailyList = dailyStatusRepo.findByDateAndStatusAndProjectIn(date,statusValue,projectsList);
 		}
 		for(int i=0;i<dailyList.size();i++){
 			PlanDetailFormData planData = new PlanDetailFormData();
