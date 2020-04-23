@@ -218,12 +218,11 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 					  }
 			  }
 			  var notMarkedEmployeeDetails = "<tbody><thead align='center'><tr align='center' class='table-primary'>" +
-		  		"<th colspan='11'>NOT MARKED EMPLOYEES LIST </th></tr></thead>" +
+		  		"<th colspan='8'>NOT MARKED EMPLOYEES LIST ["+date+"]</th></tr></thead>" +
 		  		"<thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th>" +
 		  		"<th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
 		  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
-		  		"<th scope='col'>REPORTING MANAGER</th><th scope='col'>CATEGORY</th>" +
-		  		"<th scope='col'>ATTENDANCE STATUS</th><th scope='col'>ATTENDANCE DATE</th></tr>";
+		  		"<th scope='col'>REPORTING MANAGER</th></tr>";
 			  if(empDetails.length > 0){
 				  $("#attendanceTable").empty();
 				  var sno = 1;
@@ -231,8 +230,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 					  notMarkedEmployeeDetails = notMarkedEmployeeDetails + "<tr><th class='table-primary'>"+ sno +"</th><td class='table-warning'>"+empDetails[i].empId+"</td>" +
 					  		"<td class='table-warning'>"+empDetails[i].empployeeName+"</td><td class='table-warning'><a href=''>"+empDetails[i].emailId+"</a></td><td class='table-warning'>"+empDetails[i].accountName+"</td>" +
 					  				"<td class='table-warning'>"+empDetails[i].project+"</td><td class='table-warning'>"+empDetails[i].clientLocation+"</td>" +
-					  						"<td class='table-warning'>"+empDetails[i].reportManager+"</td><td class='table-warning'>"+empDetails[i].Category+"</td><td class='table-warning'>"+empDetails[i].attendanceStatus+"</td>" +
-					  								"<td class='table-warning'>"+empDetails[i].attendanceDate+"</td></tr>";
+					  						"<td class='table-warning'>"+empDetails[i].reportManager+"</td></tr>";
 					  sno=(sno+1);
 				  }
 				  notMarkedEmployeeDetails = notMarkedEmployeeDetails + "</tbody>";

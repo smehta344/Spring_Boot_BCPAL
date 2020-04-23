@@ -21,3 +21,8 @@ canvas{
     overflow-x: auto;
     white-space: nowrap;
 }
+.extra_container {
+	margin-left: 32px !important;
+    margin-right: 32px !important;
+    max-width: 95% !important;
+}
