@@ -229,7 +229,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 				  for(var i in empDetails){
 					  notMarkedEmployeeDetails = notMarkedEmployeeDetails + "<tr><th class='table-primary'>"+ sno +"</th><td class='table-warning'>"+empDetails[i].empId+"</td>" +
 					  		"<td class='table-warning'>"+empDetails[i].empployeeName+"</td><td class='table-warning'><a href=''>"+empDetails[i].emailId+"</a></td><td class='table-warning'>"+empDetails[i].accountName+"</td>" +
-					  				"<td class='table-warning'>"+empDetails[i].project+"</td><td class='table-warning'>"+empDetails[i].clientLocation+"</td>" +
+					  				"<td class='table-warning' style='width:20%'>"+empDetails[i].project+"</td><td class='table-warning'>"+empDetails[i].clientLocation+"</td>" +
 					  						"<td class='table-warning'>"+empDetails[i].reportManager+"</td></tr>";
 					  sno=(sno+1);
 				  }
