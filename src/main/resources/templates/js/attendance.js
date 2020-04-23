@@ -220,7 +220,7 @@ function getAttendancePage(attendanceWiseType,attendanceTypeValue,attendanceType
 			  var notMarkedEmployeeDetails = "<tbody><thead align='center'><tr align='center' class='table-primary'>" +
 		  		"<th colspan='8'>NOT MARKED EMPLOYEES LIST ["+date+"]</th></tr></thead>" +
 		  		"<thead align='center'><tr align='center' class='table-primary'> <th scope='sNo'>S. No</th>" +
-		  		"<th scope='eId'>EMPLOYEE ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
+		  		"<th scope='eId'>EMP ID</th><th scope='eName'>EMPLOYEE NAME</th><th scope='eName'>EMAIL ID</th>" +
 		  		"<th scope='col'>ACCOUNT</th><th>PROJECT</th><th scope='col'>LOCATION</th>" +
 		  		"<th scope='col'>REPORTING MANAGER</th></tr>";
 			  if(empDetails.length > 0){
