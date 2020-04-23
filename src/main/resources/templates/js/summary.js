@@ -16,18 +16,16 @@ $(document).ready(function() {
 		var editorValue = $("#txtEditor").val().trim();
 		
 		if(!date.trim()){
-			$('#todaySummaryDateMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
+			$('#todaySummaryDateMsg').attr('style','display: block;margin-top: -20px !important;');
 			$("#todaySummaryDateMsg").append("<font color='red'>Please select date</font>");
-			$('#todaySummaryDateMsg').attr('style','display: block;');
 			return false;
 		} else {
 			$('#todaySummaryDateMsg').attr('style','display: none;');
 			$('#todaySummaryDateMsg').empty();
 		}
 		if(editorValue == '' || editorValue == null || editorValue == '<div><br></div>'){
-			$('#txtEditorMsg').attr('style','margin-top: -20px;margin-bottom: 10px;');
+			$('#txtEditorMsg').attr('style','display: block;margin-top: -20px !important;');
 			$("#txtEditorMsg").append("<font color='red'>Please add summary</font>");
-			$('#txtEditorMsg').attr('style','display: block;');
 			return false;
 		} else {
 			$('#txtEditorMsg').attr('style','display: none;');
