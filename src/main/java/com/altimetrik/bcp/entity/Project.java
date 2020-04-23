@@ -33,6 +33,17 @@ public class Project {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Location location;
 	
+	@Column(name="team_size")
+	private int teamSize;
+	
+	public int getTeamSize() {
+		return teamSize;
+	}
+
+	public void setTeamSize(int teamSize) {
+		this.teamSize = teamSize;
+	}
+
 	public Location getLocation() {
 		return location;
 	}

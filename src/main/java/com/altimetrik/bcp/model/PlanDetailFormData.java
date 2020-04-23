@@ -13,7 +13,7 @@ public class PlanDetailFormData {
 	int projectId;
 	String status;
 	int teamSize;
-	int loogedCount;
+	int teamlogedCount;
 	String deliveryOnTrack;
 	int targetPercentage;
 	int actualPercentage;
@@ -80,12 +80,6 @@ public class PlanDetailFormData {
 	public void setTeamSize(int teamSize) {
 		this.teamSize = teamSize;
 	}
-	public int getLoogedCount() {
-		return loogedCount;
-	}
-	public void setLoogedCount(int loogedCount) {
-		this.loogedCount = loogedCount;
-	}
 	public String getDeliveryOnTrack() {
 		return deliveryOnTrack;
 	}
@@ -140,5 +134,11 @@ public class PlanDetailFormData {
 	}
 	public void setDeliveryMitigationPlan(String deliveryMitigationPlan) {
 		this.deliveryMitigationPlan = deliveryMitigationPlan;
+	}
+	public int getTeamlogedCount() {
+		return teamlogedCount;
+	}
+	public void setTeamlogedCount(int teamlogedCount) {
+		this.teamlogedCount = teamlogedCount;
 	}
 }

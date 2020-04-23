@@ -64,6 +64,9 @@ public class DailyStatus {
 	@Column(name = "challenges")
 	private String challenges;
 	
+	@Column(name = "team_logged")
+	private int teamLogged;
+	
 	@Column(name = "milestone")
 	private String milestone;
 	
@@ -239,6 +242,14 @@ public class DailyStatus {
 
 	public void setHiringUpdate(String hiringUpdate) {
 		this.hiringUpdate = hiringUpdate;
+	}
+	
+	public int getTeamLogged() {
+		return teamLogged;
+	}
+
+	public void setTeamLogged(int teamLogged) {
+		this.teamLogged = teamLogged;
 	}
 	
 	@Override
