@@ -137,6 +137,7 @@
 }
 .table td {
    text-align: left !important;   
+   padding: 0.20rem !important;
 }
 
 #header-fixed { 

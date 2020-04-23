@@ -72,26 +72,26 @@ $(document).ready(function(){
 						  for(var j=0;j<data[i].planList.length;j++){
 							  var projectsData = data[i].planList;
 							  var statusByProject = projectsData[j];
-							  remark = remark + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
-							  hiringUpdate = hiringUpdate + "<p style='font-weight: bold; margin-top: 10px !important;margin-bottom: 4px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
+							  remark = remark + "<p style='font-weight: bold;font-size:12pt;margin-bottom: 0px !important;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
+							  hiringUpdate = hiringUpdate + "<p style='font-weight: bold; margin-bottom: 0px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
 							  if(statusByProject.deliveryChallenge != undefined){
 								  var decodedData = decodeURIComponent(statusByProject.deliveryChallenge)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
+//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
 								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							  if(statusByProject.wfhChallenge != undefined){
 								  var decodedData = decodeURIComponent(statusByProject.wfhChallenge)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
+//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
 								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							  if(statusByProject.deliveryMitigationPlan != undefined){
 								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
+//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
 								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
@@ -99,7 +99,7 @@ $(document).ready(function(){
 								  var decodedData = decodeURIComponent(statusByProject.wfhMitigationPlan)
 								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
 								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+//								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
 								  "</span></p>";
 							  }
 							 
@@ -175,7 +175,7 @@ $.ajax({
 			  
 			  for(var i in data){
 				  $("#hiringTable").append("<tr align='left' height: 'fit-content' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-4'>"+ data[i].projectName+"</td>" + 
-				  		"<td align='left' class='col-8' ondblClick=changeRowColor()>"+data[i].hiringUpdate+"</td></tr>");
+				  		"<td align='left' class='col-8' ondblClick=changeRowColor()>"+decodeURIComponent(data[i].hiringUpdate)+"</td></tr>");
 			  }
 			  
 			  $("#hiringTable").append("</tbody>");
@@ -186,9 +186,9 @@ $.ajax({
 			  $("#modalTable").append("<tbody><thead style=background-color:#ebebe0 align= 'left'><tr class='d-flex'> <th class='col-2' align= 'left' scope='col'>Project Name</th><th class='col-3' align='left' bdcolor='#ff0000' cope='col'>Delivery Challenges</th><th class='col-3' align='left' scope='col'>Mitigation Plan</th>" +
 			  		"<th class='col-2' scope='col' align='left'>Milestone</th><th class='col-2' align='left' scope='col'>Deliverables of the day</th>");
 			  for(var i in data){
-				  $("#modalTable").append("<tr height: 'fit-content' align='left' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-2'>"+ data[i].projectName+"</td>" + 
-				  		"<td align='left' class='col-3' ondblClick=changeRowColor()>"+data[i].deliveryChallenge+"</td><td align='left' class='col-3'>"+data[i].wfhMitigationPlan+"</td>" +
-				  				"<td align='left' class='col-2'>"+data[i].milestone+"</td><td align='left' class='col-2'>"+data[i].keyDeliverable+"</td></tr>");
+				  $("#modalTable").append("<tr height: 'fit-content' align='left' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-2'>"+ decodeURIComponent(data[i].projectName)+"</td>" + 
+				  		"<td align='left' class='col-3' ondblClick=changeRowColor()>"+decodeURIComponent(data[i].deliveryChallenge)+"</td><td align='left' class='col-3'>"+decodeURIComponent(data[i].wfhMitigationPlan)+"</td>" +
+				  				"<td align='left' class='col-2'>"+decodeURIComponent(data[i].milestone)+"</td><td align='left' class='col-2'>"+decodeURIComponent(data[i].keyDeliverable)+"</td></tr>");
 				  $("#modalTable").append("</tbody>");
 				  $('#myModal').modal('show');
 			  }

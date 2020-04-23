@@ -96,6 +96,7 @@ public class BCMService {
 		statusObject.setWfhMitigationPlan(formData.getWfhMitigationPlan());
 		statusObject.setMitigationPlan(formData.getDeliveryMitigationPlan());
 		statusObject.setHiringUpdate(formData.getHiringUpdate());
+		statusObject.setTeamLogged(formData.getTeamlogedCount());
 		return statusObject;
 	}
 	
@@ -106,6 +107,7 @@ public class BCMService {
 		AccLocLeaderAssoc associationData = assoRepo.findTopByAccountIdAndLocationId(accountId, locationId);
 		deliveryInput.setLocation(associationData.getLocation());
 		deliveryInput.setLeader(associationData.getLeader());
+		deliveryInput.setTeamSize(project.getTeamSize());
 		return deliveryInput;
 	}
 	
@@ -119,7 +121,6 @@ public class BCMService {
 				projecRepo.findById(projectId).get());
 		if(dailyStatus != null){
 		planData.setDeliveryChallenge(dailyStatus.getChallenges());
-		planData.setTeamSize(dailyStatus.getTeamSize());
 		planData.setProjectName(dailyStatus.getProject().getName());
 		planData.setMilestone(dailyStatus.getMilestone());
 		planData.setDeliveryMitigationPlan(dailyStatus.getMitigationPlan());
@@ -127,6 +128,7 @@ public class BCMService {
 		planData.setWfhMitigationPlan(dailyStatus.getWfhMitigationPlan());
 		planData.setKeyDeliverable(dailyStatus.getDeliverableOfDay());
 		planData.setHiringUpdate(dailyStatus.getHiringUpdate());
+		planData.setTeamlogedCount(dailyStatus.getTeamLogged());
 		}
 		return planData;
 	}
