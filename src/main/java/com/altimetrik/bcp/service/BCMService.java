@@ -699,11 +699,13 @@ public class BCMService {
 		TodaySummary todaySummary = getTodaySummary(formaData.getDate());
 		if(todaySummary != null){
 			todaySummary.setSummary(formaData.getTodaySummary());
+			todaySummary.setSummary(formaData.getSubmittedby());
 			return todaySummary;
 		} else {
 			TodaySummary summary = new TodaySummary();
 			summary.setDate(formaData.getDate());
 			summary.setSummary(formaData.getTodaySummary());
+			summary.setSubmittedby(formaData.getSubmittedby());
 			return summary;
 		}
 		

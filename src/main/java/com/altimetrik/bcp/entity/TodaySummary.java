@@ -29,6 +29,9 @@ public class TodaySummary {
 	
 	@Column(name = "summary")
 	private String summary;
+	
+	@Column(name = "submitted_by")
+	private String submittedby;
 
 	public Date getDate() {
 		return date;
@@ -46,8 +49,17 @@ public class TodaySummary {
 		this.summary = summary;
 	}
 
+	public String getSubmittedby() {
+		return submittedby;
+	}
+
+	public void setSubmittedby(String submittedby) {
+		this.submittedby = submittedby;
+	}
+
 	@Override
 	public String toString() {
-		return "TodaySummary [id=" + id + ", date=" + date + ", summary=" + summary + "]";
+		return "TodaySummary [date=" + date + ", summary=" + summary + ", submittedby=" + submittedby + "]";
 	}
+
 }

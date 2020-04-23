@@ -14,6 +14,9 @@ public class TodaySummaryDto {
 	
 	@JsonProperty("todaysummary")
 	private String todaySummary;
+	
+	@JsonProperty("submittedby")
+	private String submittedby;
 
 	public Date getDate() {
 		return date;
@@ -31,8 +34,18 @@ public class TodaySummaryDto {
 		this.todaySummary = todaySummary;
 	}
 
+	public String getSubmittedby() {
+		return submittedby;
+	}
+
+	public void setSubmittedby(String submittedby) {
+		this.submittedby = submittedby;
+	}
+
 	@Override
 	public String toString() {
-		return "TodaySummary [date=" + date + ", todaySummary=" + todaySummary + "]";
+		return "TodaySummaryDto [date=" + date + ", todaySummary=" + todaySummary + ", submittedby=" + submittedby
+				+ "]";
 	}
+
 }

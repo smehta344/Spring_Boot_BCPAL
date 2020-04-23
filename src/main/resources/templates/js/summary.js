@@ -37,7 +37,7 @@ $(document).ready(function() {
 		}
 		
         var url = urlForServer+"summary/addTodaySummary";
-		var datastr = '{"date":"'+date+'","todaysummary":"'+editorValue+'"}';
+		var datastr = '{"date":"'+date+'","todaysummary":"'+editorValue+'","submittedby":"'+userInfoMap.get("username")+'"}';
 		$.ajax({
 			contentType: 'application/json; charset=utf-8',
 			type : 'POST',
