@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,9 @@ import com.altimetrik.bcp.service.BCMService;
 @RestController
 @RequestMapping("/dashboard")
 public class DashBoardController {
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(DashBoardController.class);
+
 	@Autowired
 	private BCMService bcmService;
 
@@ -38,6 +42,9 @@ public class DashBoardController {
 		} else {
 			attendenceMap = bcmService.getAttendanceByLocation(typeValue, billingStatus, type, fromDate);
 		}
+		logger.info("Get Attendence" + attendenceMap.toString());
+		// CustomLogging.asyncLogger("Get Attendance", attendenceMap,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(attendenceMap);
 	}
 
@@ -48,28 +55,44 @@ public class DashBoardController {
 			@RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy/MM/dd") Date fromDate) throws ParseException {
 		Map<String, List<String>> attendenceMap = new TreeMap<>();
 		attendenceMap = bcmService.getAttendancePercent(wiseType, typeValue, billingStatus, type, fromDate);
+		logger.info("Get AttendencePercent" + attendenceMap.toString());
+		// CustomLogging.asyncLogger("Get AttendencePercent", attendenceMap,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(attendenceMap);
 	}
-	
+
 	@GetMapping(value = "/getAccountNames")
-	public ResponseEntity<List<String>> getAccountNames(){
+	public ResponseEntity<List<String>> getAccountNames() {
+		logger.info("Get AccountNames" + bcmService.toString());
+		// CustomLogging.asyncLogger("Get AccountNames", bcmService,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(bcmService.getAccountNames());
 	}
-	
+
 	@GetMapping(value = "/getClientLocations")
-	public ResponseEntity<List<String>> getClientLocations(){
+	public ResponseEntity<List<String>> getClientLocations() {
+		logger.info("Get ClientLocations" + bcmService.toString());
+		// CustomLogging.asyncLogger("Get ClientLocations", bcmService,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(bcmService.getClientLocations());
 	}
-	
-	@GetMapping(value="/getDeliveryList")
+
+	@GetMapping(value = "/getDeliveryList")
 	public ResponseEntity<List<DeliverySummary>> getDeliverySummaryList(
-			@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
+			@RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy/MM/dd") Date fromDate) {
+		logger.info("Get DeliveryList" + fromDate.toString());
+		// CustomLogging.asyncLogger("Get DeliveryList", fromDate,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(bcmService.getDeliverList(fromDate));
 	}
-	
-	@GetMapping(value="getDeliveryByProject")
-	public ResponseEntity<List<PlanDetailFormData>> getDeliveryByProjectWise(@RequestParam("accountName") 
-	String accountName, @RequestParam("status") String statusValue, @RequestParam("fromDate") @DateTimeFormat(pattern="yyyy/MM/dd") Date fromDate){
+
+	@GetMapping(value = "getDeliveryByProject")
+	public ResponseEntity<List<PlanDetailFormData>> getDeliveryByProjectWise(
+			@RequestParam("accountName") String accountName, @RequestParam("status") String statusValue,
+			@RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy/MM/dd") Date fromDate) {
+		logger.info("Get DeliveryByProject" + bcmService.toString());
+		// CustomLogging.asyncLogger("Get DeliveryByProject", bcmService,
+		// DashBoardController.class);
 		return ResponseEntity.ok().body(bcmService.getSummayByProject(accountName, fromDate, statusValue));
 	}
 }
