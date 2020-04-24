@@ -27,7 +27,10 @@ public class TodaySummaryController {
 
 	@PostMapping(value = "/addTodaySummary")
 	public ResponseEntity<String> createDailyStatus(@RequestBody TodaySummaryDto formData) {
-		bcmService.addTodaySummary(formData);
+		String status = bcmService.addTodaySummary(formData);
+		if(status.equals("no_access")){
+			return ResponseEntity.badRequest().body("Not allowed");
+		}
 		return ResponseEntity.ok().body("success");
 	}
 	

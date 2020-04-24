@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,11 +21,18 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.altimetrik.bcp.dao.UserAccessRepo;
+import com.altimetrik.bcp.entity.UserAccess;
+
 @Controller
 @Configuration
 @EnableWebMvc
 @RequestMapping
 public class ViewController extends WebMvcConfigurerAdapter{
+	
+	@Autowired
+	UserAccessRepo userAccessRepo;
+	
 	@RequestMapping("/info")
 	public @ResponseBody String userInfo(Authentication authentication) {
 		String msg = "";
@@ -76,8 +84,15 @@ public class ViewController extends WebMvcConfigurerAdapter{
 	public ResponseEntity<?> getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
+		UserAccess access = userAccessRepo.getUserAccessByUserId(username);
+		System.out.println(access);
 		Map<String,String> map = new HashMap<>();
 		map.put("username",username);
+		map.put("isAdmin",access.isAdmin());
+		map.put("isManager",access.isManager());
+		map.put("haveAccessToSummary",access.haveAccessToAddSummary());
+		map.put("haveAccessToFileUpload",access.haveAccessToFileUpload());
+		map.put("status",access.getStatus());
 		return ResponseEntity.ok().body(map);
 	}
 	

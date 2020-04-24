@@ -53,7 +53,7 @@
 				<li class="nav-item"><a class="nav-link" href="contact.html">Add
 						Project 
 				</a></li>
-				<li class="nav-item active"><a class="nav-link" href="today_summary.html">Add Summary</a>
+				<li class="nav-item add_summary_access active"><a class="nav-link" href="today_summary.html">Add Summary</a>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="#">Services</a>
 				</li>
@@ -73,7 +73,7 @@
 
 	<!-- Page Content -->
 	
-	<div class="container">
+	<div class="container allow_accessed_users">
 			<div id="uname"align="right" ></div>
 			</br>
 			<div class="row">
@@ -110,6 +110,22 @@
 
 				<div class="modal-body">
 					<p style="padding: 15px 5px 3px 10px;"><b><font color="green">Summary added successfully!!</font></b></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div id="preventUnauthorizedUsersModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<p style="padding: 15px 5px 3px 10px;"><b><font color="red">Sorry, You are not allowed to access this page...</font></b></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
