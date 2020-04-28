@@ -24,6 +24,9 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	@Query(nativeQuery = true,value="SELECT DISTINCT a.client_location FROM attendance_status a where a.category = :category ORDER BY a.client_location ASC")
 	public List<String> findDistinctClientLocationByCategory(@Param("category") String category);
 
+	@Query(nativeQuery = true,value="SELECT DISTINCT a.account_name FROM attendance_status a where a.account_name IS NOT NULL AND a.category = :category ORDER BY a.account_name ASC")
+	public List<String> findDistinctAccountNameByCategory(@Param("category") String category);
+
 	@Query(nativeQuery = true, name = "findAllDataMapping")
 	public List<AttendanceByAccount> getAttendByAllAccounts(@Param("startDate") String startDate);
 
@@ -91,4 +94,7 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	
 	//@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.client_location = :clinetLocation AND a.attendance_status IN (:names) AND a.category = :category AND a.attendance_date = :date ")
     List<AttendanceStatus> getAttendanceStatusByClinetLocationAndAttendanceStatusInAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("names")List<String> names,@Param("category") String category,@Param("date") Date startDate);
+
+    int deleteByEmailIdAndAccountNameAndAttendanceDate(@Param("emailId") String emailId,@Param("accountName") String accountName,@Param("date") Date startDate);
+    AttendanceStatus getAttendanceStatusByEmailIdAndAccountNameAndAttendanceDate(@Param("emailId") String emailId,@Param("accountName") String accountName,@Param("date") Date startDate);
 }

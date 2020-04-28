@@ -4,6 +4,9 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +22,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.transaction.Transactional;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -641,7 +653,8 @@ public class BCMService {
 	}
 	
 	public List<String> getAccountNames(){
-		return attendenceRepo.findDistinctAccountName();
+		String category = "BILLED";
+		return attendenceRepo.findDistinctAccountNameByCategory(category);
 	}
 	
 	public List<String> getClientLocations(){
@@ -719,6 +732,90 @@ public class BCMService {
 			summary.setSubmittedby(formaData.getSubmittedby());
 			return summary;
 		}
+		
+	}
+	
+	private void readExcelAndWriteDb(String file) throws IOException {
+		FileInputStream excelFile = null;
+		Workbook workbook = null;
+		try {
+			excelFile = new FileInputStream(new File(file));
+			workbook = new XSSFWorkbook(excelFile);
+			Sheet firstSheet = workbook.getSheetAt(0);
+			Iterator<Row> iterator = firstSheet.iterator();
+			while (iterator.hasNext()) {
+				Row nextRow = iterator.next();
+				if (nextRow.getRowNum() == 0) {
+					continue;
+				}
+				List<String> list = new ArrayList<>();
+				for (int colIndex = 0; colIndex < nextRow.getLastCellNum(); colIndex++) {
+					Cell cell = nextRow.getCell(colIndex);
+					if (nextRow.getLastCellNum() >= colIndex && cell == null) {
+						list.add("");
+					} else {
+						cell.setCellType(cell.CELL_TYPE_STRING);
+						list.add(cell.getStringCellValue());
+					}
+				}
+				if (list.get(5).toString().equalsIgnoreCase("INDIA")) {
+					AttendanceStatus attendance = new AttendanceStatus();
+					attendance.setEmployeeId(list.get(1));
+					attendance.setEmpployeeName(list.get(2));
+					attendance.setGeography(list.get(3));
+					attendance.setAccountName(list.get(4));
+					attendance.setCountry(list.get(5));
+					attendance.setClinetLocation(list.get(6));
+					attendance.setTotalHc(Double.parseDouble(list.get(7)));
+					attendance.setProject(list.get(8));
+					attendance.setBaseCategory(list.get(9));
+					attendance.setCapabilityCenter( list.get(10));
+					if (list.get(11) != null && !list.get(11).toString().equals("")) {
+						attendance.setBenchWebDate(DateUtil.getJavaDate(Double.parseDouble(list.get(11))));
+					}
+					attendance.setAssignmentStatus(list.get(12));
+					attendance.setCategory(list.get(13));
+					if (list.get(14) != null && !list.get(14).toString().equals("")) {
+						attendance.setDateOfJoining(DateUtil.getJavaDate(Double.parseDouble(list.get(14))));
+					}
+					if (list.get(15) != null && !list.get(15).toString().equals("")) {
+						attendance.setBenchWebAging(Integer.parseInt(list.get(15)));
+					}
+					attendance.setPrimarySkill(list.get(16));
+					attendance.setSecondarySkill(list.get(17));
+					attendance.setTotalExperience(list.get(18));
+					attendance.setReportingManager(list.get(19));
+					attendance.setBaseLocation( list.get(20));
+					attendance.setEmailId(list.get(21));
+					if(list.get(22).equalsIgnoreCase("Unmarked") || list.get(22).equalsIgnoreCase("#N/A") || list.get(22).equalsIgnoreCase("Not Marked")){
+						attendance.setAttendanceStatus("Not Marked");
+					} else if(list.get(22).equalsIgnoreCase("Leave - Approval Pending") || list.get(22).equalsIgnoreCase("Leave") || list.get(22).equalsIgnoreCase("Floater Holiday")){
+						attendance.setAttendanceStatus("Leave");
+					} else {
+						attendance.setAttendanceStatus(list.get(22));
+					}
+					if (list.get(23) != null && !list.get(23).toString().equals("")) {
+						attendance.setAttendanceDate(DateUtil.getJavaDate(Double.parseDouble(list.get(23))));
+					}
+					System.out.println(attendance);
+					saveAttendance(attendance);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			workbook.close();
+			excelFile.close();
+		}
+	}
+	
+	@Transactional
+	private void saveAttendance(AttendanceStatus attendance){
+		AttendanceStatus attendanceStatus = attendenceRepo.getAttendanceStatusByEmailIdAndAccountNameAndAttendanceDate(attendance.getEmailId(), attendance.getAccountName(),attendance.getAttendanceDate());
+		if(attendanceStatus != null){
+			attendenceRepo.deleteByEmailIdAndAccountNameAndAttendanceDate(attendance.getEmailId(), attendance.getAccountName(),attendance.getAttendanceDate());
+		}
+		attendenceRepo.save(attendance);
 		
 	}
 }
