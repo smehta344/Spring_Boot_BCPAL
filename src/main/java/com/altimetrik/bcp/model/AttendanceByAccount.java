@@ -10,7 +10,7 @@ public class AttendanceByAccount extends AttendanceCommon{
 
 	String account_name;	
 	
-	public AttendanceByAccount( String accountName, int total, int marked, int unMarked, int leaveCount/*, int leaveAppPend*/) {
+	public AttendanceByAccount( String accountName, double total, double marked, double unMarked, double leaveCount/*, int leaveAppPend*/) {
 		this.total = total;
 		this.marked = marked;
 		this.unmarked = unMarked;

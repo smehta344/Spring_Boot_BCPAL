@@ -28,10 +28,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	            targetClass = AttendanceByAccount.class,
 	            columns = {
 	            		@ColumnResult(name = "account_name",type=String.class),
-	                    @ColumnResult(name = "total",type=Integer.class),
-	                    @ColumnResult(name = "marked",type=Integer.class),
-	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    @ColumnResult(name = "total",type=Double.class),
+	                    @ColumnResult(name = "marked",type=Double.class),
+	                    @ColumnResult(name = "unMarked",type=Double.class),
+	                    @ColumnResult(name = "leave_count",type=Double.class)//,
 	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
@@ -43,10 +43,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	            targetClass = AttendanceByLocation.class,
 	            columns = {
 	            		@ColumnResult(name = "client_location",type=String.class),
-	                    @ColumnResult(name = "total",type=Integer.class),
-	                    @ColumnResult(name = "marked",type=Integer.class),
-	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    @ColumnResult(name = "total",type=Double.class),
+	                    @ColumnResult(name = "marked",type=Double.class),
+	                    @ColumnResult(name = "unMarked",type=Double.class),
+	                    @ColumnResult(name = "leave_count",type=Double.class)//,
 	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
