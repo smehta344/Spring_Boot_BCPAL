@@ -25,7 +25,7 @@ public class BcpUtils {
 	}
 	
 	public static double roundDoubleValue (double value) {
-		int precision = 1;
+		int precision = 2;
 	    int scale = (int) Math.pow(10, precision);
 	    return (double) Math.round(value * scale) / scale;
 	}
