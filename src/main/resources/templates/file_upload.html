@@ -16,6 +16,8 @@
 <script src="js/Chart.js"></script>
 <script src="js/header.js"></script>
 <script src="js/common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/common.css" rel="stylesheet" />
 <!-- <link href="css/bootstrap-glypicons.css" rel="stylesheet" /> -->
@@ -23,9 +25,8 @@
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <script src="js/moment.js"></script>
 <script src="js/all.js"></script>
-<script src="js/jquery.richtext.js"></script>
-<link href="css/richtext.min.css" rel="stylesheet" />
 <script src="js/summary.js"></script>
+<script src="js/attendanceUpload.js"></script>s
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -78,28 +79,21 @@
 			</br>
 			<div class="row">
 					<div class="col-sm-6">
-						<div class="form-group date" data-date-format="mm/dd/yyyy" data-date-end-date="0d" data-provide="datepicker">
-							<div class="input-group-prepend">
-		
-								<input autocomplete="off" class="form-control" type="text" id="todaySummaryDate"
-									placeholder="Select Date "> <span class="input-group-text">
-									<span class="glyphicon glyphicon-calendar"></span>
-							</div>
-						</div>
-						<div id="todaySummaryDateMsg"></div>
-					</div>	
-					<div class="col-sm-4">
-					<button id="todaySummarySubmit" class="btn btn-md btn-primary text-uppercase" type="submit">Submit</button>
-					</div>
-				</div>
-				</br>
-				<div class="row">
-				<div class="col-lg-12 nopadding">
-					<textarea id="txtEditor"></textarea> 
-					<p style='font-size:0.9rem;'><font color='black'><b>NOTE:</b>&nbsp;Copy paste happens only from notepad. Plugin will not support microsoft styles.<sup>**</sup></font></p>
-					<div id="txtEditorMsg"></div>
+								<h4>Attendance input:</h4>
+ 	<form id="fileForm">
+   	<div class="custom-file mb-3">
+    	 <input type="file" class="custom-file-input" id="attendanceFile" name="uploadFile">
+     	<label class="custom-file-label" for="customFile">Choose file</label>
+   	</div>
+   
+   	<div class="mt-3">
+    	 <button type="button" id="uploadBtn" class="btn btn-primary">Submit</button>
+   	</div>
+ 	</form>
+				</div>	
 				</div>
 			</div>
+			</br>
 	</div>
 	
 	<div id="summaryAddSuccessModal" class="modal fade" role="dialog">

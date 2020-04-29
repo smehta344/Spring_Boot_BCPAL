@@ -66,6 +66,12 @@ public class ViewController extends WebMvcConfigurerAdapter{
 		mav.setViewName("today_summary");
 		return mav;
 	}
+	@RequestMapping("/file_upload")
+	public ModelAndView fileUpload() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("file_upload");
+		return mav;
+	}
 	@RequestMapping("/delivery")
 	public ModelAndView delivery() {
 		ModelAndView mav = new ModelAndView();
