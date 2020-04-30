@@ -90,9 +90,9 @@ public class DashBoardController {
 				//TODO :: delivery file upload impl
 			}
 			
-			return  new ResponseEntity<>(HttpStatus.OK);
+			return ResponseEntity.ok("success");
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return ResponseEntity.badRequest().body(e.getLocalizedMessage());
 		}
 	}
 }

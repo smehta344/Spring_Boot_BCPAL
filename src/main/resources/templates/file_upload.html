@@ -91,18 +91,49 @@
 				</div>
 			<div class='col-sm-5'>
 				<div class="custom-file mb-3">
-					<input type="file" class="custom-file-input" id="attendanceFile"
-						name="uploadFile" placeholder="Select excel file to upload"> <!-- <label class="custom-file-label"
-						for="customFile">Choose file</label> -->
+					<input type="file" class="custom-file-input" id="attendanceFile" name="uploadFile"> 
+					<label class="custom-file-label" for="customFile">Select excel file to upload</label>
 				</div>
+				<div id="fileTypeErrorMsg"></div>
 			</div>
 			<div class='col-sm-2'>
 					<button type="button" id="uploadBtn" class="btn btn-primary">Submit</button>
 			</div>
 			</form>
+			
+			<div class="loader" align ="center" style="display:none;">
+				<img src="img/loading.gif" alt="Wait" style="width: 100px;height: 100px;"/>
+			</div>
 	</div>
 	</br>
 	</div>
+<div id="fileUploadModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+			</div>
+
+		</div>
+	</div>
+	<div id="checklistModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class='modal-header'>
+				<H5><b><font color='red'>ATTENDANCE CHECKLIST</font></b></h5>
+			</div>
+			<div class='modal-body' id="allCheckboxes">
+				<p><font color='black'>
+				<input type='checkbox' id="checklist1" name='checklist'><label for='vehicle1'> Please make sure total columns should be 24</label><br>
+				<input type='checkbox' id="checklist2" name='checklist'><label for='vehicle2'> Please make sure 1</label><br>
+				<input type='checkbox' id="checklist3" name='checklist'><label for='vehicle3'> Please make sure 2</label><br>
+				<br></font></p>
+			</div>
+			<div class='modal-footer'>
+				<button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>&nbsp;&nbsp;
+            	<button type='button' id='checklistProceed' class='btn btn-primary' disabled='disabled' data-dismiss='modal'>PROCEED</button></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

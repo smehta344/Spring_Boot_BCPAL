@@ -75,7 +75,7 @@ public class FileUploadService {
 		
 	}
 
-	public void readAttendanceFromExcel(String file) {
+	public void readAttendanceFromExcel(String file) throws FileStorageException{
 		FileInputStream excelFile = null;
 		Workbook workbook = null;
 		try {
@@ -99,6 +99,9 @@ public class FileUploadService {
 						cell.setCellType(cell.CELL_TYPE_STRING);
 						list.add(cell.getStringCellValue());
 					}
+				}
+				if(list.size() != 24){
+					throw new FileStorageException("Uploaded file contains invalid column counts.<br>Expected column count is 24.But actual is "+list.size());
 				}
 				if (list.get(5).toString().equalsIgnoreCase("INDIA")) {
 					AttendanceStatus attendance = new AttendanceStatus();
@@ -147,13 +150,13 @@ public class FileUploadService {
 			
 			saveAttendance(attendanceList);
 		} catch (Exception e) { 
-			e.printStackTrace();
+			throw new FileStorageException(e.getLocalizedMessage());
 		} finally {
 			try {
 				workbook.close();
 				excelFile.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new FileStorageException(e.getLocalizedMessage());
 			}
 		}
 	}
