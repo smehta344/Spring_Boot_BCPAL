@@ -81,9 +81,15 @@ public class DashBoardController {
 	}
 	
 	@PostMapping("/uploadFile")
-	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile file){
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile file,@RequestParam("fileUploadType") String uploadFileType){
 		try {
-			fileUploadService.storeFile(file);
+			String uploadedFilePath = fileUploadService.storeFile(file,uploadFileType);
+			if(uploadFileType.equals("Attendance")){
+				fileUploadService.readAttendanceFromExcel(uploadedFilePath);
+			} else if(uploadFileType.equals("Delivery")) {
+				//TODO :: delivery file upload impl
+			}
+			
 			return  new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

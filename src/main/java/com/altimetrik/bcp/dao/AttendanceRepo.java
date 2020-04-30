@@ -4,16 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 
 @Repository
-public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer> {
+public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>{
 	
 	@Query(nativeQuery = true,value="SELECT DISTINCT a.account_name FROM attendance_status a WHERE a.account_name IS NOT NULL ORDER BY a.account_name ASC")
 	List<String> findDistinctAccountName();
@@ -95,6 +97,9 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 	//@Query(nativeQuery = true,value="SELECT * FROM attendance_status a WHERE a.account_name IS NOT NULL AND a.client_location = :clinetLocation AND a.attendance_status IN (:names) AND a.category = :category AND a.attendance_date = :date ")
     List<AttendanceStatus> getAttendanceStatusByClinetLocationAndAttendanceStatusInAndCategoryAndAttendanceDate(@Param("clinetLocation") String clinetLocation,@Param("names")List<String> names,@Param("category") String category,@Param("date") Date startDate);
 
-    int deleteByEmailIdAndAccountNameAndAttendanceDate(@Param("emailId") String emailId,@Param("accountName") String accountName,@Param("date") Date startDate);
-    AttendanceStatus getAttendanceStatusByEmailIdAndAccountNameAndAttendanceDate(@Param("emailId") String emailId,@Param("accountName") String accountName,@Param("date") Date startDate);
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="DELETE FROM attendance_status a where a.attendance_date IN (:dateLists)")
+    Integer deleteByAttendanceDate(@Param("dateLists") List<Date> dateLists);
+    
 }

@@ -3,6 +3,7 @@ var isExcel = function(name){
 }
 
 $(document).ready(function() {
+	
 	$(".custom-file-input").on("change", function() {
 		  var fileName = $(this).val().split("\\").pop();
 		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -31,6 +32,7 @@ $(document).ready(function() {
 });
 function fire_ajax_submit() {
 	
+	var fileUploadType = $("#fileType").val();
     // Get form
     var form = $('#fileForm')[0];
 
@@ -38,10 +40,9 @@ function fire_ajax_submit() {
     
     var urlVal = urlForServer+"dashboard/uploadFile";
 
-    data.append("CustomField", "This is some extra data, testing");
+    data.append("fileUploadType", fileUploadType);
 
     $("#uploadBtn").prop("disabled", true);
-
     $.ajax({
         type: "POST",
         enctype: 'multipart/form-data',
@@ -52,11 +53,11 @@ function fire_ajax_submit() {
         processData: false, //prevent jQuery from automatically transforming the data into a query string
         contentType: false,
         cache: false,
-        timeout: 600000,
+        //timeout: 600000,
         success: function (data) {
             console.log("SUCCESS : ", data);
             $("#uploadBtn").prop("disabled", false);
-
+            data = '';
         },
         error: function (e) {
             console.log("ERROR : ", e);

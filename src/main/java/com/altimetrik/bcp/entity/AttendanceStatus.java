@@ -15,6 +15,8 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.util.MysqlQueryConstants;
@@ -71,7 +73,12 @@ public class AttendanceStatus implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO,generator="native"
+			)
+	@GenericGenerator(
+	    name = "native",
+	    strategy = "native"
+	)
 	int S_NO;
 	
 	@JsonProperty("empId")

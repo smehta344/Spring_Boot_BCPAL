@@ -30,6 +30,14 @@ public class BcpUtils {
 	    return (double) Math.round(value * scale) / scale;
 	}
 	
+	public static String getFileExtension(String name) {
+	    int lastIndexOf = name.lastIndexOf(".");
+	    if (lastIndexOf == -1) {
+	        return ""; // empty extension
+	    }
+	    return name.substring(lastIndexOf);
+	}
+	
 	public static List<String> getLeaveDbValues(){
 		List<String> attendanceTypeList = new ArrayList<>();
 		attendanceTypeList.add(AppConstants.LEAVE);
