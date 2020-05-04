@@ -103,7 +103,9 @@ public class FileUploadService {
 				if(list.size() != 24){
 					throw new FileStorageException("Uploaded file contains invalid column counts.<br>Expected column count is 24.But actual is "+list.size());
 				}
-				if (list.get(5).toString().equalsIgnoreCase("INDIA")) {
+				if (list.get(5).toString().equalsIgnoreCase("INDIA") && !list.get(4).toString().equalsIgnoreCase("DFS") && 
+						!list.get(4).toString().equalsIgnoreCase("eBay") && !list.get(4).toString().equalsIgnoreCase("SAP") && 
+						!list.get(4).toString().equalsIgnoreCase("STERIS")) {
 					AttendanceStatus attendance = new AttendanceStatus();
 					attendance.setEmployeeId(list.get(1));
 					attendance.setEmpployeeName(list.get(2));

@@ -99,7 +99,7 @@ public interface AttendanceRepo extends JpaRepository<AttendanceStatus, Integer>
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value="DELETE FROM attendance_status a where a.attendance_date IN (:dateLists)")
+    @Query(nativeQuery = true,value="DELETE FROM attendance_status a where a.attendance_date IN :dateLists")
     Integer deleteByAttendanceDate(@Param("dateLists") List<Date> dateLists);
     
 }
