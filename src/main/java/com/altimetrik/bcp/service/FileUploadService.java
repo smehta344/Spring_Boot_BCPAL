@@ -182,7 +182,7 @@ public class FileUploadService {
 		System.out.println("DateList:"+dateList);
 		if(null != dateList && !dateList.isEmpty()){
 			System.out.println("Delete records Start time:"+new Date());
-			attendenceRepo.deleteByAttendanceDate(dateList);
+			attendenceRepo.deleteAttendanceStatusByAttendanceDateIn(dateList);
 			System.out.println("Delete records End time:"+new Date());
 			
 		}
