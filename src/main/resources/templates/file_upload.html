@@ -99,7 +99,8 @@
 				</div>
 			<div class='col-sm-5'>
 				<div class="custom-file mb-3">
-					<input type="file" class="custom-file-input" id="attendanceFile" name="uploadFile"> 
+					<input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+					class="custom-file-input" id="attendanceFile" name="uploadFile"> 
 					<label class="custom-file-label" for="customFile">Select excel file to upload</label>
 				</div>
 				<div id="fileTypeErrorMsg"></div>
@@ -132,9 +133,10 @@
 			</div>
 			<div class='modal-body' id="allCheckboxes">
 				<p><font color='black'>
-				<input type='checkbox' id="checklist1" name='checklist'><label for='vehicle1'> Please make sure total columns should be 24</label><br>
-				<input type='checkbox' id="checklist2" name='checklist'><label for='vehicle2'> Please make sure 1</label><br>
-				<input type='checkbox' id="checklist3" name='checklist'><label for='vehicle3'> Please make sure 2</label><br>
+				<input type='checkbox' id="checklist1" name='checklist'><label for='checklist1'> Ensure Excel should be in the prescribed format</label><br>
+				<input type='checkbox' id="checklist2" name='checklist'><label for='checklist2'> Ensure correct date is selected(in Excel)</label><br>
+				<input type='checkbox' id="checklist3" name='checklist'><label for='checklist3'> Ensure Email Id's are updated for the New Joiners</label><br>
+				<input type='checkbox' id="checklist4" name='checklist'><label for='checklist4'> Ensure respective column data is not changed</label><br>
 				<br></font></p>
 			</div>
 			<div class='modal-footer'>

@@ -32,6 +32,7 @@ $(document).ready(function() {
 			$('#checklist1').prop('checked', false);
 	        $('#checklist2').prop('checked', false);
 	        $('#checklist3').prop('checked', false);
+	        $('#checklist4').prop('checked', false);
 	        $("#checklistProceed").attr('disabled',true);
 	        $("#checklistModal").modal('show');
 		} else {
@@ -48,7 +49,8 @@ $(document).ready(function() {
 		var checklist1 = $('#checklist1').is(':checked');
 		var checklist2 = $('#checklist2').is(':checked');
 		var checklist3 = $('#checklist3').is(':checked');
-		if(checklist1 && checklist2 && checklist3){
+		var checklist4 = $('#checklist4').is(':checked');
+		if(checklist1 && checklist2 && checklist3 && checklist4){
 			$("#checklistProceed").attr('disabled',false);
 		} else {
 			$("#checklistProceed").attr('disabled',true);

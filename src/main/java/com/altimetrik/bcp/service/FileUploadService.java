@@ -75,11 +75,13 @@ public class FileUploadService {
 		
 	}
 
-	public void readAttendanceFromExcel(String file) throws FileStorageException{
+	public void readAttendanceFromExcel(String file) throws FileStorageException, IOException{
 		FileInputStream excelFile = null;
 		Workbook workbook = null;
+		File excel = null;
 		try {
-			excelFile = new FileInputStream(new File(file));
+			excel = new File(file);
+			excelFile = new FileInputStream(excel);
 			workbook = new XSSFWorkbook(excelFile);
 			Sheet firstSheet = workbook.getSheetAt(0);
 			Iterator<Row> iterator = firstSheet.iterator();
@@ -152,12 +154,16 @@ public class FileUploadService {
 			
 			saveAttendance(attendanceList);
 		} catch (Exception e) { 
+			boolean isfileDeleted = Files.deleteIfExists(excel.toPath());
+			System.out.println("Error occured, so deleted the uploaded excel file :"+isfileDeleted);
 			throw new FileStorageException(e.getLocalizedMessage());
 		} finally {
 			try {
 				workbook.close();
 				excelFile.close();
 			} catch (IOException e) {
+				boolean isfileDeleted = Files.deleteIfExists(excel.toPath());
+				System.out.println("Error occured, so deleted the uploaded excel file :"+isfileDeleted);
 				throw new FileStorageException(e.getLocalizedMessage());
 			}
 		}
