@@ -5,7 +5,30 @@ function getLoginUser(){
 		url : urlForProject,
 		success : function(response) {
 			userInfoMap.set("username",response.username);
+			userInfoMap.set("isAdmin",response.isAdmin);
+			userInfoMap.set("isManager",response.isManager);
+			userInfoMap.set("status",response.status);
+			userInfoMap.set("haveAccessToSummary",response.haveAccessToSummary);
+			userInfoMap.set("haveAccessTofileUpload",response.haveAccessToFileUpload);
 			$("#uname").html("<font color='green'>Hi "+userInfoMap.get("username")+"!!</font>");
+			if(userInfoMap.get("haveAccessToSummary") == 'false' && userInfoMap.get("haveAccessTofileUpload") == 'false'){
+				$(".add_summary_access").attr('style','display:none');
+				$(".add_file_upload_access").attr('style','display:none');
+				$(".allow_accessed_users").empty();
+				$(".allow_file_accessed_users").empty();
+				$("#preventUnauthorizedUsersModal").modal('show');
+			}
+			if(userInfoMap.get("haveAccessToSummary") == 'false'){
+				$(".add_summary_access").attr('style','display:none');
+				$(".allow_accessed_users").empty();
+				$("#preventUnauthorizedUsersModal").modal('show');
+			} 
+			if(userInfoMap.get("haveAccessTofileUpload") == 'false'){
+				$(".add_file_upload_access").attr('style','display:none');
+				$(".allow_file_accessed_users").empty();
+				$("#preventUnauthorizedUsersModalFile").modal('show');
+			}
+			
 		},error : function() {
 			alert("Error while fetching user info");
 		}

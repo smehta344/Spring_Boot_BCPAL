@@ -1,6 +1,6 @@
 package com.altimetrik.bcp.entity;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +15,8 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.util.MysqlQueryConstants;
@@ -28,10 +30,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	            targetClass = AttendanceByAccount.class,
 	            columns = {
 	            		@ColumnResult(name = "account_name",type=String.class),
-	                    @ColumnResult(name = "total",type=Integer.class),
-	                    @ColumnResult(name = "marked",type=Integer.class),
-	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    @ColumnResult(name = "total",type=Double.class),
+	                    @ColumnResult(name = "marked",type=Double.class),
+	                    @ColumnResult(name = "unMarked",type=Double.class),
+	                    @ColumnResult(name = "leave_count",type=Double.class)//,
 	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
@@ -43,10 +45,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	            targetClass = AttendanceByLocation.class,
 	            columns = {
 	            		@ColumnResult(name = "client_location",type=String.class),
-	                    @ColumnResult(name = "total",type=Integer.class),
-	                    @ColumnResult(name = "marked",type=Integer.class),
-	                    @ColumnResult(name = "unMarked",type=Integer.class),
-	                    @ColumnResult(name = "leave_count",type=Integer.class)//,
+	                    @ColumnResult(name = "total",type=Double.class),
+	                    @ColumnResult(name = "marked",type=Double.class),
+	                    @ColumnResult(name = "unMarked",type=Double.class),
+	                    @ColumnResult(name = "leave_count",type=Double.class)//,
 	                    //@ColumnResult(name = "leave_app_pend",type=Integer.class)
 	                    
 	            }
@@ -66,10 +68,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @NamedNativeQuery(name = "getAttendByLocationAndDateAndBillingStatus", resultSetMapping ="locationMapping",resultClass = AttendanceByLocation.class, query=MysqlQueryConstants.GET_ATTENDANCE_COUNT_BY_PARTICULAR_LOCATION_AND_CATEGORY_DATE)
 
 
-public class AttendanceStatus {
+public class AttendanceStatus implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO,generator="native"
+			)
+	@GenericGenerator(
+	    name = "native",
+	    strategy = "native"
+	)
 	int S_NO;
 	
 	@JsonProperty("empId")
@@ -99,7 +108,7 @@ public class AttendanceStatus {
 	String clinetLocation;
 	
 	@Column(name="Total_Hc")
-	int totalHc;
+	double totalHc;
 	
 	@JsonProperty("project")
 	@Column(name="PROJECT")
@@ -112,7 +121,7 @@ public class AttendanceStatus {
 	String capabilityCenter;
 	
 	@Column(name="On_Bench_web_Date",nullable=true)
-	Timestamp benchWebDate;
+	Date benchWebDate;
 	
 	@Column(name="Assignment_Status")
 	String assignmentStatus;
@@ -122,7 +131,7 @@ public class AttendanceStatus {
 	String category;
 	
 	@Column(name="DOJ")
-	Timestamp dateOfJoining;
+	Date dateOfJoining;
 	
 	@Column(name="Bench_WFB_Aging",nullable=true)
 	Integer benchWebAging;
@@ -154,12 +163,12 @@ public class AttendanceStatus {
 	@Column(name="Attendance_Date")
 	Date attendanceDate;
 
-	@Override
-	public String toString() {
-		return "AttendanceStatus [S_NO=" + S_NO + ", employeeId=" + employeeId + ", empployeeName=" + empployeeName
-				+ ", accountName=" + accountName + ", clinetLocation=" + clinetLocation + ", project=" + project
-				+ ", category=" + category + ", reportingManager=" + reportingManager + ", attendanceStatus="
-				+ attendanceStatus + ", attendanceDate=" + attendanceDate + "]";
+	public int getS_NO() {
+		return S_NO;
+	}
+
+	public void setS_NO(int s_NO) {
+		S_NO = s_NO;
 	}
 
 	public String getEmployeeId() {
@@ -178,12 +187,36 @@ public class AttendanceStatus {
 		this.empployeeName = empployeeName;
 	}
 
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getGeography() {
+		return geography;
+	}
+
+	public void setGeography(String geography) {
+		this.geography = geography;
+	}
+
 	public String getAccountName() {
 		return accountName;
 	}
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getClinetLocation() {
@@ -194,6 +227,14 @@ public class AttendanceStatus {
 		this.clinetLocation = clinetLocation;
 	}
 
+	public double getTotalHc() {
+		return totalHc;
+	}
+
+	public void setTotalHc(double totalHc) {
+		this.totalHc = totalHc;
+	}
+
 	public String getProject() {
 		return project;
 	}
@@ -202,12 +243,100 @@ public class AttendanceStatus {
 		this.project = project;
 	}
 
+	public String getBaseCategory() {
+		return baseCategory;
+	}
+
+	public void setBaseCategory(String baseCategory) {
+		this.baseCategory = baseCategory;
+	}
+
+	public String getCapabilityCenter() {
+		return capabilityCenter;
+	}
+
+	public void setCapabilityCenter(String capabilityCenter) {
+		this.capabilityCenter = capabilityCenter;
+	}
+
+	public Date getBenchWebDate() {
+		return benchWebDate;
+	}
+
+	public void setBenchWebDate(Date benchWebDate) {
+		this.benchWebDate = benchWebDate;
+	}
+
+	public String getAssignmentStatus() {
+		return assignmentStatus;
+	}
+
+	public void setAssignmentStatus(String assignmentStatus) {
+		this.assignmentStatus = assignmentStatus;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Date getDateOfJoining() {
+		return dateOfJoining;
+	}
+
+	public void setDateOfJoining(Date dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
+	}
+
+	public Integer getBenchWebAging() {
+		return benchWebAging;
+	}
+
+	public void setBenchWebAging(Integer benchWebAging) {
+		this.benchWebAging = benchWebAging;
+	}
+
+	public String getPrimarySkill() {
+		return primarySkill;
+	}
+
+	public void setPrimarySkill(String primarySkill) {
+		this.primarySkill = primarySkill;
+	}
+
+	public String getSecondarySkill() {
+		return secondarySkill;
+	}
+
+	public void setSecondarySkill(String secondarySkill) {
+		this.secondarySkill = secondarySkill;
+	}
+
+	public String getTotalExperience() {
+		return totalExperience;
+	}
+
+	public void setTotalExperience(String totalExperience) {
+		this.totalExperience = totalExperience;
+	}
+
 	public String getReportingManager() {
 		return reportingManager;
 	}
 
 	public void setReportingManager(String reportingManager) {
 		this.reportingManager = reportingManager;
+	}
+
+	public String getBaseLocation() {
+		return baseLocation;
+	}
+
+	public void setBaseLocation(String baseLocation) {
+		this.baseLocation = baseLocation;
 	}
 
 	public String getAttendanceStatus() {
@@ -226,11 +355,16 @@ public class AttendanceStatus {
 		this.attendanceDate = attendanceDate;
 	}
 
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	@Override
+	public String toString() {
+		return "AttendanceStatus [S_NO=" + S_NO + ", employeeId=" + employeeId + ", empployeeName=" + empployeeName
+				+ ", emailId=" + emailId + ", geography=" + geography + ", accountName=" + accountName + ", country="
+				+ country + ", clinetLocation=" + clinetLocation + ", totalHc=" + totalHc + ", project=" + project
+				+ ", baseCategory=" + baseCategory + ", capabilityCenter=" + capabilityCenter + ", benchWebDate="
+				+ benchWebDate + ", assignmentStatus=" + assignmentStatus + ", category=" + category
+				+ ", dateOfJoining=" + dateOfJoining + ", benchWebAging=" + benchWebAging + ", primarySkill="
+				+ primarySkill + ", secondarySkill=" + secondarySkill + ", totalExperience=" + totalExperience
+				+ ", reportingManager=" + reportingManager + ", baseLocation=" + baseLocation + ", attendanceStatus="
+				+ attendanceStatus + ", attendanceDate=" + attendanceDate + "]";
 	}
 }

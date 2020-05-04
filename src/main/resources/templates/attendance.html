@@ -50,10 +50,16 @@
 				<li class="nav-item"><a class="nav-link" href="contact.html">Add
 						Project 
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="today_summary.html">Add Summary</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Services</a>
-				</li>
+				<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown3"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">Admin actions <span class="sr-only">(current)</span>
+					</a>
+						<div class="dropdown-menu"
+							aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item add_summary_access" href="today_summary.html">Add Summary</a>
+							 <a class="dropdown-item add_file_upload_access" href="file_upload.html">File upload</a>
+						</div></li>
 				 <li class="nav-item dropdown" style="margin-top:-5px;">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          <img src="img/profile_icon.png" width="50" height="50" class="rounded-circle">
@@ -74,7 +80,7 @@
 	<div id="uname"align="right" style="margin-right: 20px;"></div>
 	</br>
 	</br>
-	<div class="row">
+	<div class="row sticky">
 			<div class='col-sm-3'>
 				<select class="form-control" name="attendanceWiseType" id="attendanceWiseType">
 					<option value="empty" disabled hidden>
@@ -140,7 +146,7 @@
 					<img src="img/loading.gif" alt="Wait" style="width: 100px;height: 100px;"/>
 				</div>
 				  
-				<table class="table table-bordered table-hover" id="attendancePercentTable">
+				<table class="table table-bordered table-hover" id="attendancePercentTable" style=" position: relative;z-index: -1;">
 				  
 				  
 				  
@@ -163,7 +169,7 @@
 				
 				<div class="row">
 				<div class='col-lg-12'>
-					<table class="table table-bordered table-hover scroll" id="attendanceTable" style="float:left; margin-right:10px;max-height:500px;width:100%;font-size: 0.9rem !important;;word-wrap: break-word;table-layout: fixed;white-space: normal !important;">
+					<table class="table table-bordered table-hover scroll" id="attendanceTable" style="float:left; margin-right:10px;max-height:500px;width:100%;font-size: 0.9rem !important;;word-wrap: break-word;table-layout: fixed;white-space: normal !important;z-index: -1;">
 					  
 					  </table>
 				  </div>

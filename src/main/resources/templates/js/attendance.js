@@ -10,7 +10,7 @@ function getAccountNames(){
 			var data = JSON.stringify(response);
 			$('#attendanceTypeValue').append("<option value='all' selected>ALL</option>");
 			$.each(JSON.parse(data), function(idx, item) {
-				$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
+				$('#attendanceTypeValue').append("<option value='"+item+"'>"+item+"</option>");
 			});
 		},error : function() {
 			$("#attendanceSubmit").attr("disabled", false);
@@ -33,7 +33,7 @@ function getAccountNames(){
 			var data = JSON.stringify(response);
 			$('#attendanceTypeValue').append("<option value='all' selected>ALL</option>");
 			$.each(JSON.parse(data), function(idx, item) {
-				$('#attendanceTypeValue').append("<option value="+item+">"+item+"</option>");
+				$('#attendanceTypeValue').append("<option value='"+item+"'>"+item+"</option>");
 			});
 		},error : function() {
 			$("#attendanceSubmit").attr("disabled", false);

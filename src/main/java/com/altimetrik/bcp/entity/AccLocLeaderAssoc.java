@@ -14,18 +14,19 @@ public class AccLocLeaderAssoc {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
+	
 	@ManyToOne
 	private Leader leader;
-
+	
 	@ManyToOne
 	private Location location;
-
+	
 	@ManyToOne
 	private Account account;
-
+	
 	@ManyToOne
 	private Project project;
+	
 
 	public Project getProject() {
 		return project;

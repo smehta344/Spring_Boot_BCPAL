@@ -29,7 +29,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-	<div class="container">
+	<div class="container extra_container">
 		<a class="navbar-brand" href="#"> <img
 			src="img/Altimetrik-Logo.svg" alt="">
 		</a>
@@ -53,10 +53,16 @@
 				<li class="nav-item"><a class="nav-link" href="contact.html">Add
 						Project 
 				</a></li>
-				<li class="nav-item active"><a class="nav-link" href="today_summary.html">Add Summary</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Services</a>
-				</li>
+				<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown3"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">Admin actions <span class="sr-only">(current)</span>
+					</a>
+						<div class="dropdown-menu"
+							aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item add_summary_access active" href="today_summary.html">Add Summary</a>
+							 <a class="dropdown-item add_file_upload_access" href="file_upload.html">File upload</a>
+						</div></li>
 				 <li class="nav-item dropdown" style="margin-top:-5px;">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          <img src="img/profile_icon.png" width="50" height="50" class="rounded-circle">
@@ -73,8 +79,8 @@
 
 	<!-- Page Content -->
 	
-	<div class="container">
-			<div id="uname"align="right" ></div>
+	<div class="container extra_container allow_accessed_users">
+			<div id="uname" align="right" style="margin-right: 20px;"></div>
 			</br>
 			<div class="row">
 					<div class="col-sm-6">
@@ -110,6 +116,22 @@
 
 				<div class="modal-body">
 					<p style="padding: 15px 5px 3px 10px;"><b><font color="green">Summary added successfully!!</font></b></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div id="preventUnauthorizedUsersModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<p style="padding: 15px 5px 3px 10px;"><b><font color="red">Sorry, You are not allowed to access this page...</font></b></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.altimetrik.bcp.dao.UserAccessRepo;
+import com.altimetrik.bcp.entity.UserAccess;
+
 @SuppressWarnings("deprecation")
 @Controller
 @Configuration
@@ -30,6 +34,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class ViewController extends WebMvcConfigurerAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ViewController.class);
+
+	@Autowired
+	UserAccessRepo userAccessRepo;
 
 	@RequestMapping("/info")
 	public @ResponseBody String userInfo(Authentication authentication) {
@@ -71,6 +78,13 @@ public class ViewController extends WebMvcConfigurerAdapter {
 		return mav;
 	}
 
+	@RequestMapping("/file_upload")
+	public ModelAndView fileUpload() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("file_upload");
+		return mav;
+	}
+
 	@RequestMapping("/delivery")
 	public ModelAndView delivery() {
 		ModelAndView mav = new ModelAndView();
@@ -90,8 +104,15 @@ public class ViewController extends WebMvcConfigurerAdapter {
 	public ResponseEntity<?> getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
+		UserAccess access = userAccessRepo.getUserAccessByUserId(username);
+		System.out.println(access);
 		Map<String, String> map = new HashMap<>();
 		map.put("username", username);
+		map.put("isAdmin", access.isAdmin());
+		map.put("isManager", access.isManager());
+		map.put("haveAccessToSummary", access.haveAccessToAddSummary());
+		map.put("haveAccessToFileUpload", access.haveAccessToFileUpload());
+		map.put("status", access.getStatus());
 		return ResponseEntity.ok().body(map);
 	}
 

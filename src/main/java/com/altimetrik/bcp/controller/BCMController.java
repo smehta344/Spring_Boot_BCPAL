@@ -73,7 +73,7 @@ public class BCMController {
 	@GetMapping(value = "/getAllAccounts")
 	public ResponseEntity<List<Account>> getAllAccounts() {
 		List<Account> accountList = accountRepo.findAll();
-		logger.info("Get AllAccounts" + accountList.toString());
+		logger.info("Get All Accounts" + accountList.toString());
 		// CustomLogging.asyncLogger("Get AllAccounts", accountList,
 		// BCMController.class);
 		return ResponseEntity.ok().body(accountList);
@@ -88,7 +88,6 @@ public class BCMController {
 		// deliveryData,
 		// BCMController.class);
 		return ResponseEntity.ok().body(deliveryData);
-
 	}
 
 	@GetMapping(value = "/getProject/{accountId}")
@@ -109,5 +108,4 @@ public class BCMController {
 		// BCMController.class);
 		return ResponseEntity.ok().body(planDetail);
 	}
-
 }

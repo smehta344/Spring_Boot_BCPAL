@@ -28,12 +28,14 @@ import com.altimetrik.bcp.dao.DailyStatusRepo;
 import com.altimetrik.bcp.dao.LeaderRepo;
 import com.altimetrik.bcp.dao.ProjectRepo;
 import com.altimetrik.bcp.dao.TodaySummaryRepo;
+import com.altimetrik.bcp.dao.UserAccessRepo;
 import com.altimetrik.bcp.entity.AccLocLeaderAssoc;
 import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.entity.TodaySummary;
+import com.altimetrik.bcp.entity.UserAccess;
 import com.altimetrik.bcp.model.AttendanceByAccount;
 import com.altimetrik.bcp.model.AttendanceByLocation;
 import com.altimetrik.bcp.model.AttendanceCommon;
@@ -69,6 +71,9 @@ public class BCMService {
 
 	@Autowired
 	TodaySummaryRepo todaySummaryRepo;
+
+	@Autowired
+	UserAccessRepo userAccessRepo;
 
 	public void createDilyStatus(PlanDetailFormData formaData) {
 		DailyStatus statusObj = createStatusObj(formaData);
@@ -692,7 +697,8 @@ public class BCMService {
 	}
 
 	public List<String> getAccountNames() {
-		return attendenceRepo.findDistinctAccountName();
+		String category = "BILLED";
+		return attendenceRepo.findDistinctAccountNameByCategory(category);
 	}
 
 	public List<String> getClientLocations() {
@@ -740,9 +746,15 @@ public class BCMService {
 		return planDetailList;
 	}
 
-	public void addTodaySummary(TodaySummaryDto formaData) {
-		TodaySummary summary = createTodaySummaryObj(formaData);
-		todaySummaryRepo.save(summary);
+	public String addTodaySummary(TodaySummaryDto formaData) {
+		UserAccess access = userAccessRepo.getUserAccessByUserId(formaData.getSubmittedby());
+		if (access != null && access.haveAccessToAddSummary().equals("true")) {
+			TodaySummary summary = createTodaySummaryObj(formaData);
+			todaySummaryRepo.save(summary);
+			return "success";
+		} else {
+			return "no_access";
+		}
 	}
 
 	public TodaySummary getTodaySummary(Date date) {

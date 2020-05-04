@@ -26,7 +26,6 @@ public class MailController {
 	@PostMapping(value = "/sendEmail")
 	public ResponseEntity<String> createDailyStatus(@RequestBody Mail mail) {
 		mailService.sendEmail(mail);
-
 		logger.info("Email sent successfully " + mailService.toString());
 		// CustomLogging.asyncLogger("Email sent successfully ", mailService,
 		// MailController.class);

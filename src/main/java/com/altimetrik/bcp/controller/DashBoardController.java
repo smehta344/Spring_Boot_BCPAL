@@ -12,15 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.altimetrik.bcp.model.AttendanceData;
 import com.altimetrik.bcp.model.AttendanceType;
 import com.altimetrik.bcp.model.DeliverySummary;
 import com.altimetrik.bcp.model.PlanDetailFormData;
 import com.altimetrik.bcp.service.BCMService;
+import com.altimetrik.bcp.service.FileUploadService;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -30,6 +33,9 @@ public class DashBoardController {
 
 	@Autowired
 	private BCMService bcmService;
+
+	@Autowired
+	private FileUploadService fileUploadService;
 
 	@GetMapping(value = "/getAttendence")
 	public ResponseEntity<Map<String, AttendanceData>> getAttendenceStatus(
@@ -94,5 +100,27 @@ public class DashBoardController {
 		// CustomLogging.asyncLogger("Get DeliveryByProject", bcmService,
 		// DashBoardController.class);
 		return ResponseEntity.ok().body(bcmService.getSummayByProject(accountName, fromDate, statusValue));
+	}
+
+	@PostMapping("/uploadFile")
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile file,
+			@RequestParam("fileUploadType") String uploadFileType) {
+		try {
+			String uploadedFilePath = fileUploadService.storeFile(file, uploadFileType);
+			if (uploadFileType.equals("Attendance")) {
+				fileUploadService.readAttendanceFromExcel(uploadedFilePath);
+			} else if (uploadFileType.equals("Delivery")) {
+				// TODO :: delivery file upload impl
+			}
+			logger.info("File uploaded successfully " + uploadFileType.toString());
+			// CustomLogging.asyncLogger("Get DeliveryByProject", bcmService,
+			// DashBoardController.class);
+			return ResponseEntity.ok("success");
+		} catch (Exception e) {
+			logger.info("File not found " + uploadFileType.toString());
+			// CustomLogging.asyncLogger("Get DeliveryByProject", bcmService,
+			// DashBoardController.class);
+			return ResponseEntity.badRequest().body(e.getLocalizedMessage());
+		}
 	}
 }

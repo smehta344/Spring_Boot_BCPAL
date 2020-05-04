@@ -19,7 +19,7 @@ public class AttendanceByLocation extends AttendanceCommon{
 		this.client_location = client_location;
 	}
 
-	public AttendanceByLocation( String accountName, int total, int marked, int unMarked, int leaveCount/*, int leaveAppPend*/) {
+	public AttendanceByLocation( String accountName, double total, double marked, double unMarked, double leaveCount/*, int leaveAppPend*/) {
 		this.total = total;
 		this.marked = marked;
 		this.unmarked = unMarked;
