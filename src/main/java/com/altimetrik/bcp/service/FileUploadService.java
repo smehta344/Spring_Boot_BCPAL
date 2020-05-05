@@ -107,7 +107,7 @@ public class FileUploadService {
 				}
 				if (list.get(5).toString().equalsIgnoreCase("INDIA") && !list.get(4).toString().equalsIgnoreCase("DFS") && 
 						!list.get(4).toString().equalsIgnoreCase("eBay") && !list.get(4).toString().equalsIgnoreCase("SAP") && 
-						!list.get(4).toString().equalsIgnoreCase("STERIS")) {
+						!list.get(4).toString().equalsIgnoreCase("STERIS") && !list.get(1).toString().contains("TP")) {
 					AttendanceStatus attendance = new AttendanceStatus();
 					attendance.setEmployeeId(list.get(1));
 					attendance.setEmpployeeName(list.get(2));
