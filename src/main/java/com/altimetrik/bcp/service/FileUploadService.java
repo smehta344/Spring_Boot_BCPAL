@@ -54,14 +54,14 @@ public class FileUploadService {
         }
 	}
 
-	public String storeFile(MultipartFile uploadfile,String uploadFileType) throws Exception{
+	public String storeFile(MultipartFile uploadfile,String uploadFileType,String uploadedBy) throws Exception{
 		String fileName = "";
 		 try{
 			 fileName = StringUtils.cleanPath(uploadfile.getOriginalFilename());
 			 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss") ;
 			 Path targetLocation = null;
 			 if(uploadFileType.equals("Attendance")){
-				 File file = new File("Attendance_"+dateFormat.format(new Date()) + BcpUtils.getFileExtension(fileName)) ;
+				 File file = new File("Attendance_"+uploadedBy+"_"+dateFormat.format(new Date()) + BcpUtils.getFileExtension(fileName)) ;
 				 targetLocation = this.attendanceFileStoragePath.resolve(file.getPath());
 			 } else if(uploadFileType.equals("Delivery")) {
 				 File file = new File("Delivery_"+dateFormat.format(new Date()) + BcpUtils.getFileExtension(fileName)) ;

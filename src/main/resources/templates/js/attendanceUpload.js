@@ -75,9 +75,8 @@ function fire_ajax_submit() {
     var data = new FormData(form);
     
     var urlVal = urlForServer+"dashboard/uploadFile";
-
     data.append("fileUploadType", fileUploadType);
-
+    data.append("uploadedBy", userInfoMap.get("username"));
     $("#uploadBtn").prop("disabled", true);
     $.ajax({
         type: "POST",

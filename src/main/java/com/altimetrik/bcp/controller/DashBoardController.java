@@ -80,9 +80,10 @@ public class DashBoardController {
 	}
 	
 	@PostMapping("/uploadFile")
-	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile file,@RequestParam("fileUploadType") String uploadFileType){
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadFile") MultipartFile file,@RequestParam("fileUploadType") String uploadFileType
+			,@RequestParam("uploadedBy") String uploadedBy){
 		try {
-			String uploadedFilePath = fileUploadService.storeFile(file,uploadFileType);
+			String uploadedFilePath = fileUploadService.storeFile(file,uploadFileType,uploadedBy);
 			if(uploadFileType.equals("Attendance")){
 				fileUploadService.readAttendanceFromExcel(uploadedFilePath);
 			} else if(uploadFileType.equals("Delivery")) {
