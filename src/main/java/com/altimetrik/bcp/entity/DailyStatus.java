@@ -274,8 +274,14 @@ public class DailyStatus {
 		builder.append(teamSize);
 		builder.append(", updates=");
 		builder.append(updates);
+		builder.append(", teamLogged=");
+		builder.append(teamLogged);
 		builder.append(", challenges=");
 		builder.append(challenges);
+		builder.append(", HiringUpdate=");
+		builder.append(hiringUpdate);
+		builder.append(", Project=");
+		builder.append(project);
 		builder.append(", createdBy=");
 		builder.append(createdBy);
 		builder.append(", createdTime=");

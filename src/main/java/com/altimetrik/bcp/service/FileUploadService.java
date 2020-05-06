@@ -226,20 +226,21 @@ public class FileUploadService {
 	@Transactional
 	public void readDailyStatusFromExcel(String uploadedFile) throws IOException, ParseException, InvalidFormatException {
 		Workbook workbook = null;
-		float q = Float.parseFloat("5");
 		Project project = null;
-		 FileInputStream excelFile = new FileInputStream(new File(uploadedFile));
-//		FileInputStream excelFile = new FileInputStream(new File("D:\\opt\\bcpdashboad\\attendance\\Delivery_2020-05-01_14-28-38.xlsx"));
-//		OPCPackage opcPackage = OPCPackage.open(new File("D:\\opt\\bcpdashboad\\attendance\\ED3D6010.xlsx"));
+		File file = new File(uploadedFile);
+		FileInputStream excelFile = new FileInputStream(file);
 		workbook = new XSSFWorkbook(excelFile);
 		List<DailyStatus> statusList = new ArrayList<DailyStatus>();
+		try{
 		for(int i=0; i < workbook.getNumberOfSheets();i++){
 			Sheet excelSheet = workbook.getSheetAt(i);
-			String startDate = "";
-			String endDate = "";
 			List<DailyStatus> tmpList= new ArrayList<DailyStatus>();
-			for(int j=1; j<excelSheet.getLastRowNum();j++){
-				Row rowVal = excelSheet.getRow(j);
+			Iterator<Row> rowInterator = excelSheet.iterator();
+			while(rowInterator.hasNext()){
+				Row rowVal = rowInterator.next();
+				if(rowVal.getRowNum() == 0){
+					continue;
+				}
 				project = null;
 				DailyStatus statusObj = new DailyStatus();
 				if(!excelSheet.getSheetName().equals("DropValue")){
@@ -248,7 +249,6 @@ public class FileUploadService {
 					Date dateOfStatus = null;
 					String header = rowData.getCell(k).getStringCellValue();
 					Cell cellVal = rowVal.getCell(k);
-					
 					if(project != null){
 						statusObj.setProjectId(project);
 					}
@@ -276,7 +276,7 @@ public class FileUploadService {
 						statusObj.setWfhChallenge(rowVal.getCell(34).getStringCellValue());
 					}
 					
-					if(header.contains("Name")){
+					if(header.contains("Project Name")){
 						if((cellVal == null) || (cellVal.getStringCellValue().equals("") )){
 							break;
 						}
@@ -291,6 +291,7 @@ public class FileUploadService {
 										statusObj.setProjectId(project);
 										break;
 									}
+
 								}
 							}
 							else{
@@ -306,6 +307,11 @@ public class FileUploadService {
 							if(!cellVal.getStringCellValue().equals("")){
 							statusObj.setTeamLogged(Float.parseFloat(cellVal.getStringCellValue()));
 							}
+							else
+								statusObj.setTeamLogged(0.0f);
+						}  
+						else{		
+							statusObj.setTeamLogged(0.0f);
 						}
 					}
 					
@@ -323,16 +329,8 @@ public class FileUploadService {
 							statusObj.setStatus(cellVal.getStringCellValue());
 						}
 					}
-					else if(header.contains("Logged")){
-						if((cellVal != null)){
-							cellVal.setCellType(cellVal.CELL_TYPE_STRING);
-							if(!cellVal.getStringCellValue().equals("")){
-							statusObj.setTeamLogged(Float.parseFloat(cellVal.getStringCellValue()));
-							}
-						}
-					}
+					
 					else if(header.contains("Remarks")&&(cellVal != null)){
-//						System.out.println("ddd"+cellVal.getStringCellValue());
 						statusObj.setRemarks(cellVal.getStringCellValue());
 					}
 					else if(header.contains("Hiring")){
@@ -349,20 +347,35 @@ public class FileUploadService {
 						statusList.add(statusObj);
 						statusObj = new DailyStatus();
 					}
-//					if(cellVal != null)
-//					System.out.println("cell value " +cellVal.getStringCellValue());
 				}
 			}
 			}
 		}
+		}
+		catch(Exception exception){
+			boolean isfileDeleted = Files.deleteIfExists(file.toPath());
+			System.out.println("Error occured, so deleted the uploaded excel file :"+isfileDeleted);
+			throw new FileStorageException(exception.getLocalizedMessage());
+		}finally {
+			try {
+				workbook.close();
+				excelFile.close();
+			} catch (IOException e) {
+				boolean isfileDeleted = Files.deleteIfExists(file.toPath());
+				System.out.println("Error occured, so deleted the uploaded excel file :"+isfileDeleted);
+				throw new FileStorageException(e.getLocalizedMessage());
+			}
+		}
 		workbook.close();
+		excelFile.close();
+		System.out.println("data"+statusList.get(0).toString());
 		List<Date> dateList = getUniqueDateListByDelivery(statusList);
 		dailyStatusRepo.deleteByStatusDate(dateList);
 		dailyStatusRepo.saveAll(statusList);
-//		excelFile.close();
 	}
 	
 	boolean isAllFieldsFilled(DailyStatus dailyStatus){
+		System.out.println("data"+dailyStatus.toString());
 		if((dailyStatus.getStatus() != null) && (dailyStatus.getProject() != null) && (dailyStatus.getRemarks() != null) &&
 				(dailyStatus.getTeamLogged() != null) && (dailyStatus.getHiringUpdate() != null)){
 			return true;
