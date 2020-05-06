@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class DailyStatus {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	private int id;
 	
 	@Temporal(TemporalType.DATE)
@@ -50,7 +50,7 @@ public class DailyStatus {
 	private Date date;
 	
 	@Column(name = "team_size")
-	private int teamSize;
+	private Float teamSize;
 	
 	@Column(name = "updates")
 	private String updates;
@@ -65,7 +65,7 @@ public class DailyStatus {
 	private String challenges;
 	
 	@Column(name = "team_logged")
-	private int teamLogged;
+	private Float teamLogged;
 	
 	@Column(name = "milestone")
 	private String milestone;
@@ -98,8 +98,19 @@ public class DailyStatus {
 	private String updatedBy;
 	
 	@Column(name = "updated_time")
-	private Date updatedTime;	
+	private Date updatedTime;
 	
+	@Column(name = "remarks")
+	private String remarks;	
+	
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -140,11 +151,11 @@ public class DailyStatus {
 		this.date = date;
 	}
 
-	public int getTeamSize() {
+	public Float getTeamSize() {
 		return teamSize;
 	}
 
-	public void setTeamSize(int teamSize) {
+	public void setTeamSize(Float teamSize) {
 		this.teamSize = teamSize;
 	}
 
@@ -244,11 +255,11 @@ public class DailyStatus {
 		this.hiringUpdate = hiringUpdate;
 	}
 	
-	public int getTeamLogged() {
+	public Float getTeamLogged() {
 		return teamLogged;
 	}
 
-	public void setTeamLogged(int teamLogged) {
+	public void setTeamLogged(Float teamLogged) {
 		this.teamLogged = teamLogged;
 	}
 	
@@ -263,8 +274,14 @@ public class DailyStatus {
 		builder.append(teamSize);
 		builder.append(", updates=");
 		builder.append(updates);
+		builder.append(", teamLogged=");
+		builder.append(teamLogged);
 		builder.append(", challenges=");
 		builder.append(challenges);
+		builder.append(", HiringUpdate=");
+		builder.append(hiringUpdate);
+		builder.append(", Project=");
+		builder.append(project);
 		builder.append(", createdBy=");
 		builder.append(createdBy);
 		builder.append(", createdTime=");

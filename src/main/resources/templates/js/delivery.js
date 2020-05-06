@@ -74,33 +74,41 @@ $(document).ready(function(){
 							  var statusByProject = projectsData[j];
 							  remark = remark + "<p style='font-weight: bold;font-size:12pt;margin-bottom: 0px !important;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";
 							  hiringUpdate = hiringUpdate + "<p style='font-weight: bold; margin-bottom: 0px !important;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + statusByProject.projectName + ":" + "</span></p>";;
-							  if(statusByProject.deliveryChallenge != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.deliveryChallenge)
-								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
-								  "</span></p>";
-							  }
-							  if(statusByProject.wfhChallenge != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.wfhChallenge)
-								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
-								  "</span></p>";
-							  }
-							  if(statusByProject.deliveryMitigationPlan != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
-								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
-								  "</span></p>";
-							  }
-							  if(statusByProject.wfhMitigationPlan != undefined){
-								  var decodedData = decodeURIComponent(statusByProject.wfhMitigationPlan)
-								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
-								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
-								  "</span></p>";
+//							  if(statusByProject.deliveryChallenge != undefined){
+//								  var decodedData = decodeURIComponent(statusByProject.deliveryChallenge)
+//								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+////								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery challenge" + ":" + "</span></p>";
+//								  remark = remark +  "<p class='remarks' style=' word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+//								  "</span></p>";
+//							  }
+//							  if(statusByProject.wfhChallenge != undefined){
+//								  var decodedData = decodeURIComponent(statusByProject.wfhChallenge)
+//								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+////								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH challenge" + ":" + "</span></p>";
+//								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+//								  "</span></p>";
+//							  }
+//							  if(statusByProject.deliveryMitigationPlan != undefined){
+//								  var decodedData = decodeURIComponent(statusByProject.deliveryMitigationPlan)
+//								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+////								  remark = remark +  "<p style='margin-bottom: 2px;font-size:12pt;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "Delivery Mitigation Plan" + ":" + "</span></p>";
+//								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+//								  "</span></p>";
+//							  }
+//							  if(statusByProject.wfhMitigationPlan != undefined){
+//								  var decodedData = decodeURIComponent(statusByProject.wfhMitigationPlan)
+//								  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+////								  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
+//								  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+//								  "</span></p>";
+//							  }
+							  
+							  if(statusByProject.remarks != undefined){
+							  var decodedData = decodeURIComponent(statusByProject.remarks)
+							  var dataWithLineBreak = decodedData.replace(/(?:\r\n|\r|\n)/g, '<br>');
+//							  remark = remark +  "<p style='font-size:12pt;margin-bottom: 2px;font-family:Calibri,sans-serif;/* margin:0 0 0 36pt; */'><span style='font-size:10pt;font-family:Verdana,sans-serif;'>" + "WFH Miitigation Plan" + ":" + "</span></p>";
+							  remark = remark +  "<p class='remarks' style='word-wrap: break-word;margin-left:0.75in; text-indent:0in'><span style='font-size:10.0pt; font-family:&quot;Verdana&quot;,sans-serif'>" + dataWithLineBreak +
+							  "</span></p>";
 							  }
 							 
 							  if(statusByProject.hiringUpdate != undefined){

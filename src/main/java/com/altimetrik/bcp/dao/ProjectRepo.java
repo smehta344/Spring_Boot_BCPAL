@@ -9,5 +9,10 @@ import com.altimetrik.bcp.entity.Project;
 
 @Repository
 public interface ProjectRepo extends JpaRepository<Project, Integer> {
+	
 	List<Project> findByAccountId(int accountId);
+	
+	Project findByName(String name);
+	
+	List<Project> findAllByName(String name);
 }

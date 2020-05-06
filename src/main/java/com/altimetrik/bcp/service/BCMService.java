@@ -700,6 +700,7 @@ public class BCMService {
 			planData.setWfhMitigationPlan(dailyList.get(i).getWfhMitigationPlan());
 			planData.setKeyDeliverable(dailyList.get(i).getDeliverableOfDay());
 			planData.setHiringUpdate(dailyList.get(i).getHiringUpdate());
+			planData.setRemarks(dailyList.get(i).getRemarks());
 			planDetailList.add(planData);
 		}
 		return planDetailList;

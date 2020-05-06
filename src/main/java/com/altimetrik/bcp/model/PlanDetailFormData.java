@@ -12,8 +12,8 @@ public class PlanDetailFormData {
 	int leaderId;
 	int projectId;
 	String status;
-	int teamSize;
-	int teamlogedCount;
+	Float teamSize;
+	Float teamlogedCount;
 	String deliveryOnTrack;
 	int targetPercentage;
 	int actualPercentage;
@@ -25,7 +25,14 @@ public class PlanDetailFormData {
 	String keyDeliverable;
 	String projectName;
 	String hiringUpdate;
+	String remarks;
 	
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	public String getHiringUpdate() {
 		return hiringUpdate;
 	}
@@ -74,10 +81,10 @@ public class PlanDetailFormData {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getTeamSize() {
+	public Float getTeamSize() {
 		return teamSize;
 	}
-	public void setTeamSize(int teamSize) {
+	public void setTeamSize(Float teamSize) {
 		this.teamSize = teamSize;
 	}
 	public String getDeliveryOnTrack() {
@@ -135,10 +142,10 @@ public class PlanDetailFormData {
 	public void setDeliveryMitigationPlan(String deliveryMitigationPlan) {
 		this.deliveryMitigationPlan = deliveryMitigationPlan;
 	}
-	public int getTeamlogedCount() {
+	public Float getTeamlogedCount() {
 		return teamlogedCount;
 	}
-	public void setTeamlogedCount(int teamlogedCount) {
+	public void setTeamlogedCount(Float teamlogedCount) {
 		this.teamlogedCount = teamlogedCount;
 	}
 }
