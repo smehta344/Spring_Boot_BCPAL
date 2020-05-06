@@ -25,7 +25,14 @@ public class PlanDetailFormData {
 	String keyDeliverable;
 	String projectName;
 	String hiringUpdate;
+	String remarks;
 	
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	public String getHiringUpdate() {
 		return hiringUpdate;
 	}
