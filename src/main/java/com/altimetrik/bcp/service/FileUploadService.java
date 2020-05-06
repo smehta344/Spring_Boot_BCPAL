@@ -339,6 +339,7 @@ public class FileUploadService {
 						}
 						else{
 							statusObj.setHiringUpdate("");
+							
 						}
 					}
 					
