@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ListIterator;
+
+import com.altimetrik.bcp.config.BcpPropertyConfig;
 
 public class BcpUtils {
 	public static Date subtractDays(Date date, int days) {
@@ -45,6 +48,39 @@ public class BcpUtils {
 		attendanceTypeList.add(AppConstants.FLOATER_HOLIDAY);
 		attendanceTypeList.add(AppConstants.FLOATER_HOLIDAY_APPROVAL_PENDING);
 		return attendanceTypeList;
+	}
+	
+	public static List<String> convertListOfStringToLowercase(List<String> strings)
+	{
+	    ListIterator<String> iterator = strings.listIterator();
+	    while (iterator.hasNext())
+	    {
+	        iterator.set(iterator.next().toLowerCase());
+	    }
+	    return strings;
+	}
+	
+	
+	public static boolean attendanceValidation(List<String> list, BcpPropertyConfig itsConfig){
+		List<String> allowcountryNameList = itsConfig.getAttendanceAllowCountryNamesList();
+		List<String> skipAccNameList = itsConfig.getAttendanceSkipAccountNamesList();
+		List<String> skipEmpIdList = itsConfig.getAttendanceSkipEmployeeIdsMatchList();
+		
+		if(!allowcountryNameList.contains(list.get(5).toString().toLowerCase())){
+			return false;
+		}
+		
+		if(skipAccNameList.contains(list.get(4).toString().toLowerCase())){
+			return false;
+		}
+		
+		for(String empIdPattern : skipEmpIdList){
+			if(list.get(1).toString().toLowerCase().contains(empIdPattern)){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 }
