@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.altimetrik.bcp.entity.DailyStatus;
 import com.altimetrik.bcp.entity.Project;
@@ -23,4 +25,10 @@ public interface DailyStatusRepo extends JpaRepository<DailyStatus, Integer> {
     List<DailyStatus> findByDateAndStatusAndProjectIn(Date date, String status, List<Project> project);
     
     List<DailyStatus> findByDateAndProjectInAndStatusIn(Date date, List<Project> project, List<String>statusList);
+    
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="DELETE FROM daily_status a where a.date IN (:dateLists)")
+    Integer deleteByStatusDate(@Param("dateLists") List<Date> dateLists);
+
 }

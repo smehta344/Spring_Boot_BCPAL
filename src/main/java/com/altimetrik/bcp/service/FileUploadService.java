@@ -7,8 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -31,10 +33,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.altimetrik.bcp.config.BcpPropertyConfig;
+import com.altimetrik.bcp.dao.AccountRepo;
 import com.altimetrik.bcp.dao.AttendanceRepo;
+import com.altimetrik.bcp.dao.DailyStatusRepo;
+import com.altimetrik.bcp.dao.ProjectRepo;
+import com.altimetrik.bcp.entity.Account;
 import com.altimetrik.bcp.entity.AttendanceStatus;
+import com.altimetrik.bcp.entity.DailyStatus;
+import com.altimetrik.bcp.entity.Project;
 import com.altimetrik.bcp.exception.FileStorageException;
 import com.altimetrik.bcp.util.BcpUtils;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 @Service
 public class FileUploadService {
@@ -44,7 +53,16 @@ public class FileUploadService {
 	
 	BcpPropertyConfig itsConfig;
 	
-	private final Path attendanceFileStoragePath;
+	@Autowired
+	ProjectRepo projectRepo;
+	
+	@Autowired
+	AccountRepo accountRepo;
+	
+	@Autowired
+	DailyStatusRepo dailyStatusRepo;
+
+	private  Path attendanceFileStoragePath;
 	
 	public FileUploadService(BcpPropertyConfig itsConfig ) {
 		this.itsConfig = itsConfig;
@@ -182,6 +200,13 @@ public class FileUploadService {
 		return listDate;
 	}
 	
+	private List<Date> getUniqueDateListByDelivery(List<DailyStatus> dailyStatusList){
+		List<Date> listDate = new ArrayList<>();
+		Stream<DailyStatus> uniqueDateList = dailyStatusList.stream().filter(distinctByKey(DailyStatus::getDate));
+		uniqueDateList.forEach(f -> {listDate.add(f.getDate());});
+		return listDate;
+	}
+	
 	@Transactional
 	public void saveAttendance(List<AttendanceStatus> attendanceList){
 		
@@ -198,4 +223,150 @@ public class FileUploadService {
 		System.out.println("Save batch end time:"+new Date());
 	}
 	
+	@Transactional
+	public void readDailyStatusFromExcel(String uploadedFile) throws IOException, ParseException, InvalidFormatException {
+		Workbook workbook = null;
+		float q = Float.parseFloat("5");
+		Project project = null;
+		 FileInputStream excelFile = new FileInputStream(new File(uploadedFile));
+//		FileInputStream excelFile = new FileInputStream(new File("D:\\opt\\bcpdashboad\\attendance\\Delivery_2020-05-01_14-28-38.xlsx"));
+//		OPCPackage opcPackage = OPCPackage.open(new File("D:\\opt\\bcpdashboad\\attendance\\ED3D6010.xlsx"));
+		workbook = new XSSFWorkbook(excelFile);
+		List<DailyStatus> statusList = new ArrayList<DailyStatus>();
+		for(int i=0; i < workbook.getNumberOfSheets();i++){
+			Sheet excelSheet = workbook.getSheetAt(i);
+			String startDate = "";
+			String endDate = "";
+			List<DailyStatus> tmpList= new ArrayList<DailyStatus>();
+			for(int j=1; j<excelSheet.getLastRowNum();j++){
+				Row rowVal = excelSheet.getRow(j);
+				project = null;
+				DailyStatus statusObj = new DailyStatus();
+				if(!excelSheet.getSheetName().equals("DropValue")){
+				for(int k=1;k<22;k++){
+					Row rowData = excelSheet.getRow(0);
+					Date dateOfStatus = null;
+					String header = rowData.getCell(k).getStringCellValue();
+					Cell cellVal = rowVal.getCell(k);
+					
+					if(project != null){
+						statusObj.setProjectId(project);
+					}
+					if(rowVal.getCell(26) != null){
+						statusObj.setMilestone(rowVal.getCell(26).getStringCellValue());
+					}
+					
+					if(rowVal.getCell(27) != null){
+						Cell cellData = rowVal.getCell(27);
+						cellData.setCellType(cellVal.CELL_TYPE_STRING);
+						if(!cellData.getStringCellValue().equals("")){
+							statusObj.setTeamSize(Float.parseFloat(cellData.getStringCellValue()));
+							}
+					}
+					
+					if(rowVal.getCell(32) != null){
+						statusObj.setDeliverableOfDay(rowVal.getCell(32).getStringCellValue());
+					}
+					
+					if(rowVal.getCell(33) != null){
+						statusObj.setChallenges(rowVal.getCell(33).getStringCellValue());
+					}
+
+					if(rowVal.getCell(34) != null){
+						statusObj.setWfhChallenge(rowVal.getCell(34).getStringCellValue());
+					}
+					
+					if(header.contains("Name")){
+						if((cellVal == null) || (cellVal.getStringCellValue().equals("") )){
+							break;
+						}
+						else{
+							List<Project> projectList = new ArrayList<Project>();
+							projectList = projectRepo.findAllByName(cellVal.getStringCellValue());
+							if(projectList.size() > 1){
+								Account account = accountRepo.findByName(excelSheet.getSheetName());
+								for(Project proj : projectList){
+									if(proj.getAccount().getId() == account.getId()){
+										project = proj;
+										statusObj.setProjectId(project);
+										break;
+									}
+								}
+							}
+							else{
+								project = projectList.get(0);
+								statusObj.setProjectId(project);
+							}
+						}
+					}
+					
+					else if(header.contains("Logged")){
+						if((cellVal != null)){
+							cellVal.setCellType(cellVal.CELL_TYPE_STRING);
+							if(!cellVal.getStringCellValue().equals("")){
+							statusObj.setTeamLogged(Float.parseFloat(cellVal.getStringCellValue()));
+							}
+						}
+					}
+					
+					else if(header.contains("Status")){
+						String dateValue = header.substring(header.indexOf(")")+5);
+						SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yy");
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+						String dateString = formatter.format(parser.parse(dateValue));
+//						System.out.println("**dateValue***" + dateString);
+						statusObj.setDate(formatter.parse(dateString));
+						if(cellVal.getStringCellValue().equals("")){
+							statusObj.setStatus("none");
+						}
+						else{
+							statusObj.setStatus(cellVal.getStringCellValue());
+						}
+					}
+					else if(header.contains("Logged")){
+						if((cellVal != null)){
+							cellVal.setCellType(cellVal.CELL_TYPE_STRING);
+							if(!cellVal.getStringCellValue().equals("")){
+							statusObj.setTeamLogged(Float.parseFloat(cellVal.getStringCellValue()));
+							}
+						}
+					}
+					else if(header.contains("Remarks")&&(cellVal != null)){
+//						System.out.println("ddd"+cellVal.getStringCellValue());
+						statusObj.setRemarks(cellVal.getStringCellValue());
+					}
+					else if(header.contains("Hiring")){
+						if((cellVal != null) && !(cellVal.getStringCellValue().equals(""))){
+							statusObj.setHiringUpdate(cellVal.getStringCellValue());
+						}
+						else{
+							statusObj.setHiringUpdate("");
+						}
+					}
+					
+					if(isAllFieldsFilled(statusObj)){
+						tmpList.add(statusObj);
+						statusList.add(statusObj);
+						statusObj = new DailyStatus();
+					}
+//					if(cellVal != null)
+//					System.out.println("cell value " +cellVal.getStringCellValue());
+				}
+			}
+			}
+		}
+		workbook.close();
+		List<Date> dateList = getUniqueDateListByDelivery(statusList);
+		dailyStatusRepo.deleteByStatusDate(dateList);
+		dailyStatusRepo.saveAll(statusList);
+//		excelFile.close();
+	}
+	
+	boolean isAllFieldsFilled(DailyStatus dailyStatus){
+		if((dailyStatus.getStatus() != null) && (dailyStatus.getProject() != null) && (dailyStatus.getRemarks() != null) &&
+				(dailyStatus.getTeamLogged() != null) && (dailyStatus.getHiringUpdate() != null)){
+			return true;
+		}
+		return false;
+	}
 }

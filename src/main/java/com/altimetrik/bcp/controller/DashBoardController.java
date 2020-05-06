@@ -88,6 +88,7 @@ public class DashBoardController {
 				fileUploadService.readAttendanceFromExcel(uploadedFilePath);
 			} else if(uploadFileType.equals("Delivery")) {
 				//TODO :: delivery file upload impl
+				fileUploadService.readDailyStatusFromExcel(uploadedFilePath);
 			}
 			
 			return ResponseEntity.ok("success");
