@@ -196,7 +196,7 @@ $.ajax({
 			  for(var i in data){
 				  $("#modalTable").append("<tr height: 'fit-content' align='left' class='d-flex' ondblClick=changeRowColor()><td align='left' class='col-2'>"+ decodeURIComponent(data[i].projectName)+"</td>" + 
 				  		"<td align='left' class='col-3' ondblClick=changeRowColor()>"+decodeURIComponent(data[i].deliveryChallenge)+"</td><td align='left' class='col-3'>"+decodeURIComponent(data[i].wfhMitigationPlan)+"</td>" +
-				  				"<td align='left' class='col-2'>"+decodeURIComponent(data[i].milestone)+"</td><td align='left' class='col-2'>"+decodeURIComponent(data[i].keyDeliverable)+"</td></tr>");
+				  				"<td align='left' class='col-2'>"+decodeURIComponent(encodeURIComponent(data[i].milestone))+"</td><td align='left' class='col-2'>"+decodeURIComponent(encodeURIComponent(data[i].keyDeliverable))+"</td></tr>");
 				  $("#modalTable").append("</tbody>");
 				  $('#myModal').modal('show');
 			  }

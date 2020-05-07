@@ -246,7 +246,6 @@ public class FileUploadService {
 				if(!excelSheet.getSheetName().equals("DropValue")){
 				for(int k=1;k<22;k++){
 					Row rowData = excelSheet.getRow(0);
-					Date dateOfStatus = null;
 					String header = rowData.getCell(k).getStringCellValue();
 					Cell cellVal = rowVal.getCell(k);
 					if(project != null){
@@ -320,7 +319,6 @@ public class FileUploadService {
 						SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yy");
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 						String dateString = formatter.format(parser.parse(dateValue));
-//						System.out.println("**dateValue***" + dateString);
 						statusObj.setDate(formatter.parse(dateString));
 						if(cellVal.getStringCellValue().equals("")){
 							statusObj.setStatus("none");
@@ -344,7 +342,6 @@ public class FileUploadService {
 					}
 					
 					if(isAllFieldsFilled(statusObj)){
-						tmpList.add(statusObj);
 						statusList.add(statusObj);
 						statusObj = new DailyStatus();
 					}
@@ -369,7 +366,6 @@ public class FileUploadService {
 		}
 		workbook.close();
 		excelFile.close();
-		System.out.println("data"+statusList.get(0).toString());
 		List<Date> dateList = getUniqueDateListByDelivery(statusList);
 		dailyStatusRepo.deleteByStatusDate(dateList);
 		dailyStatusRepo.saveAll(statusList);
