@@ -364,10 +364,9 @@ public class FileUploadService {
 				throw new FileStorageException(e.getLocalizedMessage());
 			}
 		}
-		workbook.close();
-		excelFile.close();
 		List<Date> dateList = getUniqueDateListByDelivery(statusList);
-		dailyStatusRepo.deleteByStatusDate(dateList);
+		System.out.println("date size" + dateList.get(0).getDate());
+		dailyStatusRepo.deleteDailyStatusByDateIn(dateList);
 		dailyStatusRepo.saveAll(statusList);
 	}
 	

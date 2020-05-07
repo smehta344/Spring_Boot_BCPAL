@@ -21,14 +21,13 @@ public interface DailyStatusRepo extends JpaRepository<DailyStatus, Integer> {
 	
     @Query(nativeQuery = true, name="deliverySummaryByDateQuery")	
 	List<DeliverySummary> findDeliverySummaryByDate(@Param("fromDate") String fromDate);
-    
+    	
     List<DailyStatus> findByDateAndStatusAndProjectIn(Date date, String status, List<Project> project);
     
     List<DailyStatus> findByDateAndProjectInAndStatusIn(Date date, List<Project> project, List<String>statusList);
     
     @Transactional
-    @Modifying
-    @Query(nativeQuery = true,value="DELETE FROM daily_status a where a.date IN (:dateLists)")
-    Integer deleteByStatusDate(@Param("dateLists") List<Date> dateLists);
+    @Modifying(flushAutomatically=true)
+    Integer deleteDailyStatusByDateIn(List<Date> dateList);
 
 }
